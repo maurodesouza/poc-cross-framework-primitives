@@ -63,7 +63,9 @@ decision for the maintainer, not an implementation detail.
    - every element carries its part attribute, `data-<component>-part` (`data-dialog-part="popup"`,
      `data-menu-part="item"`, `data-calendar-part="cell"`);
    - **no text and no accessible names**: primitives render only their children and set no
-     `aria-label` of their own;
+     `aria-label` of their own. The one recorded exception is the calendar's locale data (month,
+     weekday and date names from `Intl`), which the consumer can still replace
+     (`spec/README.md`);
    - sides are logical (`start`/`end`), never `left`/`right`.
 6. **No Fragiola model API.** Primitives use controlled and uncontrolled props
    (`value`/`defaultValue`/`on<Value>Change` in React, `v-model` in Vue, `model()` in Angular,
