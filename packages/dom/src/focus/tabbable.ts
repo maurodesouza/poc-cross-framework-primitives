@@ -53,3 +53,24 @@ export function nextTabbableAfter(
         ) ?? null
     );
 }
+
+/** The last tabbable element of the document before `element` in tab order, outside `skip`. */
+export function previousTabbableBefore(
+    element: Element,
+    skip: readonly (Element | null | undefined)[] = [],
+): HTMLElement | null {
+    const all = getTabbables(element.ownerDocument.body).filter(
+        (candidate) =>
+            !skip.some((container) => container?.contains(candidate) === true),
+    );
+    return (
+        all
+            .filter(
+                (candidate) =>
+                    element.compareDocumentPosition(candidate) &
+                        Node.DOCUMENT_POSITION_PRECEDING &&
+                    !candidate.contains(element),
+            )
+            .at(-1) ?? null
+    );
+}

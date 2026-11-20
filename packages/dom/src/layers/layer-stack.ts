@@ -18,6 +18,8 @@ export interface LayerOptions {
 export interface Layer {
     /** Whether the layer is the topmost one of its document. */
     isTop: () => boolean;
+    /** The elements of the layers opened after this one (its child layers). */
+    elementsAbove: () => Element[];
     remove: () => void;
 }
 
@@ -82,6 +84,11 @@ export function pushLayer(doc: Document, options: LayerOptions): Layer {
     current.layers.push(options);
     return {
         isTop: () => current.layers.at(-1) === options,
+        elementsAbove: () =>
+            current.layers
+                .slice(current.layers.indexOf(options) + 1)
+                .flatMap((layer) => layer.elements())
+                .filter((element): element is Element => element != null),
         remove: () => {
             const index = current.layers.indexOf(options);
             if (index !== -1) {

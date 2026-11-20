@@ -45,7 +45,11 @@ export {
 export { type Direction, getDirection } from "./direction/direction.ts";
 export { focusInitial, trapFocus } from "./focus/focus-trap.ts";
 export { isKeyboardModality } from "./focus/focus-visible.ts";
-export { getTabbables, nextTabbableAfter } from "./focus/tabbable.ts";
+export {
+    getTabbables,
+    nextTabbableAfter,
+    previousTabbableBefore,
+} from "./focus/tabbable.ts";
 export { createId } from "./id/create-id.ts";
 export { inertOutside } from "./inert/inert-outside.ts";
 export { watchFocusOutside } from "./layers/focus-outside.ts";

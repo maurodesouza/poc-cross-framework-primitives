@@ -23,6 +23,13 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         port: 5310,
         layers: ["behaviour"],
     },
+    // @poc/react (Epic B): the reference implementation; its screenshots are the golden set.
+    {
+        name: "react",
+        fixture: "fixture-react",
+        port: 5320,
+        layers: ["behaviour", "contract", "visual"],
+    },
 ];
 
 /** The project names given with `--project` on the command line, if any. */

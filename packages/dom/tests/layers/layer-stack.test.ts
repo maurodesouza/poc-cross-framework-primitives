@@ -24,6 +24,8 @@ describe("the layer stack", () => {
             ...child,
         });
         expect(b.isTop()).toBe(true);
+        expect(a.elementsAbove()).toHaveLength(1);
+        expect(b.elementsAbove()).toEqual([]);
         document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
         expect(child.onEscape).toHaveBeenCalledTimes(1);
         expect(parent.onEscape).not.toHaveBeenCalled();

@@ -1,0 +1,32 @@
+import type { ChangeDetails } from "@poc/react";
+import { useState } from "react";
+import { Output } from "../../kit/output.tsx";
+import { Dialog } from "../../kit/ui/dialog.tsx";
+
+export function DialogControlled() {
+    const [open, setOpen] = useState(false);
+    const [reason, setReason] = useState<string>();
+    return (
+        <>
+            <button type="button" onClick={() => setOpen(true)}>
+                Open dialog
+            </button>
+            <Dialog.Root
+                open={open}
+                onOpenChange={(next: boolean, details: ChangeDetails) => {
+                    setOpen(next);
+                    setReason(details.reason);
+                }}
+            >
+                <Dialog.Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Popup>
+                        <Dialog.Title>Controlled</Dialog.Title>
+                        <Dialog.Close>Close</Dialog.Close>
+                    </Dialog.Popup>
+                </Dialog.Portal>
+            </Dialog.Root>
+            <Output values={{ open, reason }} />
+        </>
+    );
+}

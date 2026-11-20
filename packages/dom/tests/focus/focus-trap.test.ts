@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { focusInitial, trapFocus } from "../../src/focus/focus-trap.ts";
-import { getTabbables, nextTabbableAfter } from "../../src/focus/tabbable.ts";
+import {
+    getTabbables,
+    nextTabbableAfter,
+    previousTabbableBefore,
+} from "../../src/focus/tabbable.ts";
 
 afterEach(() => {
     document.body.innerHTML = "";
@@ -43,6 +47,8 @@ describe("focus", () => {
         const box = setup();
         const before = document.getElementById("before") as HTMLElement;
         expect(nextTabbableAfter(before, [box])?.id).toBe("after");
+        const after = document.getElementById("after") as HTMLElement;
+        expect(previousTabbableBefore(after, [box])?.id).toBe("before");
     });
 
     it("focuses the initial element or the first tabbable one", () => {
