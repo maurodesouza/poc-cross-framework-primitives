@@ -7,6 +7,9 @@ components, written from scratch. Every later framework is compared to these num
   `pnpm metrics --framework react` after `pnpm e2e -- --project react --project baseline`
   (2026-11-20).
 - Effort figures come from the commit timestamps of agent runs: a proxy, not human time.
+- The tables below are the end of Epic B. Epic C moved two pure keyboard maps from React to
+  `@poc/dom`, so the current numbers ([`data/react.md`](data/react.md),
+  [`checkpoint.md`](checkpoint.md)) differ slightly (calendar 755 lines, combobox 543).
 
 ## Conformance
 

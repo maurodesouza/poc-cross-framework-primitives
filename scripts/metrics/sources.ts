@@ -112,6 +112,7 @@ export function componentLoc(
         "hooks",
         "utils",
         "composables",
+        "components/shared",
         "lib/utils",
         "lib/inject",
     ].flatMap((dir) => sourceFiles(join(pkg, dir)));
