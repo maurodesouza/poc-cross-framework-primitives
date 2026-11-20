@@ -7,6 +7,7 @@ import {
 import { ref } from "vue";
 import { iso } from "../../kit/iso.ts";
 import Output from "../../kit/output.vue";
+import { TextRuns } from "../../kit/text-runs.ts";
 import { Calendar } from "../../kit/ui/calendar.ts";
 import { DatePicker } from "../../kit/ui/date-picker.ts";
 import MonthView from "../../kit/ui/month-view.vue";
@@ -24,7 +25,7 @@ const reason = ref<string>();
         :locale="locale"
         @open-change="(_: boolean, details: ChangeDetails) => (reason = details.reason)"
     >
-        <DatePicker.Trigger>Choose date: {{ iso(value) ?? "none" }}</DatePicker.Trigger>
+        <DatePicker.Trigger><TextRuns :runs="['Choose date: ', iso(value) ?? 'none']" /></DatePicker.Trigger>
         <DatePicker.Portal>
             <DatePicker.Positioner :side-offset="4">
                 <DatePicker.Popup>

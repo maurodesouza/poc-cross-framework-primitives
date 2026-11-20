@@ -56,7 +56,8 @@ picker carry `@internationalized/date`.
 | Dialog `initialFocus` | a template unwraps a ref at render time, before the popup's content exists, so the target was `null`; focus targets also take a getter (`:initial-focus="() => cancel"`) | `@poc/vue`, `spec/README.md` |
 | fixture kit | a template ref on a functional component is `null` (no instance): the styled wrapper became a stateful component | `fixtures/vue` |
 | Calendar header | in `h()`, an element's children given as one vnode read as a slots object and rendered nothing; `renderPart` now always passes an array | `@poc/vue` |
-| everything else | Dialog, Popover, Menu (submenus, safe area), Tabs, Combobox, the calendar family and the pickers passed on their first run once these three were fixed | |
+| visual layer in CI | two Tabs screens differed from React's by 5 and 9 pixels inside a glyph: a JSX `{label} settings` makes two text nodes, a Vue template merges them into one, and with CI's font the split shifts glyphs by a fraction of a pixel. The fixture now renders the same text runs (`kit/text-runs.ts`); same machine, the screens were already identical | `fixtures/vue` |
+| everything else | Dialog, Popover, Menu (submenus, safe area), Tabs, Combobox, the calendar family and the pickers passed on their first run once these were fixed | |
 
 None of the findings was a bug that also existed in React. The subtlest React bug of Epic B
 (focusing a calendar cell that mounts one render after the keyboard moved to it) was avoided in

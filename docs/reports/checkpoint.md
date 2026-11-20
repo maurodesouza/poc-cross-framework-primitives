@@ -40,6 +40,12 @@ All 16 screens of the visual layer are pixel-identical between React and Vue (sa
 Vue passes against the golden set React made in CI. The recipes in `@poc/styles` select state
 through `data-*` only: neither fixture needed a `className` function of the state.
 
+One finding sharpens what "the same DOM" means: CI's first run found two Tabs screens off by 5 and
+9 pixels inside a glyph, because JSX splits `{label} settings` into two text nodes and a Vue
+template merges them, and CI's font shapes the two differently. Elements, attributes and classes
+were already identical; equal screenshots also need equal text runs. The Vue fixture renders the
+same runs now. Each port's fixtures must match React's text nodes too (port checklist).
+
 ### 3. Sustainable porting: yes, about 60% of the first implementation
 
 | | React (first) | Vue (port) |
@@ -147,7 +153,7 @@ referee: a port is done when it passes the same suite, so it cannot quietly lag.
    (boundary pressure 2 and 3): less code per port, still no component state in `@poc/dom`.
 2. **A port checklist** in `AGENTS.md`, from the Vue log: focus targets as getters where the
    framework unwraps refs, wrappers that keep element refs, children normalization, the calendar's
-   focus after render.
+   focus after render, and fixtures whose text nodes split as React's do.
 3. **Angular gets a short spike first** (Dialog only) inside Epic E, to settle the directive
    mapping before porting the rest.
 

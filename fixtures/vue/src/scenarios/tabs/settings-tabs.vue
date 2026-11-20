@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Output from "../../kit/output.vue";
+import { TextRuns } from "../../kit/text-runs.ts";
 import { Tabs } from "../../kit/ui/tabs.ts";
 
 // The tabs of every tabs scenario (spec/tabs.md).
@@ -24,7 +25,7 @@ const TABS = [
             <Tabs.Indicator />
         </Tabs.List>
         <Tabs.Panel v-for="tab in TABS" :key="tab.value" :value="tab.value">
-            <p>{{ tab.label }} settings</p>
+            <p><TextRuns :runs="[tab.label, ' settings']" /></p>
         </Tabs.Panel>
     </Tabs.Root>
     <button type="button" class="mt-2">After tabs</button>
