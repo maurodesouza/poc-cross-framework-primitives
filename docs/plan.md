@@ -1,0 +1,100 @@
+# POC plan
+
+Decided on 2026-11-20. Status at the end of this page.
+
+## The question
+
+Can headless UI primitives written **from scratch for each framework** share **no component
+core**, only DOM utilities, a spec, a Tailwind styling layer and a conformance suite, and still
+deliver the same behaviour and the same UI in React, Vue, Angular, Svelte and Solid?
+
+If yes, Fragiola can offer its UI (today React-only, on Base UI) in every framework, with
+primitives of its own that fill the gaps Base UI leaves (a date picker first of all).
+
+## Hypotheses
+
+1. **Same behaviour without a shared core.** A written spec plus a shared conformance suite keep
+   five independent implementations equivalent (keyboard, focus, ARIA).
+2. **Same UI from one styling layer.** One set of Tailwind recipes keyed on the spec's `data-*`
+   attributes gives pixel-identical results in every framework.
+3. **Sustainable porting.** Once a component exists in one framework, porting it costs a fraction
+   of the first implementation, because the hard parts live in `@poc/dom` and in the spec.
+4. **Bounded duplication.** The behaviour that has to be fixed N times (once per framework) stays
+   small; most bugs are fixed once, in `@poc/dom`.
+5. **Quality.** The result is close to Base UI and React Aria on accessibility and edge cases.
+
+## Components
+
+| component | why it is in | phase |
+| --- | --- | --- |
+| Dialog | focus trap, return focus, scroll lock, `inert`, portal, Escape | mandatory |
+| Popover | positioning, layer stack (a popover in a dialog), outside press, non-trapping focus | mandatory |
+| Menu (with submenu) | roving focus, typeahead, submenu and its safe hover area, item collections | mandatory |
+| Combobox | virtual focus (`aria-activedescendant`), consumer filtering, a positioned list | mandatory |
+| Tabs | the simple baseline: activation modes, orientation, RTL | mandatory |
+| Calendar, RangeCalendar, DatePicker | 2D grid navigation, ranges, dates and locale, composed with Popover | mandatory |
+| Select | forms (hidden input), listbox, item aligned with the trigger | extra |
+| Tooltip | hover intent, delay groups, touch, `aria-describedby` | extra |
+| Checkbox, CheckboxGroup | forms, indeterminate, controlled and uncontrolled | extra |
+| Slider | pointer capture, several thumbs, steps, RTL | extra |
+
+Toast is out (it needs a global store: a different problem).
+
+## Frameworks
+
+React 19, Vue 3.5, Angular 22 (standalone, signals, zoneless), Svelte 5 (runes), Solid 1.9.
+
+## Shared pieces
+
+- `spec/`: the source of truth for every component.
+- `packages/dom` (`@poc/dom`): framework-free DOM behaviours and pure math, never component state
+  (AGENTS.md rule 2).
+- `packages/styles` (`@poc/styles`): the Tailwind v4 theme with the Fragiola palette roles, and a
+  class recipe per part. Each fixture applies them through thin styled wrappers, as a per-framework
+  Fragiola UI would.
+- `conformance/`: the Playwright suite (behaviour, contract, visual), run against every fixture,
+  and its behaviour layer against the baseline.
+
+## Phases
+
+| Epic | content | status |
+| --- | --- | --- |
+| A (#4) | foundation: monorepo, rules, specs of the six mandatory components, conformance suite, Base UI / React Aria baseline | in progress |
+| B (#10) | React reference: `@poc/dom`, `@poc/styles`, `@poc/react`, golden screenshots, metrics script, React report | planned |
+| C (#14) | Vue port of the six components, then **the checkpoint report** | planned |
+| checkpoint | the maintainer decides from `docs/reports/checkpoint.md`: continue, pivot (for example a Zag-like shared state core) or stop | |
+| D | Svelte and Solid ports | outlined after the checkpoint |
+| E | Angular port | outlined after the checkpoint |
+| F, G | the extras in every framework, and the final report | outlined after the checkpoint |
+
+Nothing after Epic C is planned or started before the checkpoint decision.
+
+## Metrics
+
+Collected by `pnpm metrics --framework <name>` (Epic B on) into `docs/reports/data/<name>.json`,
+and written up in `docs/reports/<name>.md`:
+
+- **Lines of code** per component: the share in `@poc/dom` (the modules the component imports)
+  and the share in the framework package.
+- **Porting time** per component and framework, from commit timestamps. These are agent runs: a
+  proxy, not human time.
+- **Changes the port needed** in `@poc/dom` or in a spec, each with its reason.
+- **Bugs** fixed once (in `@poc/dom` or the spec) vs fixed N times (once per framework).
+- **Conformance**: pass rate per layer (behaviour, contract, visual) and implementation.
+- **Bundle size** per component (minified and gzipped, framework external), against Base UI
+  (React), Reka UI (Vue), Bits UI (Svelte), Kobalte (Solid) and Angular CDK / Angular Aria where
+  they have an equivalent.
+- **Screen readers**: a manual spot check (VoiceOver or NVDA) on Dialog, Menu, Combobox and
+  Calendar, as a checklist with findings.
+- **API ergonomics**: does the API read natively in each framework?
+- **Boundary pressure**: every time component logic wanted to move into `@poc/dom`.
+
+## Out of scope
+
+SSR beyond a hydration smoke test, a docs site, npm publishing, Toast, the segmented date field,
+and the event calendar (a display calendar in Fragiola UI and the `@fragiola/calendar` library
+are separate, later projects).
+
+## Status
+
+- 2026-11-20: plan decided; Epics A (#4), B (#10) and C (#14) published.
