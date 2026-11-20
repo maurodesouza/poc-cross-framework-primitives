@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { edgeIndex, stepIndex } from "../../src/collection/list-navigation.ts";
+import {
+    edgeIndex,
+    stepIndex,
+    stepThroughNone,
+} from "../../src/collection/list-navigation.ts";
 import { createTypeahead } from "../../src/collection/typeahead.ts";
 
 describe("stepIndex", () => {
@@ -38,5 +42,15 @@ describe("typeahead", () => {
         expect(typeahead.match("e", labels, 1, 1100)).toBe(3);
         expect(typeahead.match("a", labels, 3, 2000)).toBe(2);
         expect(typeahead.match("Shift", labels, 2, 2100)).toBe(-1);
+    });
+});
+
+describe("stepThroughNone", () => {
+    it("passes through no item between the ends", () => {
+        expect(stepThroughNone(3, -1, 1)).toBe(0);
+        expect(stepThroughNone(3, 2, 1)).toBe(-1);
+        expect(stepThroughNone(3, -1, -1)).toBe(2);
+        expect(stepThroughNone(3, 0, -1)).toBe(-1);
+        expect(stepThroughNone(0, -1, 1)).toBe(-1);
     });
 });

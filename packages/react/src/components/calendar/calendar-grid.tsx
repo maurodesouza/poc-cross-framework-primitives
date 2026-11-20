@@ -1,11 +1,4 @@
-import {
-    addDays,
-    addMonths,
-    addYears,
-    endOfWeek,
-    getDirection,
-    startOfWeek,
-} from "@poc/dom";
+import { addMonths, calendarKeyTarget, getDirection } from "@poc/dom";
 import type { KeyboardEvent } from "react";
 import { useRequiredContext } from "../../hooks/use-required-context.ts";
 import { type PartProps, renderElement } from "../../utils/render-element.tsx";
@@ -22,51 +15,25 @@ export function CalendarGrid({ offset = 0, ...props }: CalendarGridProps) {
     const month = addMonths(context.visibleStart, offset);
 
     const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-        const focused = context.focusedDate;
-        const rtl = getDirection(event.currentTarget) === "rtl";
-        let target = null;
-        switch (event.key) {
-            case "ArrowRight":
-                target = addDays(focused, rtl ? -1 : 1);
-                break;
-            case "ArrowLeft":
-                target = addDays(focused, rtl ? 1 : -1);
-                break;
-            case "ArrowDown":
-                target = addDays(focused, 7);
-                break;
-            case "ArrowUp":
-                target = addDays(focused, -7);
-                break;
-            case "Home":
-                target = startOfWeek(focused, context.firstDay);
-                break;
-            case "End":
-                target = endOfWeek(focused, context.firstDay);
-                break;
-            case "PageDown":
-                target = event.shiftKey
-                    ? addYears(focused, 1)
-                    : addMonths(focused, 1);
-                break;
-            case "PageUp":
-                target = event.shiftKey
-                    ? addYears(focused, -1)
-                    : addMonths(focused, -1);
-                break;
-            case "Enter":
-            case " ":
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            context.select(context.focusedDate);
+            return;
+        }
+        if (event.key === "Escape") {
+            if (context.anchor !== null) {
                 event.preventDefault();
-                context.select(focused);
-                return;
-            case "Escape":
-                if (context.anchor !== null) {
-                    event.preventDefault();
-                    context.cancelRange();
-                }
-                return;
-            default:
-                return;
+                context.cancelRange();
+            }
+            return;
+        }
+        const target = calendarKeyTarget(event.key, context.focusedDate, {
+            rtl: getDirection(event.currentTarget) === "rtl",
+            firstDayOfWeek: context.firstDay,
+            shiftKey: event.shiftKey,
+        });
+        if (target === null) {
+            return;
         }
         event.preventDefault();
         if (context.moveFocus(target)) {
