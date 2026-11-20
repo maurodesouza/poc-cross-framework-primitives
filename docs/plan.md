@@ -59,7 +59,7 @@ React 19, Vue 3.5, Angular 22 (standalone, signals, zoneless), Svelte 5 (runes),
 
 | Epic | content | status |
 | --- | --- | --- |
-| A (#4) | foundation: monorepo, rules, specs of the six mandatory components, conformance suite, Base UI / React Aria baseline | in progress |
+| A (#4) | foundation: monorepo, rules, specs of the six mandatory components, conformance suite, Base UI / React Aria baseline | done |
 | B (#10) | React reference: `@poc/dom`, `@poc/styles`, `@poc/react`, golden screenshots, metrics script, React report | planned |
 | C (#14) | Vue port of the six components, then **the checkpoint report** | planned |
 | checkpoint | the maintainer decides from `docs/reports/checkpoint.md`: continue, pivot (for example a Zag-like shared state core) or stop | |
@@ -98,3 +98,7 @@ are separate, later projects).
 ## Status
 
 - 2026-11-20: plan decided; Epics A (#4), B (#10) and C (#14) published.
+- 2026-11-20: Epic A done. The behaviour layer (90 tests) passes on the baseline, with 9 recorded
+  deviations (3 in Base UI's Dialog and Popover, 2 in its Combobox, 4 in React Aria's calendar).
+  Writing the tests corrected the first draft of the specs where it had left the APG (disabled
+  items stay focusable in menus, tabs and listboxes; combobox arrows return to the input).
