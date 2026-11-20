@@ -1,0 +1,26 @@
+{
+    "name": "poc-cross-framework-primitives",
+    "version": "0.0.0",
+    "private": true,
+    "license": "MIT",
+    "type": "module",
+    "packageManager": "pnpm@12.21.0",
+    "engines": {
+        "node": ">=24"
+    },
+    "scripts": {
+        "check": "biome check && pnpm check:layout",
+        "check:fix": "biome check --write",
+        "check:layout": "node scripts/check-layout.ts",
+        "typecheck": "tsc -p tsconfig.json && pnpm -r --if-present typecheck",
+        "test": "vitest run",
+        "build": "pnpm -r --if-present build",
+        "e2e": "pnpm --filter conformance --if-present e2e"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.6.7",
+        "@types/node": "26.6.6",
+        "typescript": "7.0.2",
+        "vitest": "5.1.0"
+    }
+}

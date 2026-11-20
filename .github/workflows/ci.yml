@@ -1,0 +1,48 @@
+# CI for the POC.
+#
+#   Checks   Biome, the source layout check, TypeScript, the unit tests and the build.
+#   E2E      the Playwright conformance suite (conformance/) against every registered fixture, in
+#            Playwright's image (mcr.microsoft.com/playwright, the tag of the pinned
+#            @playwright/test, checked by tests/ci-workflow.test.ts: no browser install). Added
+#            with the conformance suite.
+#
+# Tests run on pull requests and on a manual run; a push to main runs nothing (main is what its PR
+# tested).
+
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Reads the pnpm version from `packageManager` in package.json.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm check
+
+      - run: pnpm typecheck
+
+      - run: pnpm test
+
+      - run: pnpm build
