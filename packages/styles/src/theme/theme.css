@@ -1,0 +1,85 @@
+/*
+ * @poc/styles theme: the Fragiola palette roles (~/organizations/fragiola/ui, docs/architecture.md),
+ * for Tailwind v4. The app imports Tailwind first, then this file, and points Tailwind at the
+ * recipes (`@source`), since their classes live in a package:
+ *
+ *     @import "tailwindcss";
+ *     @import "@poc/styles/theme.css";
+ *     @source "../node_modules/@poc/styles/src";
+ *
+ * Six roles per palette: base (its background), soft (a subtle background), line (strokes),
+ * contrast (content on base), accent (emphasis, secondary text at /85), ring (focus). A palette
+ * class sets them for a subtree; components paint with `bg-palette-base`, `text-palette-contrast`,
+ * ... Light and dark come from `data-theme` on the root element.
+ */
+
+@theme inline {
+    --color-palette-base: var(--palette-base);
+    --color-palette-soft: var(--palette-soft);
+    --color-palette-line: var(--palette-line);
+    --color-palette-contrast: var(--palette-contrast);
+    --color-palette-accent: var(--palette-accent);
+    --color-palette-ring: var(--palette-ring, var(--palette-accent));
+}
+
+/* surface: the page */
+:root,
+:root[data-theme="light"],
+:root[data-theme="light"] .palette-surface {
+    --palette-base: oklch(1 0 0);
+    --palette-soft: oklch(0.96 0.003 250);
+    --palette-line: oklch(0.88 0.005 250);
+    --palette-contrast: oklch(0.15 0.01 250);
+    --palette-accent: oklch(0.3 0.01 250);
+    --palette-ring: oklch(0.55 0.2 300);
+}
+
+:root[data-theme="dark"],
+:root[data-theme="dark"] .palette-surface {
+    --palette-base: oklch(0.16 0.01 250);
+    --palette-soft: oklch(0.24 0.012 250);
+    --palette-line: oklch(0.32 0.012 250);
+    --palette-contrast: oklch(0.96 0.005 250);
+    --palette-accent: oklch(0.86 0.005 250);
+    --palette-ring: oklch(0.7 0.18 300);
+}
+
+/* raised: overlays (popover, menu, dialog) sit one step above the page */
+:root .palette-raised,
+:root[data-theme="light"] .palette-raised {
+    --palette-base: oklch(0.99 0.002 250);
+    --palette-soft: oklch(0.94 0.005 250);
+    --palette-line: oklch(0.86 0.006 250);
+    --palette-contrast: oklch(0.15 0.01 250);
+    --palette-accent: oklch(0.28 0.01 250);
+    --palette-ring: oklch(0.55 0.2 300);
+}
+
+:root[data-theme="dark"] .palette-raised {
+    --palette-base: oklch(0.21 0.01 250);
+    --palette-soft: oklch(0.3 0.012 250);
+    --palette-line: oklch(0.36 0.012 250);
+    --palette-contrast: oklch(0.95 0.005 250);
+    --palette-accent: oklch(0.88 0.005 250);
+    --palette-ring: oklch(0.7 0.18 300);
+}
+
+/* purple: the chromatic palette of selections and primary actions */
+:root .palette-purple,
+:root[data-theme="light"] .palette-purple {
+    --palette-base: oklch(0.55 0.2 300);
+    --palette-soft: oklch(0.94 0.06 300);
+    --palette-line: oklch(0.85 0.08 300);
+    --palette-contrast: oklch(1 0 0);
+    --palette-accent: oklch(0.45 0.18 300);
+    --palette-ring: oklch(0.45 0.18 300);
+}
+
+:root[data-theme="dark"] .palette-purple {
+    --palette-base: oklch(0.7 0.18 300);
+    --palette-soft: oklch(0.3 0.08 300);
+    --palette-line: oklch(0.4 0.1 300);
+    --palette-contrast: oklch(0.12 0.02 300);
+    --palette-accent: oklch(0.78 0.15 300);
+    --palette-ring: oklch(0.78 0.15 300);
+}
