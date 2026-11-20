@@ -260,8 +260,9 @@ Checks:
 
 ### `/date-picker/basic`
 
-DatePicker, en-US. The Trigger has `aria-label` **"Choose date"** and shows the value (or
-"none"); the Popup holds a bound Calendar with PrevButton **"Previous month"** and NextButton
+DatePicker, en-US. The Trigger's text is **"Choose date: "** followed by the value (or "none"),
+which is also its accessible name (no `aria-label`: WCAG 2.5.3 wants the visible text in the
+name); the Popup holds a bound Calendar with PrevButton **"Previous month"** and NextButton
 **"Next month"**. Output: `value: ...`, `open: ...`, `reason: ...`.
 
 Checks:
@@ -277,7 +278,7 @@ Checks:
 
 ### `/date-picker/range`
 
-DateRangePicker, en-US, Trigger **"Choose dates"**.
+DateRangePicker, en-US, Trigger text **"Choose dates: "** followed by the range (or "none").
 
 Checks: open; click November 10: the popup stays open; click November 13: `value:
 2026-11-10..2026-11-13`, the popup closes and focus is on the trigger.

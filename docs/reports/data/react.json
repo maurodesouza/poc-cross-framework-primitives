@@ -1,0 +1,257 @@
+{
+    "framework": "react",
+    "generatedAt": "2026-11-20T22:51:00.656Z",
+    "loc": {
+        "components": [
+            {
+                "component": "dialog",
+                "framework": 272,
+                "dom": 233,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "inert/inert-outside.ts",
+                    "layers/layer-stack.ts",
+                    "presence/presence.ts",
+                    "scroll-lock/lock-scroll.ts"
+                ]
+            },
+            {
+                "component": "popover",
+                "framework": 376,
+                "dom": 417,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "focus/tabbable.ts",
+                    "layers/focus-outside.ts",
+                    "layers/layer-stack.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "menu",
+                "framework": 750,
+                "dom": 457,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "collection/typeahead.ts",
+                    "direction/direction.ts",
+                    "focus/tabbable.ts",
+                    "layers/layer-stack.ts",
+                    "pointer/safe-area.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "combobox",
+                "framework": 545,
+                "dom": 277,
+                "domModules": [
+                    "layers/layer-stack.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tabs",
+                "framework": 366,
+                "dom": 49,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "direction/direction.ts"
+                ]
+            },
+            {
+                "component": "calendar",
+                "framework": 788,
+                "dom": 232,
+                "domModules": [
+                    "date/date-math.ts",
+                    "date/locale-data.ts",
+                    "date/month-grid.ts",
+                    "date/plain-date.ts",
+                    "direction/direction.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "date-picker",
+                "framework": 272,
+                "dom": 294,
+                "domModules": [
+                    "layers/focus-outside.ts",
+                    "layers/layer-stack.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            }
+        ],
+        "shared": 372,
+        "domTotal": 915
+    },
+    "sizes": [
+        {
+            "component": "dialog",
+            "ours": {
+                "entry": "export { Dialog } from \"@poc/react\";",
+                "minified": 8777,
+                "gzip": 3505
+            },
+            "baseline": {
+                "entry": "export { Dialog } from \"@base-ui/react/dialog\";",
+                "minified": 69548,
+                "gzip": 23946
+            }
+        },
+        {
+            "component": "popover",
+            "ours": {
+                "entry": "export { Popover } from \"@poc/react\";",
+                "minified": 28638,
+                "gzip": 11077
+            },
+            "baseline": {
+                "entry": "export { Popover } from \"@base-ui/react/popover\";",
+                "minified": 118610,
+                "gzip": 41194
+            }
+        },
+        {
+            "component": "menu",
+            "ours": {
+                "entry": "export { Menu } from \"@poc/react\";",
+                "minified": 33162,
+                "gzip": 12622
+            },
+            "baseline": {
+                "entry": "export { Menu } from \"@base-ui/react/menu\";",
+                "minified": 181092,
+                "gzip": 61670
+            }
+        },
+        {
+            "component": "combobox",
+            "ours": {
+                "entry": "export { Combobox } from \"@poc/react\";",
+                "minified": 29141,
+                "gzip": 11344
+            },
+            "baseline": {
+                "entry": "export { Combobox } from \"@base-ui/react/combobox\";",
+                "minified": 146316,
+                "gzip": 52079
+            }
+        },
+        {
+            "component": "tabs",
+            "ours": {
+                "entry": "export { Tabs } from \"@poc/react\";",
+                "minified": 5798,
+                "gzip": 2487
+            },
+            "baseline": {
+                "entry": "export { Tabs } from \"@base-ui/react/tabs\";",
+                "minified": 36140,
+                "gzip": 13604
+            }
+        },
+        {
+            "component": "calendar",
+            "ours": {
+                "entry": "export { Calendar, RangeCalendar } from \"@poc/react\";",
+                "minified": 11282,
+                "gzip": 4554
+            },
+            "baseline": {
+                "entry": "export { Calendar, RangeCalendar } from \"react-aria-components\";",
+                "minified": 85837,
+                "gzip": 26462
+            }
+        },
+        {
+            "component": "date-picker",
+            "ours": {
+                "entry": "export { DatePicker, DateRangePicker } from \"@poc/react\";",
+                "minified": 26476,
+                "gzip": 10375
+            },
+            "baseline": {
+                "entry": "export { DatePicker, DateRangePicker } from \"react-aria-components\";",
+                "minified": 117555,
+                "gzip": 35244
+            }
+        }
+    ],
+    "conformance": {
+        "baseline": {
+            "behaviour": {
+                "passed": 79,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 11
+            }
+        },
+        "react": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        }
+    },
+    "effort": {
+        "dialog": {
+            "commits": 1,
+            "first": "2026-11-20T19:37:49-03:00",
+            "last": "2026-11-20T19:37:49-03:00"
+        },
+        "popover": {
+            "commits": 1,
+            "first": "2026-11-20T19:37:49-03:00",
+            "last": "2026-11-20T19:37:49-03:00"
+        },
+        "menu": {
+            "commits": 1,
+            "first": "2026-11-20T19:37:49-03:00",
+            "last": "2026-11-20T19:37:49-03:00"
+        },
+        "combobox": {
+            "commits": 1,
+            "first": "2026-11-20T19:47:04-03:00",
+            "last": "2026-11-20T19:47:04-03:00"
+        },
+        "tabs": {
+            "commits": 1,
+            "first": "2026-11-20T19:47:04-03:00",
+            "last": "2026-11-20T19:47:04-03:00"
+        },
+        "calendar": {
+            "commits": 1,
+            "first": "2026-11-20T19:47:04-03:00",
+            "last": "2026-11-20T19:47:04-03:00"
+        },
+        "date-picker": {
+            "commits": 1,
+            "first": "2026-11-20T19:47:04-03:00",
+            "last": "2026-11-20T19:47:04-03:00"
+        }
+    }
+}

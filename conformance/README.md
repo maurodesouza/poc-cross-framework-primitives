@@ -54,14 +54,19 @@ Add it to `IMPLEMENTATIONS` in `src/implementations.ts`:
 ## Golden screenshots
 
 The visual layer's `snapshotPathTemplate` leaves the project name out, so every implementation
-compares against the same images in `snapshots/`. React creates them in Epic B:
+compares against the same images in `snapshots/`. They are made by React (Epic B) **in CI's
+Playwright image**, since local fonts render differently: the visual tests are skipped unless `CI`
+or `VISUAL=1` is set.
 
-```sh
-pnpm --filter conformance exec playwright test --project react --update-snapshots
-```
+To create or update them:
 
-Review the images before committing them. Other frameworks never update snapshots: when one
-differs, its DOM is fixed, not the image. Animations are disabled and the caret hidden.
+1. Push without the images (or with the changed ones removed). CI's E2E job writes the missing
+   screenshots, fails, and uploads them as the `conformance-snapshots` artifact.
+2. Download it into `conformance/snapshots` (`gh run download <run> -n conformance-snapshots -D conformance/snapshots`),
+   review the images, commit them.
+
+Other frameworks never update snapshots: when one differs, its DOM is fixed, not the image.
+Animations are disabled, the caret hidden and the pointer parked at the top-left corner.
 
 ## Helpers (`src/`)
 

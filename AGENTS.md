@@ -99,8 +99,8 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
 
   | package | folders |
   | --- | --- |
-  | `dom` | one folder per responsibility: `positioning/`, `layers/`, `focus/`, `scroll-lock/`, `inert/`, `collection/`, `presence/`, `id/`, `direction/`, `date/` |
-  | `styles` | `recipes/`, plus `theme.css` |
+  | `dom` | one folder per responsibility: `positioning/`, `layers/`, `focus/`, `scroll-lock/`, `inert/`, `collection/`, `presence/`, `pointer/`, `id/`, `direction/`, `date/` |
+  | `styles` | `recipes/`, `theme/` |
   | `react`, `solid` | `components/<component>/`, `hooks/`, `utils/` |
   | `vue` | `components/<component>/`, `composables/`, `utils/` |
   | `svelte` | `components/<component>/`, `utils/` |

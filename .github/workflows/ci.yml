@@ -74,3 +74,13 @@ jobs:
           name: playwright-results
           path: conformance/test-results
           retention-days: 7
+
+      # The golden screenshots are made here, in Playwright's image: a run without them writes
+      # them (and fails). Download this artifact and commit it (conformance/README.md).
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: conformance-snapshots
+          path: conformance/snapshots
+          if-no-files-found: ignore
+          retention-days: 7
