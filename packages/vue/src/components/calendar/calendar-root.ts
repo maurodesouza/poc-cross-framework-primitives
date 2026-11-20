@@ -52,7 +52,7 @@ function defineCalendarRoot(name: string, mode: CalendarMode) {
                         context.visibleStart.value,
                     ] as const,
                 () => {
-                    void nextTick(() => {
+                    void nextTick().then(() => {
                         if (!context.focusPending.current) {
                             return;
                         }
