@@ -64,7 +64,6 @@ function CalendarRootBase({
     } = useCalendar(mode, stateProps as CalendarStateProps);
     // a calendar in a picker focuses its focused date when it opens (spec/calendar.md, "Focus")
     const focusRequest = useRef(bound);
-    // biome-ignore lint/correctness/useExhaustiveDependencies: the state object is rebuilt every render
     const context = useMemo(
         () => ({
             ...state,

@@ -51,3 +51,22 @@ export function edgeIndex(
     );
     return order.find((index) => !skip(index)) ?? -1;
 }
+
+/**
+ * A step through a list where "no item" sits between the ends (spec/combobox.md): from the last
+ * item +1 gives -1 (back to the input), from -1 it gives the first item; -1 mirrors it.
+ */
+export function stepThroughNone(
+    count: number,
+    current: number,
+    delta: 1 | -1,
+): number {
+    if (count === 0) {
+        return -1;
+    }
+    if (current === -1) {
+        return delta === 1 ? 0 : count - 1;
+    }
+    const next = current + delta;
+    return next < 0 || next >= count ? -1 : next;
+}

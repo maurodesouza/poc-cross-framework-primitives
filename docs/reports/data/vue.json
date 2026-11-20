@@ -1,0 +1,280 @@
+{
+    "framework": "vue",
+    "generatedAt": "2026-11-20T23:13:31.573Z",
+    "loc": {
+        "components": [
+            {
+                "component": "dialog",
+                "framework": 272,
+                "dom": 233,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "inert/inert-outside.ts",
+                    "layers/layer-stack.ts",
+                    "presence/presence.ts",
+                    "scroll-lock/lock-scroll.ts"
+                ]
+            },
+            {
+                "component": "popover",
+                "framework": 366,
+                "dom": 417,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "focus/tabbable.ts",
+                    "layers/focus-outside.ts",
+                    "layers/layer-stack.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "menu",
+                "framework": 780,
+                "dom": 471,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "collection/typeahead.ts",
+                    "direction/direction.ts",
+                    "focus/tabbable.ts",
+                    "layers/layer-stack.ts",
+                    "pointer/safe-area.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "combobox",
+                "framework": 591,
+                "dom": 334,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "layers/layer-stack.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tabs",
+                "framework": 416,
+                "dom": 79,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "direction/direction.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "calendar",
+                "framework": 792,
+                "dom": 271,
+                "domModules": [
+                    "date/calendar-keys.ts",
+                    "date/date-math.ts",
+                    "date/locale-data.ts",
+                    "date/month-grid.ts",
+                    "date/plain-date.ts",
+                    "direction/direction.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "date-picker",
+                "framework": 305,
+                "dom": 294,
+                "domModules": [
+                    "layers/focus-outside.ts",
+                    "layers/layer-stack.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            }
+        ],
+        "shared": 419,
+        "domTotal": 973
+    },
+    "sizes": [
+        {
+            "component": "dialog",
+            "ours": {
+                "entry": "export { Dialog } from \"@poc/vue\";",
+                "minified": 9266,
+                "gzip": 3606
+            },
+            "baseline": {
+                "entry": "export { DialogRoot, DialogTrigger, DialogPortal, DialogOverlay, DialogContent, DialogTitle, DialogDescription, DialogClose } from \"reka-ui\";",
+                "minified": 35703,
+                "gzip": 11829
+            }
+        },
+        {
+            "component": "popover",
+            "ours": {
+                "entry": "export { Popover } from \"@poc/vue\";",
+                "minified": 29316,
+                "gzip": 11202
+            },
+            "baseline": {
+                "entry": "export { PopoverRoot, PopoverTrigger, PopoverPortal, PopoverContent, PopoverArrow, PopoverClose } from \"reka-ui\";",
+                "minified": 67994,
+                "gzip": 22612
+            }
+        },
+        {
+            "component": "menu",
+            "ours": {
+                "entry": "export { Menu } from \"@poc/vue\";",
+                "minified": 34164,
+                "gzip": 12602
+            },
+            "baseline": {
+                "entry": "export { DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuPortal, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from \"reka-ui\";",
+                "minified": 92246,
+                "gzip": 28645
+            }
+        },
+        {
+            "component": "combobox",
+            "ours": {
+                "entry": "export { Combobox } from \"@poc/vue\";",
+                "minified": 30555,
+                "gzip": 11390
+            },
+            "baseline": {
+                "entry": "export { ComboboxRoot, ComboboxAnchor, ComboboxInput, ComboboxTrigger, ComboboxPortal, ComboboxContent, ComboboxViewport, ComboboxItem, ComboboxEmpty } from \"reka-ui\";",
+                "minified": 95484,
+                "gzip": 32377
+            }
+        },
+        {
+            "component": "tabs",
+            "ours": {
+                "entry": "export { Tabs } from \"@poc/vue\";",
+                "minified": 6337,
+                "gzip": 2459
+            },
+            "baseline": {
+                "entry": "export { TabsRoot, TabsList, TabsTrigger, TabsIndicator, TabsContent } from \"reka-ui\";",
+                "minified": 22458,
+                "gzip": 8094
+            }
+        },
+        {
+            "component": "calendar",
+            "ours": {
+                "entry": "export { Calendar, RangeCalendar } from \"@poc/vue\";",
+                "minified": 12434,
+                "gzip": 4598
+            },
+            "baseline": {
+                "entry": "export { CalendarRoot, CalendarHeader, CalendarHeading, CalendarPrev, CalendarNext, CalendarGrid, CalendarGridHead, CalendarGridBody, CalendarGridRow, CalendarHeadCell, CalendarCell, CalendarCellTrigger, RangeCalendarRoot, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarPrev, RangeCalendarNext, RangeCalendarGrid, RangeCalendarGridHead, RangeCalendarGridBody, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarCell, RangeCalendarCellTrigger } from \"reka-ui\";",
+                "minified": 80295,
+                "gzip": 22808
+            }
+        },
+        {
+            "component": "date-picker",
+            "ours": {
+                "entry": "export { DatePicker, DateRangePicker } from \"@poc/vue\";",
+                "minified": 26911,
+                "gzip": 10423
+            },
+            "baseline": {
+                "entry": "export { DatePickerRoot, DatePickerTrigger, DatePickerContent, DatePickerCalendar, DateRangePickerRoot, DateRangePickerTrigger, DateRangePickerContent, DateRangePickerCalendar } from \"reka-ui\";",
+                "minified": 129515,
+                "gzip": 39615
+            }
+        }
+    ],
+    "conformance": {
+        "baseline": {
+            "behaviour": {
+                "passed": 79,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 11
+            }
+        },
+        "react": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "vue": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        }
+    },
+    "effort": {
+        "dialog": {
+            "commits": 1,
+            "first": "2026-11-20T20:06:07-03:00",
+            "last": "2026-11-20T20:06:07-03:00"
+        },
+        "popover": {
+            "commits": 1,
+            "first": "2026-11-20T20:06:07-03:00",
+            "last": "2026-11-20T20:06:07-03:00"
+        },
+        "menu": {
+            "commits": 1,
+            "first": "2026-11-20T20:06:07-03:00",
+            "last": "2026-11-20T20:06:07-03:00"
+        },
+        "combobox": {
+            "commits": 1,
+            "first": "2026-11-20T20:11:34-03:00",
+            "last": "2026-11-20T20:11:34-03:00"
+        },
+        "tabs": {
+            "commits": 1,
+            "first": "2026-11-20T20:11:34-03:00",
+            "last": "2026-11-20T20:11:34-03:00"
+        },
+        "calendar": {
+            "commits": 2,
+            "first": "2026-11-20T20:11:34-03:00",
+            "last": "2026-11-20T20:11:50-03:00"
+        },
+        "date-picker": {
+            "commits": 1,
+            "first": "2026-11-20T20:11:34-03:00",
+            "last": "2026-11-20T20:11:34-03:00"
+        }
+    }
+}

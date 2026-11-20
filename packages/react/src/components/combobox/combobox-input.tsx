@@ -1,3 +1,4 @@
+import { stepThroughNone } from "@poc/dom";
 import type { ChangeEvent, KeyboardEvent } from "react";
 import { useRequiredContext } from "../../hooks/use-required-context.ts";
 import { type PartProps, renderElement } from "../../utils/render-element.tsx";
@@ -21,14 +22,11 @@ export function ComboboxInput(
         context.setOpen(true, "list-navigation");
     };
     const move = (delta: 1 | -1) => {
-        if (items.length === 0) {
-            return;
-        }
-        const index = items.findIndex((item) => item.value === highlighted);
         // past an end, the visual focus goes back to the input; from the input, to the near end
-        const next =
-            index === -1 ? (delta === 1 ? 0 : items.length - 1) : index + delta;
-        context.setHighlighted(items[next]?.value ?? null);
+        const index = items.findIndex((item) => item.value === highlighted);
+        context.setHighlighted(
+            items[stepThroughNone(items.length, index, delta)]?.value ?? null,
+        );
     };
 
     const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

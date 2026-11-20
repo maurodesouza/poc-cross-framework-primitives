@@ -4,8 +4,13 @@ export {
     edgeIndex,
     type NavigationOptions,
     stepIndex,
+    stepThroughNone,
 } from "./collection/list-navigation.ts";
 export { createTypeahead } from "./collection/typeahead.ts";
+export {
+    type CalendarKeyOptions,
+    calendarKeyTarget,
+} from "./date/calendar-keys.ts";
 export {
     addDays,
     addMonths,

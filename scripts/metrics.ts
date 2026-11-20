@@ -48,6 +48,28 @@ const FRAMEWORKS: Record<
             },
         },
     },
+    vue: {
+        fixture: "fixtures/vue",
+        external: ["vue"],
+        ours: (namespace) => `export { ${namespace} } from "@poc/vue";`,
+        // Reka UI, with the parts closest to each spec's scope (resolved from the repository root)
+        baseline: {
+            fixture: ".",
+            imports: {
+                dialog: 'export { DialogRoot, DialogTrigger, DialogPortal, DialogOverlay, DialogContent, DialogTitle, DialogDescription, DialogClose } from "reka-ui";',
+                popover:
+                    'export { PopoverRoot, PopoverTrigger, PopoverPortal, PopoverContent, PopoverArrow, PopoverClose } from "reka-ui";',
+                menu: 'export { DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuPortal, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "reka-ui";',
+                combobox:
+                    'export { ComboboxRoot, ComboboxAnchor, ComboboxInput, ComboboxTrigger, ComboboxPortal, ComboboxContent, ComboboxViewport, ComboboxItem, ComboboxEmpty } from "reka-ui";',
+                tabs: 'export { TabsRoot, TabsList, TabsTrigger, TabsIndicator, TabsContent } from "reka-ui";',
+                calendar:
+                    'export { CalendarRoot, CalendarHeader, CalendarHeading, CalendarPrev, CalendarNext, CalendarGrid, CalendarGridHead, CalendarGridBody, CalendarGridRow, CalendarHeadCell, CalendarCell, CalendarCellTrigger, RangeCalendarRoot, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarPrev, RangeCalendarNext, RangeCalendarGrid, RangeCalendarGridHead, RangeCalendarGridBody, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarCell, RangeCalendarCellTrigger } from "reka-ui";',
+                "date-picker":
+                    'export { DatePickerRoot, DatePickerTrigger, DatePickerContent, DatePickerCalendar, DateRangePickerRoot, DateRangePickerTrigger, DateRangePickerContent, DateRangePickerCalendar } from "reka-ui";',
+            },
+        },
+    },
 };
 
 const NAMESPACES: Record<string, string> = {

@@ -1,6 +1,6 @@
 {
     "framework": "react",
-    "generatedAt": "2026-11-20T22:51:00.656Z",
+    "generatedAt": "2026-11-20T23:13:32.068Z",
     "loc": {
         "components": [
             {
@@ -32,7 +32,7 @@
             {
                 "component": "menu",
                 "framework": 750,
-                "dom": 457,
+                "dom": 471,
                 "domModules": [
                     "collection/list-navigation.ts",
                     "collection/typeahead.ts",
@@ -47,9 +47,10 @@
             },
             {
                 "component": "combobox",
-                "framework": 545,
-                "dom": 277,
+                "framework": 543,
+                "dom": 334,
                 "domModules": [
+                    "collection/list-navigation.ts",
                     "layers/layer-stack.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
@@ -59,7 +60,7 @@
             {
                 "component": "tabs",
                 "framework": 366,
-                "dom": 49,
+                "dom": 63,
                 "domModules": [
                     "collection/list-navigation.ts",
                     "direction/direction.ts"
@@ -67,9 +68,10 @@
             },
             {
                 "component": "calendar",
-                "framework": 788,
-                "dom": 232,
+                "framework": 755,
+                "dom": 271,
                 "domModules": [
+                    "date/calendar-keys.ts",
                     "date/date-math.ts",
                     "date/locale-data.ts",
                     "date/month-grid.ts",
@@ -92,7 +94,7 @@
             }
         ],
         "shared": 372,
-        "domTotal": 915
+        "domTotal": 973
     },
     "sizes": [
         {
@@ -100,7 +102,7 @@
             "ours": {
                 "entry": "export { Dialog } from \"@poc/react\";",
                 "minified": 8777,
-                "gzip": 3505
+                "gzip": 3506
             },
             "baseline": {
                 "entry": "export { Dialog } from \"@base-ui/react/dialog\";",
@@ -126,7 +128,7 @@
             "ours": {
                 "entry": "export { Menu } from \"@poc/react\";",
                 "minified": 33162,
-                "gzip": 12622
+                "gzip": 12621
             },
             "baseline": {
                 "entry": "export { Menu } from \"@base-ui/react/menu\";",
@@ -138,8 +140,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/react\";",
-                "minified": 29141,
-                "gzip": 11344
+                "minified": 29199,
+                "gzip": 11364
             },
             "baseline": {
                 "entry": "export { Combobox } from \"@base-ui/react/combobox\";",
@@ -164,8 +166,8 @@
             "component": "calendar",
             "ours": {
                 "entry": "export { Calendar, RangeCalendar } from \"@poc/react\";",
-                "minified": 11282,
-                "gzip": 4554
+                "minified": 11391,
+                "gzip": 4582
             },
             "baseline": {
                 "entry": "export { Calendar, RangeCalendar } from \"react-aria-components\";",
@@ -215,6 +217,26 @@
                 "skipped": 16,
                 "expectedFailures": 0
             }
+        },
+        "vue": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
         }
     },
     "effort": {
@@ -229,14 +251,14 @@
             "last": "2026-11-20T19:37:49-03:00"
         },
         "menu": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T19:37:49-03:00",
-            "last": "2026-11-20T19:37:49-03:00"
+            "last": "2026-11-20T19:51:00-03:00"
         },
         "combobox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T19:47:04-03:00",
-            "last": "2026-11-20T19:47:04-03:00"
+            "last": "2026-11-20T20:00:35-03:00"
         },
         "tabs": {
             "commits": 1,
@@ -244,9 +266,9 @@
             "last": "2026-11-20T19:47:04-03:00"
         },
         "calendar": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-20T19:47:04-03:00",
-            "last": "2026-11-20T19:47:04-03:00"
+            "last": "2026-11-20T20:11:50-03:00"
         },
         "date-picker": {
             "commits": 1,
