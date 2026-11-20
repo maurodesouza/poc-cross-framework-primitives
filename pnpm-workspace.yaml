@@ -1,0 +1,7 @@
+packages:
+  # the shared pieces (dom, styles) and one primitives package per framework
+  - "packages/*"
+  # one app per implementation, rendering the spec scenarios (the baseline included)
+  - "fixtures/*"
+  # the Playwright conformance suite, run against every fixture
+  - "conformance"

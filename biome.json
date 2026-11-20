@@ -1,0 +1,70 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.6.7/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "includes": [
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.js",
+            "**/*.jsx",
+            "**/*.json",
+            "**/*.jsonc",
+            "**/*.css",
+            "**/*.vue",
+            "**/*.svelte"
+        ]
+    },
+    "formatter": {
+        "enabled": true,
+        "useEditorconfig": true,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineEnding": "lf",
+        "trailingNewline": true
+    },
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": "on"
+            }
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "preset": "recommended"
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "double"
+        }
+    },
+    "css": {
+        "parser": {
+            "tailwindDirectives": true
+        }
+    },
+    "overrides": [
+        {
+            "includes": ["**/*.vue", "**/*.svelte"],
+            "linter": {
+                "rules": {
+                    "correctness": {
+                        "noUnusedImports": "off",
+                        "noUnusedVariables": "off"
+                    },
+                    "style": {
+                        "useVueMultiWordComponentNames": "off",
+                        "useConst": "off",
+                        "useImportType": "off"
+                    }
+                }
+            }
+        }
+    ]
+}
