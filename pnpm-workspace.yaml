@@ -5,3 +5,7 @@ packages:
   - "fixtures/*"
   # the Playwright conformance suite, run against every fixture
   - "conformance"
+
+# Dependencies allowed to run install scripts (pnpm refuses an ignored build script in CI).
+allowBuilds:
+  esbuild: true

@@ -1,6 +1,7 @@
+import { isInSafeArea } from "@poc/dom";
 import { type PointerEvent, useLayoutEffect, useState } from "react";
 import type { MenuContextValue } from "./menu-context.ts";
-import { isInSafeArea, menuItems } from "./menu-items.ts";
+import { menuItems } from "./menu-items.ts";
 
 /**
  * What every item of a menu level shares: highlight follows focus, the pointer highlights, the

@@ -58,6 +58,7 @@ export {
     type LayerOptions,
     pushLayer,
 } from "./layers/layer-stack.ts";
+export { isInSafeArea, type Point } from "./pointer/safe-area.ts";
 export {
     type AnchorOptions,
     anchorFloating,

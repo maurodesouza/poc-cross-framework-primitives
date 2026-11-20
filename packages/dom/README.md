@@ -15,6 +15,7 @@ API. No framework import (`tests/guard.test.ts`). The only runtime dependency is
 | `inert/` | `inertOutside(elements)` → restore | Dialog |
 | `collection/` | `stepIndex`, `edgeIndex` (list navigation), `createTypeahead` | Menu, Tabs, Combobox |
 | `presence/` | `nextFrame`, `waitForAnimations` | enter and exit states |
+| `pointer/` | `isInSafeArea` (the submenu's safe hover triangle) | Menu |
 | `id/`, `direction/` | `createId`, `getDirection` | |
 | `date/` | `PlainDate` and its math (`addDays`, `addMonths`, `startOfWeek`, ...), `monthGrid`, locale data (`firstDayOfWeek`, `weekdays`, `formatMonthYear`, `formatFullDate`, `formatDayNumber`) | the calendar family |
 
