@@ -30,6 +30,13 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         port: 5320,
         layers: ["behaviour", "contract", "visual"],
     },
+    // @poc/vue (Epic C): the first port; it compares against React's golden screenshots.
+    {
+        name: "vue",
+        fixture: "fixture-vue",
+        port: 5330,
+        layers: ["behaviour", "contract", "visual"],
+    },
 ];
 
 /** The project names given with `--project` on the command line, if any. */

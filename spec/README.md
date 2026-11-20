@@ -108,7 +108,7 @@ shared:
 | value | `value`, `defaultValue`, `onValueChange(value, details)` |
 | disabled | `disabled` |
 | orientation | `orientation` |
-| an element to focus | `initialFocus`, `finalFocus` (an element, a ref, or `false` for none) |
+| an element to focus | `initialFocus`, `finalFocus` (an element, a ref, or `false` for none; Vue also takes a getter, since a template unwraps a ref before the element exists) |
 | positioning | `side`, `align`, `sideOffset`, `alignOffset`, `collisionPadding` |
 | locale | `locale` (a BCP 47 tag; defaults to the document's `lang`, then the browser's) |
 

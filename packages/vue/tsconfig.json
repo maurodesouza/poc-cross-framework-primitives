@@ -1,0 +1,7 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "preserve"
+    },
+    "include": ["src", "tests", "vitest.config.ts", "tsdown.config.ts"]
+}
