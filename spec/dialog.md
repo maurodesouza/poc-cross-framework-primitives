@@ -152,5 +152,10 @@ opening).
 
 ## Baseline deviations
 
-Filled by the conformance work: where Base UI's Dialog differs from this spec, and how the test
-marks it for the baseline only.
+Measured against Base UI 1.9 (`fixtures/baseline-react`). Each one is marked on its test with
+`baselineDeviation` (`conformance/src/deviation.ts`): an expected failure for the baseline only.
+
+| difference | test |
+| --- | --- |
+| The popup sets no `aria-modal="true"`: Base UI relies on making the outside inert. The spec keeps `aria-modal`, as the APG asks for a modal dialog | `dialog / basic › opens a named, described, modal dialog ...` |
+

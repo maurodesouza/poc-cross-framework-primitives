@@ -66,15 +66,15 @@ On the Trigger:
 
 | key | action |
 | --- | --- |
-| Enter, Space, ArrowDown | opens, highlights the first enabled item (reason `list-navigation`; Enter and Space report `trigger-press`) |
-| ArrowUp | opens, highlights the last enabled item |
+| Enter, Space, ArrowDown | opens, highlights the first item (reason `list-navigation`; Enter and Space report `trigger-press`) |
+| ArrowUp | opens, highlights the last item |
 
 In the menu:
 
 | key | action |
 | --- | --- |
-| ArrowDown / ArrowUp | next / previous enabled item; wraps when `loop` |
-| Home / End | first / last enabled item |
+| ArrowDown / ArrowUp | next / previous item; wraps when `loop` |
+| Home / End | first / last item |
 | a printable character | typeahead: the next item whose label starts with the typed string (characters typed within 500 ms accumulate; repeating one character cycles through the items starting with it) |
 | Enter, Space | activates the highlighted item: fires its `click`, then closes every menu level (reason `item-press`) when `closeOnClick`, and focuses the root Trigger |
 | ArrowRight (LTR) on a SubmenuTrigger, or Enter / Space on it | opens the submenu and highlights its first item |
@@ -82,7 +82,10 @@ In the menu:
 | Escape | closes the current level only (reason `escape-key`): a submenu returns focus to its SubmenuTrigger, the root menu to the Trigger |
 | Tab, Shift+Tab | closes every level (reason `focus-out`); focus moves to the next / previous tabbable element after / before the Trigger |
 
-**Disabled items** are skipped by arrow keys, Home/End and typeahead, and cannot be activated.
+**Disabled items stay focusable** (APG: "Disabled menu items are focusable but cannot be
+activated"; the APG keyboard practice keeps menu items, listbox options and tabs focusable when
+disabled, so screen reader users can discover them). Arrow keys, Home/End, typeahead and hover
+reach them; Enter, Space and clicks on them do nothing.
 
 ## Focus
 
@@ -94,7 +97,7 @@ In the menu:
 ## Pointer
 
 - A press on the Trigger toggles (reason `trigger-press`).
-- Hovering an enabled item highlights it (and focuses it); leaving the popup removes the highlight.
+- Hovering an item highlights it (and focuses it); leaving the popup removes the highlight.
 - Clicking an item activates it.
 - Hovering a SubmenuTrigger opens its submenu after `delay`. Clicking it opens it at once.
 - **Safe area**: while the pointer moves from an open SubmenuTrigger toward its submenu, crossing
@@ -133,9 +136,10 @@ Checks:
 
 1. Trigger has `aria-haspopup="menu"`, `aria-expanded="false"`.
 2. Focus the trigger, press ArrowDown: a `menu` labelled "Actions" opens and "Edit" is focused.
-3. ArrowDown → "Duplicate"; ArrowDown → "Delete" (skips disabled "Archive"); ArrowDown wraps to
-   "Edit"; ArrowUp wraps to "Delete"; Home → "Edit"; End → "Delete".
-4. "Archive" has `aria-disabled="true"`.
+3. ArrowDown → "Duplicate"; ArrowDown → "Archive" (disabled, still focusable); ArrowDown →
+   "Delete"; ArrowDown wraps to "Edit"; ArrowUp wraps to "Delete"; Home → "Edit"; End → "Delete".
+4. "Archive" has `aria-disabled="true"`; Enter on it does nothing: the menu stays open and the
+   output has no `action`.
 5. Typeahead: press `d` → "Duplicate"; `d` again → "Delete".
 6. Enter on "Delete": output `action: Delete`, the menu closes (`reason: item-press`), focus on
    "Actions".
@@ -164,14 +168,14 @@ Checks:
    "File".
 6. Pointer: hover "Share", wait for the submenu; move the pointer diagonally from "Share" to
    "Slack", passing over "Print": the submenu stays open and "Slack" ends highlighted.
-7. The submenu is to the right of the root popup (LTR).
+7. The submenu starts at or after the end edge of "Share" (to its right in LTR).
 
 ### `/menu/submenu?dir=rtl`
 
 The submenu scenario in `dir="rtl"`.
 
-Checks: ArrowLeft on "Share" opens the submenu, ArrowRight closes it; the submenu is to the left
-of the root popup.
+Checks: ArrowLeft on "Share" opens the submenu, ArrowRight closes it; the submenu ends at or
+before the start edge of "Share" (to its left).
 
 ### `/menu/groups`
 
@@ -183,4 +187,6 @@ Checks: two `group` elements named "Sort by" and "Show"; arrow navigation crosse
 
 ## Baseline deviations
 
-Filled by the conformance work.
+Measured against Base UI 1.9: no behaviour deviation. Base UI reads the direction from its
+`DirectionProvider`, not from the document; the baseline fixture provides it from `?dir=`.
+

@@ -144,6 +144,8 @@ The specs fix:
   find elements by role and name and never by implementation detail;
 - what the fixture prints outside the component (`data-testid="output"`): the last value, the last
   open state and the last change reason, as `key: value` lines;
+- a `data-testid` on an element the behaviour layer must find but that has no role (a popover's
+  Arrow), named in the scenario;
 - query parameters: `?locale=<tag>` and `?dir=rtl` where a scenario says so.
 
 The conformance suite fixes "today" with Playwright's clock: **2026-11-20** (a Friday) in every

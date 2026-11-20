@@ -40,8 +40,7 @@ selected.
 | Indicator | `aria-hidden="true"`, `data-orientation` |
 | Panel | `role="tabpanel"`, an `id`, `aria-labelledby` (its tab's id), `tabindex="0"`, `data-selected` when its tab is selected, `hidden` when kept mounted and inactive, `data-orientation` |
 
-The tab that holds the roving focus (`tabindex="0"`) is the selected tab, else the first enabled
-tab.
+The tab that holds the roving focus (`tabindex="0"`) is the selected tab, else the first tab.
 
 ## Keyboard
 
@@ -49,13 +48,15 @@ tab.
 | --- | --- | --- |
 | next tab | ArrowRight (ArrowLeft in RTL) | ArrowDown |
 | previous tab | ArrowLeft (ArrowRight in RTL) | ArrowUp |
-| Home / End | first / last enabled tab | same |
+| Home / End | first / last tab | same |
 | Enter, Space | selects the focused tab (`manual`; in `automatic` it is already selected) | same |
 | Tab | from the tab list to the selected panel | same |
 
-Arrow keys and Home/End move focus to enabled tabs only, wrapping when `loop`. In `automatic`
-activation, moving focus selects the tab (reason `list-navigation`). A click reports
-`trigger-press`.
+Arrow keys and Home/End move focus to every tab, wrapping when `loop`. **Disabled tabs stay
+focusable** (the APG keyboard practice keeps tabs focusable when disabled, so they can be
+discovered) but are never selected: focusing one in `automatic` activation leaves the selection
+where it was, and Enter, Space and clicks on it do nothing. In `automatic` activation, moving focus
+to an enabled tab selects it (reason `list-navigation`). A click reports `trigger-press`.
 
 ## Focus
 
@@ -99,8 +100,9 @@ Checks:
 2. The visible `tabpanel` is named "Account" and contains "Account settings".
 3. Focus "Account", ArrowRight: "Password" is focused, selected (`value: password`), and its panel
    is visible.
-4. ArrowRight skips "Billing" (`aria-disabled="true"`) to "Team"; ArrowRight wraps to "Account";
-   End → "Team"; Home → "Account".
+4. ArrowRight → "Billing" (`aria-disabled="true"`): focused but not selected ("Password" stays
+   selected); ArrowRight → "Team" (selected); ArrowRight wraps to "Account"; End → "Team"; Home →
+   "Account".
 5. Tab from the selected tab focuses its panel; Tab again focuses "After tabs".
 6. Clicking "Team" selects it.
 7. Axe finds no violation.
@@ -110,7 +112,8 @@ Checks:
 The same content with `activation="manual"`.
 
 Checks: ArrowRight moves focus to "Password" while "Account" stays selected (`value: account`);
-Enter selects "Password"; Space on "Team" (after ArrowRight) selects it.
+Enter selects "Password"; ArrowRight twice (through the disabled "Billing") reaches "Team", and
+Space selects it.
 
 ### `/tabs/vertical`
 
@@ -129,4 +132,6 @@ nothing).
 
 ## Baseline deviations
 
-Filled by the conformance work.
+Measured against Base UI 1.9 (`Tabs.List activateOnFocus` for automatic activation): no behaviour
+deviation. Base UI reads the direction from its `DirectionProvider` (the fixture provides it).
+

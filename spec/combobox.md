@@ -64,16 +64,20 @@ DOM focus **always stays on the Input**; the highlighted item is announced throu
 | key | action |
 | --- | --- |
 | typing | updates the input value (reason `input-change`) and opens the list; **no item is highlighted** until the user navigates |
-| ArrowDown | closed: opens and highlights the selected item, else the first enabled item (reason `list-navigation`); open: highlights the next enabled item (wraps) |
-| ArrowUp | closed: opens and highlights the selected item, else the last enabled item; open: highlights the previous enabled item (wraps) |
+| ArrowDown | closed: opens and highlights the selected item, else the first item (reason `list-navigation`); open: highlights the next item; from the last item, returns the visual focus to the input (no highlight), and the next ArrowDown highlights the first item |
+| ArrowUp | closed: opens and highlights the selected item, else the last item; open: highlights the previous item; from the first item, returns the visual focus to the input, and the next ArrowUp highlights the last item |
 | Alt+ArrowDown | opens without highlighting |
 | Alt+ArrowUp | closes, keeping the input value |
 | Home / End | move the text caret (native input behaviour), never the highlight |
 | Enter | open with a highlighted item: chooses it (value, input value, closes; reason `item-press`); otherwise does nothing and does not submit a form while the list is open |
-| Escape | open: closes, keeping the input value (reason `escape-key`); closed: clears the input value |
+| Escape | open: closes, keeping the input value (reason `escape-key`); closed: clears the input value **and** the selected value (reason `escape-key`), so the visible text and the value never disagree |
 | Tab | closes without choosing (reason `focus-out`) and lets focus move on |
 
-Disabled items are skipped by navigation and cannot be chosen.
+The APG lets the arrows either stop at the ends or return to the input; this spec returns to the
+input, so the user can always get back to what they typed.
+
+**Disabled items can be highlighted** (APG: listbox options stay focusable when disabled, so they
+can be discovered) but cannot be chosen: Enter on a disabled item and clicks on it do nothing.
 
 ## Focus
 
@@ -83,7 +87,8 @@ focus away from the Input.
 ## Pointer
 
 - A press on the Trigger toggles the list and keeps focus in the Input (reason `trigger-press`).
-- Hovering an enabled item highlights it; clicking it chooses it.
+- Clicking the Input does not open the list: typing, the arrow keys and the Trigger do.
+- Hovering an item highlights it; clicking an enabled item chooses it.
 - A press outside the Input, the Trigger and the Popup closes the list (reason `outside-press`).
 
 ## Dismissal and layering
@@ -118,13 +123,15 @@ Checks:
 1. A `combobox` named "Fruit" with `aria-expanded="false"` and `aria-autocomplete="list"`.
 2. Type `b`: a `listbox` with options "Banana" and "Blueberry"; `aria-expanded="true"`; no
    `aria-activedescendant`; focus stays on the input.
-3. ArrowDown: `aria-activedescendant` points at "Banana"; ArrowDown → "Blueberry"; ArrowDown wraps
-   to "Banana".
+3. ArrowDown: `aria-activedescendant` points at "Banana"; ArrowDown → "Blueberry"; ArrowDown returns
+   to the input (no `aria-activedescendant`); ArrowDown → "Banana".
 4. Enter: output `value: banana`, `input: Banana`; the list closes.
-5. Escape (the list is closed, so it clears the input: `input: ` empty, `value: banana` kept),
-   then ArrowDown: the list opens with all items and "Banana" (the selected item) highlighted,
-   with `aria-selected="true"`.
-6. Navigation skips "Orange", which has `aria-disabled="true"`.
+5. With "Banana" chosen and the list closed, ArrowDown opens the list on "Banana" (the selected
+   item, highlighted, with `aria-selected="true"`). Escape closes it; Escape again (closed)
+   clears the input and the value: `input: ` empty, `value: none`.
+6. Type `an`: options "Banana", "Mango", "Orange"; "Orange" has `aria-disabled="true"`.
+   ArrowDown ×3 highlights "Orange"; Enter does nothing (no value, the list stays open);
+   ArrowDown returns to the input.
 7. Type `xyz`: the list shows "No fruit found." and no option.
 8. Escape closes and keeps `input: xyz`; Escape again clears the input.
 9. Click "Show fruits": the list opens, focus stays on the input; click "Cherry": `value:
@@ -137,9 +144,20 @@ Checks:
 The fixture holds `value` and `inputValue` in its own state, starting at `value: mango` /
 `input: Mango`, and a button **"Reset"** sets both to `null` / `""`.
 
-Checks: the input shows "Mango" on load; opening highlights "Mango"; "Reset" empties the input and
-the next ArrowDown highlights "Apple".
+Checks: the input shows "Mango" on load; ArrowDown opens the list highlighting "Mango"; after
+Escape, "Reset" empties the input and the next ArrowDown highlights "Apple".
 
 ## Baseline deviations
 
-Filled by the conformance work.
+Measured against Base UI 1.9 (`Combobox` with `filteredItems`, so the fixture filters).
+
+| difference | test |
+| --- | --- |
+| Escape while the list is open resets the input to the selected item's label (empty when none), instead of keeping the typed text. The APG: Escape closes the popup "without changing previous input" | `combobox / basic › Escape closes keeping the text, then clears it` |
+| While the list is open, everything outside it is hidden from assistive technologies (`aria-hidden`), the input's `<label>` included, so axe reports the input as unlabelled | `combobox / basic › has no axe violation while open` |
+
+Fixture settings, not deviations: Base UI opens the list when the input is clicked unless
+`openOnInputClick={false}`, which the fixture sets (the spec opens on typing, the arrows and the
+Trigger). Base UI applies a highlight asynchronously, so a test checks the highlight before
+pressing Enter, as a user would see it.
+

@@ -140,11 +140,20 @@ Checks: the popup is to the **left** of the trigger; contract layer: `data-side=
 
 ### `/popover/arrow`
 
-A Trigger **"With arrow"** and a popup with an Arrow and Title **"Arrow"**.
+A Trigger **"With arrow"** and a popup with an Arrow (the fixture gives it
+`data-testid="arrow"`, since it has no role) and Title **"Arrow"**.
 
 Checks: the arrow's centre is horizontally within the trigger's box (±2 px); contract layer:
 Arrow has `aria-hidden="true"` and `data-side="bottom"`.
 
 ## Baseline deviations
 
-Filled by the conformance work.
+Measured against Base UI 1.9.
+
+| difference | test |
+| --- | --- |
+| On open, focus goes to the popup's first tabbable element, not the popup. The spec keeps the popup, so a screen reader reads its title and description first | `popover / basic › opens a non-modal dialog and focuses it` |
+| After an outside press, focus returns to the trigger. The spec leaves focus where the user pressed | `popover / basic › an outside press closes without moving focus ...` |
+
+The flip, shift, logical sides and arrow placement match.
+

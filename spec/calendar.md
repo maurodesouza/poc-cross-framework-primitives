@@ -284,5 +284,17 @@ Checks: open; click November 10: the popup stays open; click November 13: `value
 
 ## Baseline deviations
 
-Filled by the conformance work (the baseline here is React Aria Components: `Calendar`,
-`RangeCalendar`, `DatePicker`, `DateRangePicker`).
+Measured against React Aria Components 1.22 (`Calendar`, `RangeCalendar`, `DatePicker`,
+`DateRangePicker`).
+
+| difference | test |
+| --- | --- |
+| The weekday header row is hidden from assistive technologies (`aria-hidden` on `thead`); the weekday is part of each cell's name instead | `calendar / single › a grid named by its month, with locale weekday headers`, `calendar / locale de-DE: German weekday headers, Monday first` |
+| Today has no `aria-current="date"`; its name starts with "Today, " | `calendar / single › today is marked as the current date` |
+| Home and End move to the start and end of the **month**; the APG grid moves to the start and end of the **week** | `calendar / single › Home and End move to the start and end of the week`, `calendar / locale de-DE: Home goes to Monday` |
+| In a RangeCalendar, Enter that starts a range also moved the focus one day forward, so two ArrowRight presses ended the range three days later | `calendar / range › the keyboard chooses a range` |
+
+React Aria also extends the cells' names (" selected", ", First available date", "Selected
+Range: ... to ..., " before the date). The behaviour layer finds a cell by the full date its name
+ends with (any trailing note has no digit, so it can never be another date); the contract layer
+checks the spec's exact name.

@@ -1,10 +1,11 @@
 # CI for the POC.
 #
 #   Checks   Biome, the source layout check, TypeScript, the unit tests and the build.
-#   E2E      the Playwright conformance suite (conformance/) against every registered fixture, in
-#            Playwright's image (mcr.microsoft.com/playwright, the tag of the pinned
-#            @playwright/test, checked by tests/ci-workflow.test.ts: no browser install). Added
-#            with the conformance suite.
+#   E2E      the Playwright conformance suite (conformance/) against every registered
+#            implementation (conformance/src/implementations.ts), in Playwright's image
+#            (mcr.microsoft.com/playwright, the tag of the pinned @playwright/test, checked by
+#            tests/ci-workflow.test.ts: no browser install). The suite builds and serves each
+#            fixture itself (playwright.config.ts webServer).
 #
 # Tests run on pull requests and on a manual run; a push to main runs nothing (main is what its PR
 # tested).
@@ -46,3 +47,30 @@ jobs:
       - run: pnpm test
 
       - run: pnpm build
+
+  e2e:
+    name: E2E
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: conformance/test-results
+          retention-days: 7
