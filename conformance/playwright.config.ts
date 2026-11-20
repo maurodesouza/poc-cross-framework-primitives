@@ -16,9 +16,8 @@ export default defineConfig({
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 0,
-    reporter: process.env.CI
-        ? [["list"], ["json", { outputFile: "test-results/results.json" }]]
-        : [["list"], ["json", { outputFile: "test-results/results.json" }]],
+    // the JSON results feed the metrics script (Epic B)
+    reporter: [["list"], ["json", { outputFile: "test-results/results.json" }]],
     // One golden set for every implementation: the path leaves out the project name, so Vue,
     // Svelte, ... compare against the screenshots React made (AGENTS.md rule 4).
     snapshotPathTemplate: "{testDir}/../snapshots/{testFileDir}/{arg}{ext}",
