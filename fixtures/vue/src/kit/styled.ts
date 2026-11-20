@@ -7,7 +7,7 @@ import { type Component, defineComponent, h, mergeProps } from "vue";
  */
 export function styled(component: Component, className: string) {
     return defineComponent({
-        name: "Styled",
+        name: "StyledPart",
         inheritAttrs: false,
         setup(_, { attrs, slots }) {
             return () =>

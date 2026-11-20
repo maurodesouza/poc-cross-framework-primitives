@@ -57,5 +57,11 @@ export function renderPart<State>(
             render({ props, state, children: h(PartChildren, { content }) }),
         );
     }
-    return h(as ?? tag, props, { default: content });
+    // an element's children must be an array: a single vnode would read as a slots object
+    return h(as ?? tag, props, {
+        default: () => {
+            const nodes = content();
+            return Array.isArray(nodes) ? nodes : [nodes];
+        },
+    });
 }
