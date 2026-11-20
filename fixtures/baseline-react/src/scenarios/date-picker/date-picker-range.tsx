@@ -27,7 +27,9 @@ export function DatePickerRange() {
                 onChange={setValue}
             >
                 <Group>
-                    <Button aria-label="Choose dates">{text ?? "none"}</Button>
+                    <Button aria-label={`Choose dates: ${text ?? "none"}`}>
+                        Choose dates: {text ?? "none"}
+                    </Button>
                 </Group>
                 <Popover className="popup">
                     <Dialog>

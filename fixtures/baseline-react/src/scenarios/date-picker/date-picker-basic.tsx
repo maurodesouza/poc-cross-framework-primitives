@@ -25,8 +25,11 @@ export function DatePickerBasic() {
                 onOpenChange={setOpen}
             >
                 <Group>
-                    <Button aria-label="Choose date">
-                        {value?.toString() ?? "none"}
+                    {/* React Aria labels its button "Calendar" unless given a label: the same visible text */}
+                    <Button
+                        aria-label={`Choose date: ${value?.toString() ?? "none"}`}
+                    >
+                        Choose date: {value?.toString() ?? "none"}
                     </Button>
                 </Group>
                 <Popover className="popup">
