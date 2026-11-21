@@ -140,7 +140,11 @@ In the grid (APG date picker grid). "Next day" is ArrowRight in LTR and ArrowLef
 - After a choice, focus stays on the chosen cell (Calendar, RangeCalendar).
 - **Pickers**: opening focuses the focused date's cell. Choosing a date (DatePicker) or a range's
   end (DateRangePicker) closes the popup (reason `item-press`) and focuses the Trigger. Escape
-  closes (reason `escape-key`) and focuses the Trigger.
+  closes (reason `escape-key`) and focuses the Trigger. Focus is not trapped: as in
+  [popover.md](popover.md#focus), the popup's content comes right after the Trigger in the tab
+  order. Tab from its last tabbable element closes (reason `focus-out`) and moves focus to the
+  element after the Trigger; Shift+Tab from its first closes (reason `focus-out`) and focuses the
+  Trigger.
 
 ## Pointer
 
@@ -274,7 +278,10 @@ Checks:
 4. Reopen: focus on November 24 (the value).
 5. Escape closes (`reason: escape-key`), focus on the trigger.
 6. Reopen, click outside: closes (`reason: outside-press`).
-7. Axe finds no violation while open.
+7. Reopen (focus on the date cell, the popup's last tabbable element), Tab: closes
+   (`reason: focus-out`). Reopen, Shift+Tab ×3 (Next month, Previous month, then out): closes
+   (`reason: focus-out`), focus on the trigger.
+8. Axe finds no violation while open.
 
 ### `/date-picker/range`
 
@@ -294,6 +301,7 @@ Measured against React Aria Components 1.22 (`Calendar`, `RangeCalendar`, `DateP
 | Today has no `aria-current="date"`; its name starts with "Today, " | `calendar / single › today is marked as the current date` |
 | Home and End move to the start and end of the **month**; the APG grid moves to the start and end of the **week** | `calendar / single › Home and End move to the start and end of the week`, `calendar / locale de-DE: Home goes to Monday` |
 | In a RangeCalendar, Enter that starts a range also moved the focus one day forward, so two ArrowRight presses ended the range three days later | `calendar / range › the keyboard chooses a range` |
+| The picker's popover is modal and contains focus: Tab and Shift+Tab cycle inside it instead of leaving and closing it | `date-picker / basic › Tab out of the popup closes it, as a popover` |
 
 React Aria also extends the cells' names (" selected", ", First available date", "Selected
 Range: ... to ..., " before the date). The behaviour layer finds a cell by the full date its name
