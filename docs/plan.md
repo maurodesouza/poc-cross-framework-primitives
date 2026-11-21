@@ -62,12 +62,12 @@ React 19, Vue 3.5, Angular 22 (standalone, signals, zoneless), Svelte 5 (runes),
 | A (#4) | foundation: monorepo, rules, specs of the six mandatory components, conformance suite, Base UI / React Aria baseline | done |
 | B (#10) | React reference: `@poc/dom`, `@poc/styles`, `@poc/react`, golden screenshots, metrics script, React report | done |
 | C (#14) | Vue port of the six components, then **the checkpoint report** | done |
-| checkpoint | the maintainer decides from `docs/reports/checkpoint.md`: continue, pivot (for example a Zag-like shared state core) or stop | |
-| D | Svelte and Solid ports | outlined after the checkpoint |
-| E | Angular port | outlined after the checkpoint |
+| checkpoint | the maintainer decides from `docs/reports/checkpoint.md`: continue, pivot (for example a Zag-like shared state core) or stop | continue (2026-11-20) |
+| D (#24) | Svelte and Solid (2.0) ports | done |
+| E (#29) | Angular port | planned |
 | F, G | the extras in every framework, and the final report | outlined after the checkpoint |
 
-Nothing after Epic C is planned or started before the checkpoint decision.
+Nothing after Epic C was planned or started before the checkpoint decision.
 
 ## Metrics
 
@@ -107,3 +107,9 @@ are separate, later projects).
 - 2026-11-20: Epic C done. `@poc/vue` passes every layer with no test changed, pixel-identical to
   React, at about 60% of React's effort. **Checkpoint**: `docs/reports/checkpoint.md` recommends
   continuing with adjustments; nothing after Epic C starts before the maintainer decides.
+- 2026-11-20: checkpoint decided: continue with Epics D (#24) and E (#29), Solid 2.0, part hooks
+  only where a framework's API needs them, the screen reader check stays a manual spot check.
+- 2026-11-20: Epic D done. `@poc/svelte` and `@poc/solid` pass every layer with no test changed,
+  pixel-identical to React. Before them, the overlay lifecycle and the Tabs and Menu key maps
+  moved into `@poc/dom` (`openOverlaySession`, `tabsKeyTarget`, `menuKeyTarget`). Reports:
+  `docs/reports/svelte.md`, `docs/reports/solid.md`.

@@ -1,0 +1,311 @@
+{
+    "framework": "solid",
+    "generatedAt": "2026-11-21T00:54:00.931Z",
+    "loc": {
+        "components": [
+            {
+                "component": "dialog",
+                "framework": 269,
+                "dom": 214,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "inert/inert-outside.ts",
+                    "overlay/overlay-session.ts",
+                    "presence/presence.ts",
+                    "scroll-lock/lock-scroll.ts"
+                ]
+            },
+            {
+                "component": "popover",
+                "framework": 342,
+                "dom": 381,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "focus/tabbable.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "menu",
+                "framework": 687,
+                "dom": 456,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "direction/direction.ts",
+                    "focus/tabbable.ts",
+                    "overlay/overlay-session.ts",
+                    "pointer/safe-area.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "combobox",
+                "framework": 537,
+                "dom": 315,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tabs",
+                "framework": 357,
+                "dom": 67,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "direction/direction.ts"
+                ]
+            },
+            {
+                "component": "calendar",
+                "framework": 757,
+                "dom": 448,
+                "domModules": [
+                    "date/calendar-keys.ts",
+                    "date/date-math.ts",
+                    "date/locale-data.ts",
+                    "date/month-grid.ts",
+                    "date/plain-date.ts",
+                    "direction/direction.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "date-picker",
+                "framework": 254,
+                "dom": 258,
+                "domModules": [
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            }
+        ],
+        "shared": 385,
+        "domTotal": 1111
+    },
+    "sizes": [
+        {
+            "component": "dialog",
+            "ours": {
+                "entry": "export { Dialog } from \"@poc/solid\";",
+                "minified": 12739,
+                "gzip": 4197
+            },
+            "baseline": {
+                "entry": "export { Dialog } from \"@kobalte/core/dialog\";",
+                "minified": 32159,
+                "gzip": 9786
+            }
+        },
+        {
+            "component": "popover",
+            "ours": {
+                "entry": "export { Popover } from \"@poc/solid\";",
+                "minified": 38504,
+                "gzip": 12390
+            },
+            "baseline": {
+                "entry": "export { Popover } from \"@kobalte/core/popover\";",
+                "minified": 64165,
+                "gzip": 19916
+            }
+        },
+        {
+            "component": "menu",
+            "ours": {
+                "entry": "export { Menu } from \"@poc/solid\";",
+                "minified": 45252,
+                "gzip": 14292
+            },
+            "baseline": {
+                "entry": "export { DropdownMenu } from \"@kobalte/core/dropdown-menu\";",
+                "minified": 111276,
+                "gzip": 31136
+            }
+        },
+        {
+            "component": "combobox",
+            "ours": {
+                "entry": "export { Combobox } from \"@poc/solid\";",
+                "minified": 40083,
+                "gzip": 12780
+            },
+            "baseline": {
+                "entry": "export { Combobox } from \"@kobalte/core/combobox\";",
+                "minified": 118071,
+                "gzip": 33573
+            }
+        },
+        {
+            "component": "tabs",
+            "ours": {
+                "entry": "export { Tabs } from \"@poc/solid\";",
+                "minified": 8270,
+                "gzip": 2963
+            },
+            "baseline": {
+                "entry": "export { Tabs } from \"@kobalte/core/tabs\";",
+                "minified": 41771,
+                "gzip": 11747
+            }
+        },
+        {
+            "component": "calendar",
+            "ours": {
+                "entry": "export { Calendar, RangeCalendar } from \"@poc/solid\";",
+                "minified": 15409,
+                "gzip": 5106
+            },
+            "baseline": null
+        },
+        {
+            "component": "date-picker",
+            "ours": {
+                "entry": "export { DatePicker, DateRangePicker } from \"@poc/solid\";",
+                "minified": 35995,
+                "gzip": 11669
+            },
+            "baseline": null
+        }
+    ],
+    "conformance": {
+        "baseline": {
+            "behaviour": {
+                "passed": 79,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 11
+            }
+        },
+        "react": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "vue": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "svelte": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "solid": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        }
+    },
+    "effort": {
+        "dialog": {
+            "commits": 1,
+            "first": "2026-11-20T21:41:06-03:00",
+            "last": "2026-11-20T21:41:06-03:00"
+        },
+        "popover": {
+            "commits": 1,
+            "first": "2026-11-20T21:41:06-03:00",
+            "last": "2026-11-20T21:41:06-03:00"
+        },
+        "menu": {
+            "commits": 1,
+            "first": "2026-11-20T21:41:06-03:00",
+            "last": "2026-11-20T21:41:06-03:00"
+        },
+        "combobox": {
+            "commits": 1,
+            "first": "2026-11-20T21:51:17-03:00",
+            "last": "2026-11-20T21:51:17-03:00"
+        },
+        "tabs": {
+            "commits": 1,
+            "first": "2026-11-20T21:51:17-03:00",
+            "last": "2026-11-20T21:51:17-03:00"
+        },
+        "calendar": {
+            "commits": 1,
+            "first": "2026-11-20T21:51:17-03:00",
+            "last": "2026-11-20T21:51:17-03:00"
+        },
+        "date-picker": {
+            "commits": 1,
+            "first": "2026-11-20T21:51:17-03:00",
+            "last": "2026-11-20T21:51:17-03:00"
+        }
+    }
+}

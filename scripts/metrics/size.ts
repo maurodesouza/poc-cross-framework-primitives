@@ -1,3 +1,6 @@
+import { createRequire } from "node:module";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { gzipSync } from "node:zlib";
 import { build } from "esbuild";
 
@@ -33,5 +36,65 @@ export async function bundleSize(
         entry: code,
         minified: output.byteLength,
         gzip: gzipSync(output).byteLength,
+    };
+}
+
+/**
+ * The same measure for packages that ship framework source (`.svelte` files, Solid JSX): one
+ * import, built with Vite in library mode and the framework's plugin, resolved from `resolveDir`
+ * (a fixture that has Vite and the plugin), minified, then gzipped.
+ */
+export async function viteBundleSize(
+    code: string,
+    resolveDir: string,
+    external: readonly string[],
+    plugin: { name: string; factory: string },
+): Promise<SizeEntry> {
+    const require = createRequire(join(resolveDir, "package.json"));
+    const load = (name: string) =>
+        import(pathToFileURL(require.resolve(name)).href);
+    const vite = await load("vite");
+    const framework = await load(plugin.name);
+    const entry = "\0size-entry";
+    const result = await vite.build({
+        root: resolveDir,
+        configFile: false,
+        logLevel: "silent",
+        plugins: [
+            {
+                name: "size-entry",
+                enforce: "pre",
+                resolveId: (id: string) =>
+                    id.endsWith("size-entry") ? entry : null,
+                load: (id: string) => (id === entry ? code : null),
+            },
+            framework[plugin.factory](),
+        ],
+        build: {
+            write: false,
+            minify: true,
+            lib: { entry: "size-entry", formats: ["es"], fileName: "entry" },
+            rolldownOptions: {
+                external: (id: string) =>
+                    external.some(
+                        (name) => id === name || id.startsWith(`${name}/`),
+                    ),
+            },
+        },
+    });
+    const outputs = Array.isArray(result) ? result : [result];
+    const chunk = outputs
+        .flatMap(
+            (output: { output: { type: string; code?: string }[] }) =>
+                output.output,
+        )
+        .find((file: { type: string }) => file.type === "chunk") as
+        | { code: string }
+        | undefined;
+    const bytes = Buffer.from(chunk?.code ?? "");
+    return {
+        entry: code,
+        minified: bytes.byteLength,
+        gzip: gzipSync(bytes).byteLength,
     };
 }

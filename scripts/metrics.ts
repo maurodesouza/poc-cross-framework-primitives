@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { conformanceResults } from "./metrics/conformance.ts";
 import { effortOf } from "./metrics/effort.ts";
 import { type Metrics, renderTables } from "./metrics/report.ts";
-import { bundleSize } from "./metrics/size.ts";
+import { bundleSize, viteBundleSize } from "./metrics/size.ts";
 import {
     COMPONENTS,
     componentLoc,
@@ -22,6 +22,8 @@ const FRAMEWORKS: Record<
     {
         fixture: string;
         external: string[];
+        /** The Vite plugin that compiles the package's source; esbuild bundles it when absent. */
+        plugin?: { name: string; factory: string };
         ours: (namespace: string) => string;
         baseline?: {
             fixture: string;
@@ -70,6 +72,44 @@ const FRAMEWORKS: Record<
             },
         },
     },
+    svelte: {
+        fixture: "fixtures/svelte",
+        external: ["svelte"],
+        plugin: { name: "@sveltejs/vite-plugin-svelte", factory: "svelte" },
+        ours: (namespace) => `export { ${namespace} } from "@poc/svelte";`,
+        // Bits UI 2.21 (resolved from the root through the fixture, which has the Svelte plugin)
+        baseline: {
+            fixture: "fixtures/svelte",
+            imports: {
+                dialog: 'export { Dialog } from "bits-ui";',
+                popover: 'export { Popover } from "bits-ui";',
+                menu: 'export { DropdownMenu } from "bits-ui";',
+                combobox: 'export { Combobox } from "bits-ui";',
+                tabs: 'export { Tabs } from "bits-ui";',
+                calendar: 'export { Calendar, RangeCalendar } from "bits-ui";',
+                "date-picker":
+                    'export { DatePicker, DateRangePicker } from "bits-ui";',
+            },
+        },
+    },
+    solid: {
+        fixture: "fixtures/solid",
+        external: ["solid-js", "@solidjs/web"],
+        plugin: { name: "@solidjs/vite-plugin", factory: "default" },
+        ours: (namespace) => `export { ${namespace} } from "@poc/solid";`,
+        // Kobalte 0.13 targets Solid 1.9 (its compiled build; `solid-js` external): indicative
+        // only. It has no calendar or date picker.
+        baseline: {
+            fixture: "fixtures/solid",
+            imports: {
+                dialog: 'export { Dialog } from "@kobalte/core/dialog";',
+                popover: 'export { Popover } from "@kobalte/core/popover";',
+                menu: 'export { DropdownMenu } from "@kobalte/core/dropdown-menu";',
+                combobox: 'export { Combobox } from "@kobalte/core/combobox";',
+                tabs: 'export { Tabs } from "@kobalte/core/tabs";',
+            },
+        },
+    },
 };
 
 const NAMESPACES: Record<string, string> = {
@@ -102,17 +142,19 @@ async function main(): Promise<void> {
     const loc = componentLoc(root, framework);
     const sizes = [];
     for (const component of COMPONENTS) {
-        const ours = await bundleSize(
+        const measure = (code: string, dir: string) =>
+            config.plugin
+                ? viteBundleSize(code, dir, config.external, config.plugin)
+                : bundleSize(code, dir, config.external);
+        const ours = await measure(
             config.ours(NAMESPACES[component] ?? component),
             join(root, config.fixture),
-            config.external,
         );
         const baselineCode = config.baseline?.imports[component];
         const baseline = baselineCode
-            ? await bundleSize(
+            ? await measure(
                   baselineCode,
                   join(root, config.baseline?.fixture ?? ""),
-                  config.external,
               )
             : null;
         sizes.push({ component, ours, baseline });
