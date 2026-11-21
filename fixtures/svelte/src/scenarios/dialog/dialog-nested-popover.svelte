@@ -1,0 +1,4 @@
+<script lang="ts">
+import { dialog, popover } from "@poc/styles";
+import { Dialog, Popover } from "@poc/svelte";
+</script><Dialog.Root><Dialog.Trigger class={dialog.trigger}>Open dialog</Dialog.Trigger><Dialog.Portal><Dialog.Backdrop class={dialog.backdrop} /><Dialog.Popup class={dialog.popup}><Dialog.Title class={dialog.title}>Edit profile</Dialog.Title><Dialog.Description class={dialog.description}>Change your display name.</Dialog.Description><Popover.Root><Popover.Trigger class={popover.trigger}>More info</Popover.Trigger><Popover.Portal><Popover.Positioner class={popover.positioner} sideOffset={4}><Popover.Popup class={popover.popup}><Popover.Title class={popover.title}>About names</Popover.Title><Popover.Close class={popover.close}>Got it</Popover.Close></Popover.Popup></Popover.Positioner></Popover.Portal></Popover.Root><Dialog.Close class={dialog.close}>Close</Dialog.Close></Dialog.Popup></Dialog.Portal></Dialog.Root>
