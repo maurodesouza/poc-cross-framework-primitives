@@ -27,7 +27,17 @@ export function mountPortal(
     let view: EmbeddedViewRef<unknown> | null = null;
     let moved: Node[] = [];
     inject(DestroyRef).onDestroy(() => {
-        for (const node of moved) {
+        // the view's root nodes now (a root `@if` / `@for` adds nodes after the move), and the
+        // ones moved at first
+        const nodes = new Set<Node>(moved);
+        try {
+            for (const node of (view?.rootNodes ?? []) as Node[]) {
+                nodes.add(node);
+            }
+        } catch {
+            // a view already destroyed with its parent: the nodes moved at first are all we know
+        }
+        for (const node of nodes) {
             node.parentNode?.removeChild(node);
         }
         moved = [];

@@ -1,11 +1,4 @@
-import {
-    computed,
-    Directive,
-    input,
-    model,
-    output,
-    signal,
-} from "@angular/core";
+import { computed, Directive, input, output, signal } from "@angular/core";
 import type { OpenChangeEvent } from "../../utils/change-details.ts";
 import { createOverlayRoot } from "../../utils/overlay-root.ts";
 
@@ -20,7 +13,8 @@ export interface DialogState {
 @Directive({ selector: "[dialogRoot]", exportAs: "dialogRoot" })
 export class DialogRoot {
     /** The open state: two-way `[(open)]`, one-way `[open]`, or the dialog's own. */
-    readonly open = model<boolean | undefined>(undefined);
+    readonly open = input<boolean | undefined>(undefined);
+    readonly openChange = output<boolean>();
     readonly defaultOpen = input(false);
     /** Every change of the open state with its reason (`(openChange)` emits the value alone). */
     readonly openChangeDetails = output<OpenChangeEvent>();

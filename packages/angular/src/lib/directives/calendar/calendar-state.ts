@@ -3,7 +3,7 @@ import {
     computed,
     InjectionToken,
     inject,
-    type ModelSignal,
+    type OutputEmitterRef,
     type Signal,
     signal,
     untracked,
@@ -51,7 +51,8 @@ export interface CellState {
 
 /** The inputs a Calendar or RangeCalendar root hands its state (spec/calendar.md). */
 export interface CalendarInputs {
-    value: ModelSignal<CalendarValue | undefined>;
+    value: Signal<CalendarValue | undefined>;
+    valueChange: OutputEmitterRef<CalendarValue>;
     defaultValue: Signal<CalendarValue | undefined>;
     min: Signal<PlainDate | null | undefined>;
     max: Signal<PlainDate | null | undefined>;
@@ -89,6 +90,7 @@ export class CalendarState {
     );
     private readonly own = controllable<CalendarValue, ChangeDetails>(
         this.inputs.value,
+        this.inputs.valueChange,
         () => this.inputs.defaultValue() ?? null,
         (value, details) => this.emit(value, details),
     );

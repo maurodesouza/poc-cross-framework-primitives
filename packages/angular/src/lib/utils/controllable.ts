@@ -1,7 +1,8 @@
 import {
     computed,
-    type ModelSignal,
+    type OutputEmitterRef,
     type Signal,
+    signal,
     untracked,
 } from "@angular/core";
 
@@ -11,21 +12,28 @@ export interface Controllable<T, Details> {
 }
 
 /**
- * A value bound with `model()` (spec/README.md, API mapping: Angular): the bound value when the
- * consumer gives one (`[(open)]`, `[open]`), its own otherwise, seeded once by `fallback()` (the
- * `default*` input, read on first use, after the inputs are set). A change sets the model, which
- * emits its `*Change` output, and reports the details.
+ * A value given as an input with its `*Change` output (spec/README.md, API mapping: Angular):
+ * controlled when the consumer binds it (`[(open)]` or a one-way `[open]`), which it only reports
+ * through the output; its own otherwise, seeded once by `fallback()` (the `default*` input, read on
+ * first use, after the inputs are set). Not a `model()`: a model writes its own value on change,
+ * so a one-way binding, or a consumer keeping the old value, would lose control.
  */
 export function controllable<T, Details>(
-    model: ModelSignal<T | undefined>,
+    bound: Signal<T | undefined>,
+    change: OutputEmitterRef<T>,
     fallback: () => T,
     onChange: (value: T, details: Details) => void,
 ): Controllable<T, Details> {
     let seed: { value: T } | null = null;
+    const own = signal<{ value: T } | null>(null);
     const value = computed(() => {
-        const bound = model();
-        if (bound !== undefined) {
-            return bound;
+        const given = bound();
+        if (given !== undefined) {
+            return given;
+        }
+        const local = own();
+        if (local !== null) {
+            return local.value;
         }
         seed ??= { value: untracked(fallback) };
         return seed.value;
@@ -36,7 +44,10 @@ export function controllable<T, Details>(
             if (Object.is(untracked(value), next)) {
                 return;
             }
-            model.set(next);
+            if (untracked(bound) === undefined) {
+                own.set({ value: next });
+            }
+            change.emit(next);
             onChange(next, details);
         },
     };

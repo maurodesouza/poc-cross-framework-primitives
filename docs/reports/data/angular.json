@@ -1,11 +1,11 @@
 {
     "framework": "angular",
-    "generatedAt": "2026-11-21T01:45:21.975Z",
+    "generatedAt": "2026-11-21T01:55:01.617Z",
     "loc": {
         "components": [
             {
                 "component": "dialog",
-                "framework": 270,
+                "framework": 264,
                 "dom": 219,
                 "domModules": [
                     "focus/focus-trap.ts",
@@ -18,7 +18,7 @@
             },
             {
                 "component": "popover",
-                "framework": 339,
+                "framework": 333,
                 "dom": 386,
                 "domModules": [
                     "focus/focus-trap.ts",
@@ -49,7 +49,7 @@
             },
             {
                 "component": "combobox",
-                "framework": 525,
+                "framework": 529,
                 "dom": 320,
                 "domModules": [
                     "collection/list-navigation.ts",
@@ -62,7 +62,7 @@
             },
             {
                 "component": "tabs",
-                "framework": 374,
+                "framework": 375,
                 "dom": 72,
                 "domModules": [
                     "collection/key-maps.ts",
@@ -72,7 +72,7 @@
             },
             {
                 "component": "calendar",
-                "framework": 750,
+                "framework": 756,
                 "dom": 453,
                 "domModules": [
                     "date/calendar-keys.ts",
@@ -89,7 +89,7 @@
             },
             {
                 "component": "date-picker",
-                "framework": 327,
+                "framework": 333,
                 "dom": 263,
                 "domModules": [
                     "id/create-id.ts",
@@ -100,7 +100,7 @@
                 ]
             }
         ],
-        "shared": 500,
+        "shared": 524,
         "domTotal": 1111
     },
     "sizes": [
@@ -108,8 +108,8 @@
             "component": "dialog",
             "ours": {
                 "entry": "export { DialogBackdrop, DialogClose, DialogDescription, DialogPopup, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from \"@poc/angular\";",
-                "minified": 15599,
-                "gzip": 4385
+                "minified": 15824,
+                "gzip": 4457
             },
             "baseline": {
                 "entry": "export { Dialog, CdkDialogContainer } from \"@angular/cdk/dialog\";",
@@ -121,8 +121,8 @@
             "component": "popover",
             "ours": {
                 "entry": "export { PopoverArrow, PopoverClose, PopoverDescription, PopoverPopup, PopoverPortal, PopoverPositioner, PopoverRoot, PopoverTitle, PopoverTrigger } from \"@poc/angular\";",
-                "minified": 41891,
-                "gzip": 12657
+                "minified": 42112,
+                "gzip": 12737
             },
             "baseline": {
                 "entry": "export { CdkConnectedOverlay, CdkOverlayOrigin } from \"@angular/cdk/overlay\";",
@@ -134,8 +134,8 @@
             "component": "menu",
             "ours": {
                 "entry": "export { MenuGroup, MenuGroupLabel, MenuItem, MenuPopup, MenuPortal, MenuPositioner, MenuRoot, MenuSeparator, MenuSubmenuTrigger, MenuTrigger } from \"@poc/angular\";",
-                "minified": 50557,
-                "gzip": 14754
+                "minified": 50782,
+                "gzip": 14837
             },
             "baseline": {
                 "entry": "export { Menu, MenuContent, MenuItem, MenuTrigger } from \"@angular/aria/menu\";",
@@ -147,8 +147,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList, ComboboxPopup, ComboboxPortal, ComboboxPositioner, ComboboxRoot, ComboboxTrigger } from \"@poc/angular\";",
-                "minified": 44627,
-                "gzip": 13176
+                "minified": 44957,
+                "gzip": 13265
             },
             "baseline": {
                 "entry": "export { Combobox, ComboboxPopup, ComboboxWidget } from \"@angular/aria/combobox\"; export { Listbox, Option } from \"@angular/aria/listbox\";",
@@ -160,8 +160,8 @@
             "component": "tabs",
             "ours": {
                 "entry": "export { TabsIndicator, TabsList, TabsPanel, TabsRoot, TabsTab } from \"@poc/angular\";",
-                "minified": 10226,
-                "gzip": 3100
+                "minified": 10368,
+                "gzip": 3120
             },
             "baseline": {
                 "entry": "export { Tab, TabContent, TabList, TabPanel, Tabs } from \"@angular/aria/tabs\";",
@@ -173,8 +173,8 @@
             "component": "calendar",
             "ours": {
                 "entry": "export { CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading, CalendarNextButton, CalendarPrevButton, CalendarRoot, CalendarRow, RangeCalendarRoot } from \"@poc/angular\";",
-                "minified": 22042,
-                "gzip": 5501
+                "minified": 22277,
+                "gzip": 5558
             },
             "baseline": null
         },
@@ -182,8 +182,8 @@
             "component": "date-picker",
             "ours": {
                 "entry": "export { DatePickerPopup, DatePickerPortal, DatePickerPositioner, DatePickerRoot, DatePickerTrigger, DateRangePickerRoot } from \"@poc/angular\";",
-                "minified": 39625,
-                "gzip": 12097
+                "minified": 40056,
+                "gzip": 12191
             },
             "baseline": null
         }

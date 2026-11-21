@@ -3,7 +3,6 @@ import {
     computed,
     Directive,
     input,
-    model,
     output,
     signal,
 } from "@angular/core";
@@ -40,13 +39,16 @@ export interface ComboboxState {
  */
 @Directive({ selector: "[comboboxRoot]", exportAs: "comboboxRoot" })
 export class ComboboxRoot {
-    readonly open = model<boolean | undefined>(undefined);
+    readonly open = input<boolean | undefined>(undefined);
+    readonly openChange = output<boolean>();
     readonly defaultOpen = input(false);
     readonly openChangeDetails = output<OpenChangeEvent>();
-    readonly value = model<string | null | undefined>(undefined);
+    readonly value = input<string | null | undefined>(undefined);
+    readonly valueChange = output<string | null>();
     readonly defaultValue = input<string | null>(null);
     readonly valueChangeDetails = output<ValueChangeEvent<string | null>>();
-    readonly inputValue = model<string | undefined>(undefined);
+    readonly inputValue = input<string | undefined>(undefined);
+    readonly inputValueChange = output<string>();
     readonly defaultInputValue = input("");
     readonly inputValueChangeDetails = output<ValueChangeEvent<string>>();
     readonly disabled = input(false, { transform: booleanAttribute });
@@ -58,11 +60,13 @@ export class ComboboxRoot {
     );
     private readonly selection = controllable<string | null, ChangeDetails>(
         this.value,
+        this.valueChange,
         () => this.defaultValue(),
         (value, details) => this.valueChangeDetails.emit({ value, details }),
     );
     private readonly text = controllable<string, ChangeDetails>(
         this.inputValue,
+        this.inputValueChange,
         () => this.defaultInputValue(),
         (value, details) =>
             this.inputValueChangeDetails.emit({ value, details }),

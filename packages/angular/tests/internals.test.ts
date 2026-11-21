@@ -1,7 +1,8 @@
-import { ElementRef } from "@angular/core";
+import { ElementRef, type OutputEmitterRef, signal } from "@angular/core";
 import { describe, expect, it } from "vitest";
 import { menuItems } from "../src/lib/directives/menu/menu-items.ts";
 import { resolveFocusTarget } from "../src/lib/utils/change-details.ts";
+import { controllable } from "../src/lib/utils/controllable.ts";
 import { portalContainer } from "../src/lib/utils/portal.ts";
 import { dataValue, dataValues } from "../src/lib/utils/state-attributes.ts";
 
@@ -44,5 +45,46 @@ describe("menuItems", () => {
             "A",
             "C",
         ]);
+    });
+});
+
+describe("controllable", () => {
+    const emitter = (log: boolean[]) =>
+        ({
+            emit: (value: boolean) => log.push(value),
+        }) as unknown as OutputEmitterRef<boolean>;
+
+    it("only reports a change while bound, and follows the binding", () => {
+        const bound = signal<boolean | undefined>(false);
+        const emitted: boolean[] = [];
+        const state = controllable(
+            bound,
+            emitter(emitted),
+            () => false,
+            () => {},
+        );
+        state.set(true, null);
+        expect(emitted).toEqual([true]);
+        expect(state.value()).toBe(false); // the consumer did not accept it
+        bound.set(true);
+        expect(state.value()).toBe(true);
+    });
+
+    it("keeps its own value when unbound, seeded once by the default", () => {
+        const bound = signal<boolean | undefined>(undefined);
+        const fallback = signal(true);
+        const emitted: boolean[] = [];
+        const state = controllable(
+            bound,
+            emitter(emitted),
+            () => fallback(),
+            () => {},
+        );
+        expect(state.value()).toBe(true);
+        fallback.set(false);
+        expect(state.value()).toBe(true);
+        state.set(false, null);
+        expect(state.value()).toBe(false);
+        expect(emitted).toEqual([false]);
     });
 });

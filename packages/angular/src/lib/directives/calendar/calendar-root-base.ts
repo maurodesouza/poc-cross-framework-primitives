@@ -46,10 +46,12 @@ export abstract class CalendarRootBase {
     /** The inputs the state reads, with the root's own value model. */
     protected stateInputs(
         value: CalendarInputs["value"],
+        valueChange: CalendarInputs["valueChange"],
         defaultValue: CalendarInputs["defaultValue"],
     ): CalendarInputs {
         return {
             value,
+            valueChange,
             defaultValue,
             min: this.min,
             max: this.max,

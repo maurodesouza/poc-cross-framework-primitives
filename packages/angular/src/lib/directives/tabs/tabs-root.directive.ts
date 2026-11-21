@@ -4,7 +4,6 @@ import {
     computed,
     Directive,
     input,
-    model,
     output,
     signal,
     untracked,
@@ -39,7 +38,8 @@ export interface TabsRootState {
     },
 })
 export class TabsRoot {
-    readonly value = model<string | undefined>(undefined);
+    readonly value = input<string | undefined>(undefined);
+    readonly valueChange = output<string>();
     /** Default: the first enabled tab. */
     readonly defaultValue = input<string | undefined>(undefined);
     readonly valueChangeDetails = output<ValueChangeEvent<string>>();
@@ -53,6 +53,7 @@ export class TabsRoot {
         ChangeDetails
     >(
         this.value,
+        this.valueChange,
         () => this.defaultValue(),
         (value, details) =>
             this.valueChangeDetails.emit({ value: value ?? "", details }),

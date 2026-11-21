@@ -3,8 +3,7 @@ import {
     forwardRef,
     inject,
     input,
-    type ModelSignal,
-    model,
+    type OutputEmitterRef,
     output,
 } from "@angular/core";
 import type { DateRange } from "@poc/dom";
@@ -29,13 +28,15 @@ import type { CalendarValue } from "./calendar-value.ts";
     ],
 })
 export class RangeCalendarRoot extends CalendarRootBase {
-    readonly value = model<DateRange | null | undefined>(undefined);
+    readonly value = input<DateRange | null | undefined>(undefined);
+    readonly valueChange = output<DateRange | null>();
     readonly defaultValue = input<DateRange | null | undefined>(undefined);
     readonly valueChangeDetails = output<ValueChangeEvent<DateRange | null>>();
     readonly calendar = new CalendarState(
         "range",
         this.stateInputs(
-            this.value as unknown as ModelSignal<CalendarValue | undefined>,
+            this.value,
+            this.valueChange as unknown as OutputEmitterRef<CalendarValue>,
             this.defaultValue,
         ),
         (value, details) =>

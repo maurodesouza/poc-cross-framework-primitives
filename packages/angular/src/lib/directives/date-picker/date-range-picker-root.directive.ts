@@ -3,8 +3,7 @@ import {
     forwardRef,
     inject,
     input,
-    type ModelSignal,
-    model,
+    type OutputEmitterRef,
     output,
 } from "@angular/core";
 import type { DateRange } from "@poc/dom";
@@ -29,17 +28,19 @@ import { createDatePicker, DATE_PICKER } from "./date-picker-state.ts";
     ],
 })
 export class DateRangePickerRoot extends DatePickerRootBase {
-    readonly value = model<DateRange | null | undefined>(undefined);
+    readonly value = input<DateRange | null | undefined>(undefined);
+    readonly valueChange = output<DateRange | null>();
     readonly defaultValue = input<DateRange | null | undefined>(undefined);
     readonly valueChangeDetails = output<ValueChangeEvent<DateRange | null>>();
     readonly picker = createDatePicker(
         "range",
         {
             open: this.open,
+            openChange: this.openChange,
             defaultOpen: this.defaultOpen,
-            value: this.value as unknown as ModelSignal<
-                CalendarValue | undefined
-            >,
+            value: this.value,
+            valueChange: this
+                .valueChange as unknown as OutputEmitterRef<CalendarValue>,
             defaultValue: this.defaultValue,
             options: this.options,
         },

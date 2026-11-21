@@ -2,7 +2,7 @@ import {
     computed,
     InjectionToken,
     type InputSignal,
-    type ModelSignal,
+    type OutputEmitterRef,
     type Signal,
 } from "@angular/core";
 import type {
@@ -20,9 +20,11 @@ import type {
 
 /** The inputs a DatePicker or DateRangePicker root hands its state. */
 export interface DatePickerInputs {
-    open: ModelSignal<boolean | undefined>;
+    open: Signal<boolean | undefined>;
+    openChange: OutputEmitterRef<boolean>;
     defaultOpen: InputSignal<boolean>;
-    value: ModelSignal<CalendarValue | undefined>;
+    value: Signal<CalendarValue | undefined>;
+    valueChange: OutputEmitterRef<CalendarValue>;
     defaultValue: Signal<CalendarValue | undefined>;
     options: Signal<CalendarOptions>;
 }
@@ -43,6 +45,7 @@ export function createDatePicker(
     const overlay = createOverlayRoot(inputs, emitOpen, "poc-date-picker");
     const state = controllable<CalendarValue, ChangeDetails>(
         inputs.value,
+        inputs.valueChange,
         () => inputs.defaultValue() ?? null,
         emitValue,
     );

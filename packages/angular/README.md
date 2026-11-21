@@ -9,9 +9,11 @@ Angular's own means (spec/README.md, "API mapping by framework"):
   its listeners. Selectors are `[dialogPopup]`, classes `DialogPopup`, `exportAs` `dialogPopup`.
 - **roots render nothing**: `<ng-container dialogRoot [(open)]="open">`. Parts find their root by
   dependency injection, so a part works anywhere inside it, a component of the consumer's included.
-- **state**: `open = model<boolean>()` (two-way `[(open)]`, one-way `[open]`, or the root's own,
-  seeded once by `defaultOpen`); `(openChangeDetails)` emits `{ open, details }` with the reason,
-  besides the model's own `(openChange)`. Values follow the same shape (`[(value)]`,
+- **state**: an `open` input with its `openChange` output (two-way `[(open)]`, one-way `[open]`,
+  or the root's own, seeded once by `defaultOpen`). Bound, the root is controlled: it only emits
+  the change, so a consumer can keep the old value. `(openChangeDetails)` emits
+  `{ open, details }` with the reason. Not a `model()`: a model writes its own value on change, so
+  a one-way binding would not stay controlled. Values follow the same shape (`[(value)]`,
   `(valueChangeDetails)`). Each part exposes a `state()` signal through `exportAs`
   (`#popup="dialogPopup"`), and writes it as `data-*` attributes.
 - **portals are structural**: `<ng-container *dialogPortal>` renders its view while the overlay is
@@ -57,7 +59,8 @@ The fixture (`fixtures/angular`) compiles these sources with the app, through
 | fixture DOM | an Angular component has a host element, which React's tree does not: every scenario component uses an attribute selector and its host *is* an element of React's DOM (`<main scenario-dialog-basic>`, `<p placedPopover>`, `<pre fixtureOutput>`) | `fixtures/angular` |
 | fixture text | Angular removes whitespace-only text nodes between tags (as JSX does), but keeps a collapsed space around text that touches a line break: text is written against its tags (`<label>Name<input /></label>`) | `fixtures/angular` |
 | roots | a root has no element of its own: it is an attribute directive on an `<ng-container>` (a comment node), found by dependency injection | `@poc/angular` |
-| change details | `model()` named `open` owns the `openChange` output, so the details come in `openChangeDetails` | `@poc/angular`, `spec/README.md` |
+| change details | `[(open)]` needs an `openChange` output that emits the value alone, so the details come in `openChangeDetails` | `@poc/angular`, `spec/README.md` |
+| controlled state (found in review) | the first version used `model()`, which writes its own value on change: a one-way `[open]`, or a consumer keeping the old value, lost control. Roots now take an input and a `*Change` output, and keep their own value only while unbound | `@poc/angular`, `spec/README.md`, `AGENTS.md` |
 | portal | `*dialogPortal` without a value binds `""`: the input's transform reads it as the default container | `@poc/angular` |
 | Menu keyboard | two quick ArrowDown presses both reached the trigger: zoneless Angular renders a state change in a later task, after input the browser already queued, so the popup (and the focus on its first item) came too late. An open change renders at once (`injectFlush`, `ApplicationRef.tick()` from the event handler), as React renders a discrete event's state before the next one | `@poc/angular` |
 | submenu portal | a submenu's portal lives inside its parent's popup; destroying the parent's view detaches only that view's own nodes, so the submenu's nodes (moved to `body`) stayed: the portal removes the nodes it moved when it is destroyed | `@poc/angular` |

@@ -6,7 +6,6 @@ import {
     HostAttributeToken,
     inject,
     input,
-    model,
     output,
 } from "@angular/core";
 import { createTypeahead } from "@poc/dom";
@@ -36,7 +35,8 @@ export interface MenuState {
     exportAs: "menuRoot",
 })
 export class MenuRoot {
-    readonly open = model<boolean | undefined>(undefined);
+    readonly open = input<boolean | undefined>(undefined);
+    readonly openChange = output<boolean>();
     readonly defaultOpen = input(false);
     /** Arrow keys wrap at the ends (default `true`). */
     readonly loop = input(true, { transform: booleanAttribute });

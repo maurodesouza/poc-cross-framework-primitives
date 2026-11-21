@@ -31,8 +31,10 @@ driven by how far the framework's rendering model is from React's.
 | `angular` | 90 / 90 | 16 / 16 | 16 / 16 |
 | `baseline` (Base UI 1.9, React Aria) | 79 / 90, 11 expected failures | not run | not run |
 
-Visual results come from CI (`pnpm e2e`, every layer) and from local `VISUAL=1` runs on the same
-machine; the local data files record the visual layer as skipped.
+Visual results: React made the golden set in CI; Vue, Svelte and Solid passed against it in
+their pull requests' CI; Angular passed against React's screenshots on the same machine
+(`VISUAL=1`), and against the golden set in the Epic E pull request's CI. The local data files
+record the visual layer as skipped.
 
 ## 2. Same UI from one styling layer: confirmed
 
@@ -56,8 +58,8 @@ the recipes gets the same UI whatever the framework.
 | --- | --- | --- | --- | --- | --- |
 | agent minutes for the six components | ~17.7 | ~11 | ~12.8 | ~29 | ~34 |
 | relative to React | 1.0 | 0.6 | 0.7 | 1.6 | 1.9 |
-| component lines | 3298 | 3474 | 3265 | 3205 | 3286 |
-| shared infrastructure lines | 372 | 419 | 332 | 387 | 500 |
+| component lines | 3298 | 3474 | 3265 | 3205 | 3291 |
+| shared infrastructure lines | 372 | 419 | 332 | 387 | 524 |
 
 Commit timestamps of agent runs: a proxy, not human time. React's run includes designing every
 pattern; Angular's includes its spike.
@@ -98,6 +100,7 @@ port met a bug that also existed in React.
 | focusing a calendar cell that mounts after the key moved to it | React, Vue (by design), Angular (`injectFlush`) |
 | a calendar inside a closing picker taking focus back from the trigger | Solid, Angular (their effect order) |
 | a controlled `inputValue` the consumer keeps unchanged | Solid, Angular (React re-asserts natively) |
+| a controlled value a one-way binding keeps (Angular's `model()` wrote its own) | Angular |
 
 The last one is a gap in the suite, not only a fix: no conformance test rejects an input change,
 so Vue and Svelte were not checked for it. It belongs in the suite before the extras.
@@ -109,13 +112,13 @@ and gzipped with the framework external, against each framework's reference libr
 
 | component | React | Base UI / RAC | Vue | Reka UI | Svelte | Bits UI | Solid | Kobalte | Angular | CDK / Aria |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Dialog | 3.6 | 23.4 | 3.7 | 11.6 | 4.7 | 16.6 | 4.1 | 9.6 | 4.3 | 16.0 |
+| Dialog | 3.6 | 23.4 | 3.7 | 11.6 | 4.7 | 16.6 | 4.1 | 9.6 | 4.4 | 16.0 |
 | Popover | 10.9 | 40.2 | 11.1 | 22.1 | 12.8 | 32.2 | 12.1 | 19.4 | 12.4 | 14.2 |
-| Menu | 12.6 | 60.2 | 12.6 | 28.0 | 14.9 | 40.1 | 14.0 | 30.4 | 14.4 | 8.0 |
-| Combobox | 11.3 | 50.9 | 11.3 | 31.6 | 13.3 | 36.3 | 12.5 | 32.8 | 12.9 | 8.6 |
+| Menu | 12.6 | 60.2 | 12.6 | 28.0 | 14.9 | 40.1 | 14.0 | 30.4 | 14.5 | 8.0 |
+| Combobox | 11.3 | 50.9 | 11.3 | 31.6 | 13.3 | 36.3 | 12.5 | 32.8 | 13.0 | 8.6 |
 | Tabs | 2.5 | 13.3 | 2.4 | 7.9 | 3.3 | 8.0 | 2.9 | 11.5 | 3.0 | 5.5 |
 | Calendar + Range | 4.5 | 25.8 | 4.5 | 22.3 | 5.8 | 26.3 | 5.0 | – | 5.4 | – |
-| DatePicker + Range | 10.3 | 34.4 | 10.3 | 38.7 | 12.0 | 64.6 | 11.4 | – | 11.8 | – |
+| DatePicker + Range | 10.3 | 34.4 | 10.3 | 38.7 | 12.0 | 64.6 | 11.4 | – | 11.9 | – |
 
 (kB.) React and Vue are measured with esbuild; Svelte, Solid and Angular with Vite and the
 framework's plugin on both sides, so compare within a column pair. Not like for like: the

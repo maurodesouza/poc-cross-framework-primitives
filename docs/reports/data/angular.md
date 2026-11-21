@@ -2,27 +2,27 @@
 
 | component | framework package | @poc/dom used | share in @poc/dom |
 | --- | --- | --- | --- |
-| dialog | 270 | 219 | 45% |
-| popover | 339 | 386 | 53% |
+| dialog | 264 | 219 | 45% |
+| popover | 333 | 386 | 54% |
 | menu | 701 | 461 | 40% |
-| combobox | 525 | 320 | 38% |
-| tabs | 374 | 72 | 16% |
-| calendar | 750 | 453 | 38% |
-| date-picker | 327 | 263 | 45% |
+| combobox | 529 | 320 | 38% |
+| tabs | 375 | 72 | 16% |
+| calendar | 756 | 453 | 37% |
+| date-picker | 333 | 263 | 44% |
 
-Shared framework infrastructure (hooks, utils): 500 lines. All of @poc/dom: 1111 lines.
+Shared framework infrastructure (hooks, utils): 524 lines. All of @poc/dom: 1111 lines.
 
 ### Bundle size (minified + gzip, framework external)
 
 | component | ours | baseline |
 | --- | --- | --- |
-| dialog | 4.3 kB | 16.0 kB |
+| dialog | 4.4 kB | 16.0 kB |
 | popover | 12.4 kB | 14.2 kB |
-| menu | 14.4 kB | 8.0 kB |
-| combobox | 12.9 kB | 8.6 kB |
+| menu | 14.5 kB | 8.0 kB |
+| combobox | 13.0 kB | 8.6 kB |
 | tabs | 3.0 kB | 5.5 kB |
 | calendar | 5.4 kB | - |
-| date-picker | 11.8 kB | - |
+| date-picker | 11.9 kB | - |
 
 ### Conformance
 

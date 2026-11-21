@@ -1,4 +1,4 @@
-import { computed, Directive, input, model, output } from "@angular/core";
+import { computed, Directive, input, output } from "@angular/core";
 import type { PlainDate } from "@poc/dom";
 import type { OpenChangeEvent } from "../../utils/change-details.ts";
 import type { CalendarOptions } from "../calendar/calendar-value.ts";
@@ -6,7 +6,8 @@ import type { CalendarOptions } from "../calendar/calendar-value.ts";
 /** The open state and the calendar options both pickers share; each declares its typed value. */
 @Directive()
 export abstract class DatePickerRootBase {
-    readonly open = model<boolean | undefined>(undefined);
+    readonly open = input<boolean | undefined>(undefined);
+    readonly openChange = output<boolean>();
     readonly defaultOpen = input(false);
     readonly openChangeDetails = output<OpenChangeEvent>();
     readonly min = input<PlainDate | null | undefined>(undefined);

@@ -68,7 +68,7 @@ decision for the maintainer, not an implementation detail.
      (`spec/README.md`);
    - sides are logical (`start`/`end`), never `left`/`right`.
 6. **No Fragiola model API.** Primitives use controlled and uncontrolled props
-   (`value`/`defaultValue`/`on<Value>Change` in React, `v-model` in Vue, `model()` in Angular,
+   (`value`/`defaultValue`/`on<Value>Change` in React, `v-model` in Vue, an input with its `*Change` output in Angular,
    `$bindable` in Svelte, props and callbacks in Solid), as the spec's API mapping table says.
 7. **No core + adapters.** The Fragiola rule that every non-rendering piece of logic lives in a
    framework-free core does not apply here, by design (rule 1).

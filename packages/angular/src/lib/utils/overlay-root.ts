@@ -1,4 +1,9 @@
-import { type InputSignal, type ModelSignal, signal } from "@angular/core";
+import {
+    type InputSignal,
+    type OutputEmitterRef,
+    type Signal,
+    signal,
+} from "@angular/core";
 import { createId } from "@poc/dom";
 import type {
     ChangeDetails,
@@ -17,7 +22,8 @@ import { createPresence } from "./presence.ts";
  */
 export function createOverlayRoot(
     inputs: {
-        open: ModelSignal<boolean | undefined>;
+        open: Signal<boolean | undefined>;
+        openChange: OutputEmitterRef<boolean>;
         defaultOpen: InputSignal<boolean>;
     },
     emit: (event: OpenChangeEvent) => void,
@@ -25,6 +31,7 @@ export function createOverlayRoot(
 ) {
     const state = controllable<boolean, ChangeDetails>(
         inputs.open,
+        inputs.openChange,
         () => inputs.defaultOpen(),
         (open, details) => emit({ open, details }),
     );

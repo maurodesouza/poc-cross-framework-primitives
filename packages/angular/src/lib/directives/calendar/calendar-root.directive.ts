@@ -3,8 +3,7 @@ import {
     forwardRef,
     inject,
     input,
-    type ModelSignal,
-    model,
+    type OutputEmitterRef,
     output,
 } from "@angular/core";
 import type { PlainDate } from "@poc/dom";
@@ -28,13 +27,15 @@ import type { CalendarValue } from "./calendar-value.ts";
     ],
 })
 export class CalendarRoot extends CalendarRootBase {
-    readonly value = model<PlainDate | null | undefined>(undefined);
+    readonly value = input<PlainDate | null | undefined>(undefined);
+    readonly valueChange = output<PlainDate | null>();
     readonly defaultValue = input<PlainDate | null | undefined>(undefined);
     readonly valueChangeDetails = output<ValueChangeEvent<PlainDate | null>>();
     readonly calendar = new CalendarState(
         "single",
         this.stateInputs(
-            this.value as unknown as ModelSignal<CalendarValue | undefined>,
+            this.value,
+            this.valueChange as unknown as OutputEmitterRef<CalendarValue>,
             this.defaultValue,
         ),
         (value, details) =>
