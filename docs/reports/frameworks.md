@@ -154,7 +154,12 @@ the same but the call site is not.
    `model()` writes its own value.
 2. Run the screen reader spot check.
 3. Part hooks for React and Vue (Angular has `inject*`; Svelte and Solid needed none so far).
+   **Epic F**: none was needed by the extras in React or Vue (every part reads its root's
+   context); none was added.
 4. The extras (Select, Tooltip, Checkbox, Slider) in all five, which test forms (hidden inputs),
-   hover intent and pointer capture: areas the six components did not reach.
+   hover intent and pointer capture: areas the six components did not reach. **Epic F**: the
+   yardstick, React and Vue are done (`react.md` and `vue.md`, "Extras"); Svelte, Solid and
+   Angular follow in Epic G, which should first move the tooltip's hover tracking into
+   `@poc/dom` (`react.md`, "Boundary pressure (extras)").
 5. Watch the cost of the two expensive targets: the next Solid and Angular components should be
    cheaper now that their rendering model is mapped (`AGENTS.md` port checklist).

@@ -65,7 +65,8 @@ React 19, Vue 3.5, Angular 22 (standalone, signals, zoneless), Svelte 5 (runes),
 | checkpoint | the maintainer decides from `docs/reports/checkpoint.md`: continue, pivot (for example a Zag-like shared state core) or stop | continue (2026-11-20) |
 | D (#24) | Svelte and Solid (2.0) ports | done |
 | E (#29) | Angular port and the five-framework report | done |
-| F, G | the extras in every framework, and the final report | outlined after the checkpoint |
+| F (#38) | the extras' yardstick (specs, tests, Base UI baseline), React and Vue | done |
+| G | the extras in Svelte, Solid and Angular, and the final report | planned |
 
 Nothing after Epic C was planned or started before the checkpoint decision.
 
@@ -116,3 +117,10 @@ are separate, later projects).
 - 2026-11-20: Epic E done. `@poc/angular` (Angular 22, zoneless, a directive per part) passes
   every layer with no test changed, pixel-identical to React. Reports: `docs/reports/angular.md`
   and `docs/reports/frameworks.md` (the five frameworks against the five hypotheses).
+- 2026-11-21: Epic F done. A rejected controlled value is now tested (Vue and Svelte needed a
+  re-assert in `Combobox.Input`). Select, Tooltip, Checkbox and CheckboxGroup, and Slider are
+  specified, tested against Base UI 1.9 (6 recorded deviations), and built in React (the golden
+  screenshots) and Vue (pixel-identical), with five new `@poc/dom` folders' worth of behaviour
+  (`pointer/` drag and hover bridge, `hover/`, `range/`, `form/`). No part hook was needed.
+  Svelte, Solid and Angular mark the extras as pending until Epic G. Reports: the "Extras"
+  sections of `docs/reports/react.md` and `docs/reports/vue.md`.

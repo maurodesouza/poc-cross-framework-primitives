@@ -1,6 +1,6 @@
 {
     "framework": "react",
-    "generatedAt": "2026-11-21T01:45:01.614Z",
+    "generatedAt": "2026-11-21T10:49:25.618Z",
     "loc": {
         "components": [
             {
@@ -89,10 +89,61 @@
                     "positioning/placement.ts",
                     "presence/presence.ts"
                 ]
+            },
+            {
+                "component": "select",
+                "framework": 592,
+                "dom": 404,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tooltip",
+                "framework": 421,
+                "dom": 272,
+                "domModules": [
+                    "hover/delay-group.ts",
+                    "hover/hover-intent.ts",
+                    "pointer/hover-bridge.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "checkbox",
+                "framework": 212,
+                "dom": 45,
+                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+            },
+            {
+                "component": "checkbox-group",
+                "framework": 108,
+                "dom": 0,
+                "domModules": []
+            },
+            {
+                "component": "slider",
+                "framework": 503,
+                "dom": 195,
+                "domModules": [
+                    "direction/direction.ts",
+                    "pointer/drag-session.ts",
+                    "range/range-math.ts",
+                    "range/slider-keys.ts"
+                ]
             }
         ],
-        "shared": 372,
-        "domTotal": 1111
+        "shared": 377,
+        "domTotal": 1448
     },
     "sizes": [
         {
@@ -100,7 +151,7 @@
             "ours": {
                 "entry": "export { Dialog } from \"@poc/react\";",
                 "minified": 9371,
-                "gzip": 3702
+                "gzip": 3701
             },
             "baseline": {
                 "entry": "export { Dialog } from \"@base-ui/react/dialog\";",
@@ -126,7 +177,7 @@
             "ours": {
                 "entry": "export { Menu } from \"@poc/react\";",
                 "minified": 33917,
-                "gzip": 12913
+                "gzip": 12910
             },
             "baseline": {
                 "entry": "export { Menu } from \"@base-ui/react/menu\";",
@@ -152,7 +203,7 @@
             "ours": {
                 "entry": "export { Tabs } from \"@poc/react\";",
                 "minified": 5872,
-                "gzip": 2521
+                "gzip": 2522
             },
             "baseline": {
                 "entry": "export { Tabs } from \"@base-ui/react/tabs\";",
@@ -165,7 +216,7 @@
             "ours": {
                 "entry": "export { Calendar, RangeCalendar } from \"@poc/react\";",
                 "minified": 11391,
-                "gzip": 4582
+                "gzip": 4583
             },
             "baseline": {
                 "entry": "export { Calendar, RangeCalendar } from \"react-aria-components\";",
@@ -178,33 +229,98 @@
             "ours": {
                 "entry": "export { DatePicker, DateRangePicker } from \"@poc/react\";",
                 "minified": 26792,
-                "gzip": 10501
+                "gzip": 10500
             },
             "baseline": {
                 "entry": "export { DatePicker, DateRangePicker } from \"react-aria-components\";",
                 "minified": 117555,
                 "gzip": 35244
             }
+        },
+        {
+            "component": "select",
+            "ours": {
+                "entry": "export { Select } from \"@poc/react\";",
+                "minified": 31052,
+                "gzip": 12079
+            },
+            "baseline": {
+                "entry": "export { Select } from \"@base-ui/react/select\";",
+                "minified": 127726,
+                "gzip": 45539
+            }
+        },
+        {
+            "component": "tooltip",
+            "ours": {
+                "entry": "export { Tooltip } from \"@poc/react\";",
+                "minified": 27189,
+                "gzip": 10623
+            },
+            "baseline": {
+                "entry": "export { Tooltip } from \"@base-ui/react/tooltip\";",
+                "minified": 97503,
+                "gzip": 34083
+            }
+        },
+        {
+            "component": "checkbox",
+            "ours": {
+                "entry": "export { Checkbox } from \"@poc/react\";",
+                "minified": 4387,
+                "gzip": 1983
+            },
+            "baseline": {
+                "entry": "export { Checkbox } from \"@base-ui/react/checkbox\";",
+                "minified": 20440,
+                "gzip": 8263
+            }
+        },
+        {
+            "component": "checkbox-group",
+            "ours": {
+                "entry": "export { CheckboxGroup } from \"@poc/react\";",
+                "minified": 2396,
+                "gzip": 1164
+            },
+            "baseline": {
+                "entry": "export { CheckboxGroup } from \"@base-ui/react/checkbox-group\";",
+                "minified": 10488,
+                "gzip": 4305
+            }
+        },
+        {
+            "component": "slider",
+            "ours": {
+                "entry": "export { Slider } from \"@poc/react\";",
+                "minified": 8289,
+                "gzip": 3480
+            },
+            "baseline": {
+                "entry": "export { Slider } from \"@base-ui/react/slider\";",
+                "minified": 37226,
+                "gzip": 14739
+            }
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 79,
+                "passed": 123,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 11
+                "expectedFailures": 17
             }
         },
         "react": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -212,19 +328,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -232,13 +348,13 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 90,
+                "passed": 92,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -258,7 +374,7 @@
         },
         "solid": {
             "behaviour": {
-                "passed": 90,
+                "passed": 92,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -278,7 +394,7 @@
         },
         "angular": {
             "behaviour": {
-                "passed": 90,
+                "passed": 92,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -332,6 +448,31 @@
             "commits": 2,
             "first": "2026-11-20T19:47:04-03:00",
             "last": "2026-11-20T21:09:33-03:00"
+        },
+        "select": {
+            "commits": 1,
+            "first": "2026-11-21T07:41:06-03:00",
+            "last": "2026-11-21T07:41:06-03:00"
+        },
+        "tooltip": {
+            "commits": 1,
+            "first": "2026-11-21T07:41:06-03:00",
+            "last": "2026-11-21T07:41:06-03:00"
+        },
+        "checkbox": {
+            "commits": 1,
+            "first": "2026-11-21T07:41:06-03:00",
+            "last": "2026-11-21T07:41:06-03:00"
+        },
+        "checkbox-group": {
+            "commits": 1,
+            "first": "2026-11-21T07:41:06-03:00",
+            "last": "2026-11-21T07:41:06-03:00"
+        },
+        "slider": {
+            "commits": 1,
+            "first": "2026-11-21T07:41:06-03:00",
+            "last": "2026-11-21T07:41:06-03:00"
         }
     }
 }

@@ -1,6 +1,6 @@
 {
     "framework": "vue",
-    "generatedAt": "2026-11-21T01:45:02.275Z",
+    "generatedAt": "2026-11-21T10:49:28.789Z",
     "loc": {
         "components": [
             {
@@ -46,7 +46,7 @@
             },
             {
                 "component": "combobox",
-                "framework": 589,
+                "framework": 592,
                 "dom": 315,
                 "domModules": [
                     "collection/list-navigation.ts",
@@ -90,10 +90,66 @@
                     "positioning/placement.ts",
                     "presence/presence.ts"
                 ]
+            },
+            {
+                "component": "select",
+                "framework": 630,
+                "dom": 404,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tooltip",
+                "framework": 415,
+                "dom": 272,
+                "domModules": [
+                    "hover/delay-group.ts",
+                    "hover/hover-intent.ts",
+                    "pointer/hover-bridge.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "checkbox",
+                "framework": 242,
+                "dom": 61,
+                "domModules": [
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "checkbox-group",
+                "framework": 102,
+                "dom": 0,
+                "domModules": []
+            },
+            {
+                "component": "slider",
+                "framework": 477,
+                "dom": 211,
+                "domModules": [
+                    "direction/direction.ts",
+                    "pointer/drag-session.ts",
+                    "presence/presence.ts",
+                    "range/range-math.ts",
+                    "range/slider-keys.ts"
+                ]
             }
         ],
-        "shared": 419,
-        "domTotal": 1111
+        "shared": 424,
+        "domTotal": 1448
     },
     "sizes": [
         {
@@ -101,7 +157,7 @@
             "ours": {
                 "entry": "export { Dialog } from \"@poc/vue\";",
                 "minified": 9853,
-                "gzip": 3800
+                "gzip": 3799
             },
             "baseline": {
                 "entry": "export { DialogRoot, DialogTrigger, DialogPortal, DialogOverlay, DialogContent, DialogTitle, DialogDescription, DialogClose } from \"reka-ui\";",
@@ -114,7 +170,7 @@
             "ours": {
                 "entry": "export { Popover } from \"@poc/vue\";",
                 "minified": 29636,
-                "gzip": 11322
+                "gzip": 11325
             },
             "baseline": {
                 "entry": "export { PopoverRoot, PopoverTrigger, PopoverPortal, PopoverContent, PopoverArrow, PopoverClose } from \"reka-ui\";",
@@ -139,8 +195,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/vue\";",
-                "minified": 31122,
-                "gzip": 11600
+                "minified": 31221,
+                "gzip": 11637
             },
             "baseline": {
                 "entry": "export { ComboboxRoot, ComboboxAnchor, ComboboxInput, ComboboxTrigger, ComboboxPortal, ComboboxContent, ComboboxViewport, ComboboxItem, ComboboxEmpty } from \"reka-ui\";",
@@ -153,7 +209,7 @@
             "ours": {
                 "entry": "export { Tabs } from \"@poc/vue\";",
                 "minified": 6401,
-                "gzip": 2481
+                "gzip": 2483
             },
             "baseline": {
                 "entry": "export { TabsRoot, TabsList, TabsTrigger, TabsIndicator, TabsContent } from \"reka-ui\";",
@@ -166,7 +222,7 @@
             "ours": {
                 "entry": "export { Calendar, RangeCalendar } from \"@poc/vue\";",
                 "minified": 12434,
-                "gzip": 4592
+                "gzip": 4591
             },
             "baseline": {
                 "entry": "export { CalendarRoot, CalendarHeader, CalendarHeading, CalendarPrev, CalendarNext, CalendarGrid, CalendarGridHead, CalendarGridBody, CalendarGridRow, CalendarHeadCell, CalendarCell, CalendarCellTrigger, RangeCalendarRoot, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarPrev, RangeCalendarNext, RangeCalendarGrid, RangeCalendarGridHead, RangeCalendarGridBody, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarCell, RangeCalendarCellTrigger } from \"reka-ui\";",
@@ -186,26 +242,91 @@
                 "minified": 129515,
                 "gzip": 39615
             }
+        },
+        {
+            "component": "select",
+            "ours": {
+                "entry": "export { Select } from \"@poc/vue\";",
+                "minified": 32336,
+                "gzip": 12140
+            },
+            "baseline": {
+                "entry": "export { SelectRoot, SelectTrigger, SelectValue, SelectPortal, SelectContent, SelectViewport, SelectItem, SelectItemText, SelectItemIndicator } from \"reka-ui\";",
+                "minified": 88231,
+                "gzip": 30014
+            }
+        },
+        {
+            "component": "tooltip",
+            "ours": {
+                "entry": "export { Tooltip } from \"@poc/vue\";",
+                "minified": 27508,
+                "gzip": 10566
+            },
+            "baseline": {
+                "entry": "export { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipPortal, TooltipContent, TooltipArrow } from \"reka-ui\";",
+                "minified": 60762,
+                "gzip": 20969
+            }
+        },
+        {
+            "component": "checkbox",
+            "ours": {
+                "entry": "export { Checkbox } from \"@poc/vue\";",
+                "minified": 4555,
+                "gzip": 1957
+            },
+            "baseline": {
+                "entry": "export { CheckboxRoot, CheckboxIndicator } from \"reka-ui\";",
+                "minified": 25527,
+                "gzip": 9398
+            }
+        },
+        {
+            "component": "checkbox-group",
+            "ours": {
+                "entry": "export { CheckboxGroup } from \"@poc/vue\";",
+                "minified": 1811,
+                "gzip": 884
+            },
+            "baseline": {
+                "entry": "export { CheckboxGroupRoot } from \"reka-ui\";",
+                "minified": 12520,
+                "gzip": 4724
+            }
+        },
+        {
+            "component": "slider",
+            "ours": {
+                "entry": "export { Slider } from \"@poc/vue\";",
+                "minified": 8492,
+                "gzip": 3269
+            },
+            "baseline": {
+                "entry": "export { SliderRoot, SliderTrack, SliderRange, SliderThumb } from \"reka-ui\";",
+                "minified": 23278,
+                "gzip": 8023
+            }
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 79,
+                "passed": 123,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 11
+                "expectedFailures": 17
             }
         },
         "react": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -213,19 +334,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -233,13 +354,13 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 90,
+                "passed": 92,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -259,7 +380,7 @@
         },
         "solid": {
             "behaviour": {
-                "passed": 90,
+                "passed": 92,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -279,7 +400,7 @@
         },
         "angular": {
             "behaviour": {
-                "passed": 90,
+                "passed": 92,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -315,9 +436,9 @@
             "last": "2026-11-20T21:09:33-03:00"
         },
         "combobox": {
-            "commits": 2,
+            "commits": 3,
             "first": "2026-11-20T20:11:34-03:00",
-            "last": "2026-11-20T21:09:33-03:00"
+            "last": "2026-11-21T07:08:28-03:00"
         },
         "tabs": {
             "commits": 2,
@@ -333,6 +454,31 @@
             "commits": 2,
             "first": "2026-11-20T20:11:34-03:00",
             "last": "2026-11-20T21:09:33-03:00"
+        },
+        "select": {
+            "commits": 1,
+            "first": "2026-11-21T07:47:29-03:00",
+            "last": "2026-11-21T07:47:29-03:00"
+        },
+        "tooltip": {
+            "commits": 1,
+            "first": "2026-11-21T07:47:29-03:00",
+            "last": "2026-11-21T07:47:29-03:00"
+        },
+        "checkbox": {
+            "commits": 1,
+            "first": "2026-11-21T07:47:29-03:00",
+            "last": "2026-11-21T07:47:29-03:00"
+        },
+        "checkbox-group": {
+            "commits": 1,
+            "first": "2026-11-21T07:47:29-03:00",
+            "last": "2026-11-21T07:47:29-03:00"
+        },
+        "slider": {
+            "commits": 1,
+            "first": "2026-11-21T07:47:29-03:00",
+            "last": "2026-11-21T07:47:29-03:00"
         }
     }
 }
