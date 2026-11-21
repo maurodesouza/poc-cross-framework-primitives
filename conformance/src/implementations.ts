@@ -66,8 +66,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-angular",
         port: 5360,
         layers: ["behaviour", "contract", "visual"],
-        // the Field layer (Epic H): spec/field.md
-        pending: ["field"],
     },
 ];
 

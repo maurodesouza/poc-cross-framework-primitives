@@ -43,4 +43,7 @@ export const ROUTES = [
     "/slider/vertical",
     "/slider/rtl",
     "/slider/controlled",
+    "/field/basic",
+    "/field/validation",
+    "/field/controls",
 ] as const;
