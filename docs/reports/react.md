@@ -212,8 +212,7 @@ the Base UI baseline of #48.
   from CI run 44919917987, made with React alone registered for Field.
 - **Effort.** About 20 minutes of agent time from the spec commit to the green suite. The Field
   is the largest cross-cutting gap of `production-scope.md`, but in this POC's scope it costs about as
-  much as Checkbox did. Base UI's Field is about 3,000 lines with its form and labelable
-  internals.
+  much as Checkbox did.
 - **The baseline** (Base UI 1.9) passes every Field behaviour test. Base UI's `onSubmit` mode needs
   its `Form`, which the baseline fixture uses (a fixture setting).
 
