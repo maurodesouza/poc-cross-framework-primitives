@@ -11,12 +11,15 @@ group for its parent.
 
 ## Anatomy
 
-| part | element | `data-checkbox-part` / `data-checkbox-group-part` | notes |
+| part | element | `data-checkbox-part` | notes |
 | --- | --- | --- | --- |
 | Checkbox.Root | `button` | `root` | the `checkbox`; holds its state |
 | Checkbox.Indicator | `span` | `indicator` | shows the check or the dash; rendered only while checked or indeterminate |
 | (hidden input) | `input type="checkbox"` | `input` | rendered by the Root right after its element; what the form submits |
-| CheckboxGroup | `div` | `root` (`data-checkbox-group-part`) | the `group`; holds the array value |
+
+| part | element | `data-checkbox-group-part` | notes |
+| --- | --- | --- | --- |
+| CheckboxGroup | `div` | `root` | the `group`; holds the array value |
 
 The hidden input is visually hidden (`position: absolute`, 1 px, clipped), `aria-hidden="true"`
 and `tabindex="-1"`, so it is never in the accessibility tree nor in the tab order (axe, screen

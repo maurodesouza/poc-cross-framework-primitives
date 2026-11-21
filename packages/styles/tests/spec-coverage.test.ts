@@ -31,6 +31,10 @@ function specParts(file: string): Map<string, string[]> {
             slug = null;
             continue;
         }
+        // a hidden form input has a part attribute but no recipe (structural style only)
+        if (line.split("|")[1]?.trim().startsWith("(hidden input)")) {
+            continue;
+        }
         const cell = slug === null ? undefined : line.split("|")[3];
         const value =
             cell === undefined
@@ -51,6 +55,11 @@ const RECIPES: Record<string, Record<string, string>> = {
     tabs: styles.tabs,
     calendar: styles.calendar,
     "date-picker": styles.datePicker,
+    select: styles.select,
+    tooltip: styles.tooltip,
+    checkbox: styles.checkbox,
+    "checkbox-group": styles.checkboxGroup,
+    slider: styles.slider,
 };
 
 describe("every part of the specs has a recipe", () => {
@@ -61,6 +70,10 @@ describe("every part of the specs has a recipe", () => {
         "combobox.md",
         "tabs.md",
         "calendar.md",
+        "select.md",
+        "tooltip.md",
+        "checkbox.md",
+        "slider.md",
     ]) {
         it(file, () => {
             const parts = specParts(file);
