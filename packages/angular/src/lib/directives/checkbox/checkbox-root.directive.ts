@@ -8,6 +8,7 @@ import {
     inject,
     input,
     output,
+    signal,
     untracked,
 } from "@angular/core";
 import { bridgeForm, createId } from "@poc/dom";
@@ -16,6 +17,7 @@ import type {
     ValueChangeEvent,
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
+import { fieldControl, writeFieldAria } from "../../utils/field-control.ts";
 import {
     createHiddenInput,
     setInputAttribute,
@@ -56,12 +58,20 @@ export function checkedAttributes(state: CheckboxState) {
         "[attr.aria-checked]": "ariaChecked()",
         "[attr.aria-required]": "state().required ? 'true' : null",
         "[attr.aria-controls]": "controls()",
+        "[attr.data-invalid]": "field.data().invalid",
+        "[attr.data-valid]": "field.data().valid",
+        "[attr.data-dirty]": "field.data().dirty",
+        "[attr.data-touched]": "field.data().touched",
+        "[attr.data-filled]": "field.data().filled",
+        "[attr.data-focused]": "field.data().focused",
         "[attr.data-checked]": "data().checked",
         "[attr.data-unchecked]": "data().unchecked",
         "[attr.data-indeterminate]": "data().indeterminate",
         "[attr.data-disabled]": "data().disabled",
         "[attr.data-required]": "state().required ? '' : null",
         "(click)": "toggle()",
+        "(focus)": "field.focused()",
+        "(blur)": "field.blurred()",
         // APG: Space toggles, Enter does not (a button would click on Enter)
         "(keydown.enter)": "$event.preventDefault()",
     },
@@ -81,6 +91,13 @@ export class CheckboxRoot {
     readonly parent = input(false, { transform: booleanAttribute });
 
     private readonly group = inject(CheckboxGroup, { optional: true });
+    private readonly host = injectHost<HTMLButtonElement>();
+    private readonly hidden = createHiddenInput(this.host, {
+        type: "checkbox",
+        "data-checkbox-part": "input",
+    });
+    /** The button's id, once it has one (the consumer's, or one made after the first render). */
+    private readonly hostId = signal<string | undefined>(undefined);
     private readonly own = controllable<boolean, ChangeDetails>(
         this.checked,
         this.checkedChange,
@@ -92,6 +109,13 @@ export class CheckboxRoot {
             this.group !== null &&
             (this.parent() || this.value() !== undefined),
     );
+    protected readonly field = fieldControl({
+        id: this.hostId,
+        labelable: true,
+        value: computed(() => this.state().checked),
+        filled: computed(() => this.state().checked),
+        input: () => this.hidden,
+    });
     readonly state = computed<CheckboxState>(() => {
         const group = this.group;
         let checked = this.own.value();
@@ -110,7 +134,10 @@ export class CheckboxRoot {
         return {
             checked,
             indeterminate,
-            disabled: this.disabled() || (group?.disabled() ?? false),
+            disabled:
+                this.disabled() ||
+                (group?.disabled() ?? false) ||
+                this.field.disabled(),
             required: this.required(),
         };
     });
@@ -139,17 +166,19 @@ export class CheckboxRoot {
     );
 
     constructor() {
-        const host = injectHost<HTMLButtonElement>();
-        const hidden = createHiddenInput(host, {
-            type: "checkbox",
-            "data-checkbox-part": "input",
+        const host = this.host;
+        const hidden = this.hidden;
+        writeFieldAria(this.field, host, {
+            "aria-labelledby": this.field.labelledBy,
+            "aria-describedby": this.field.describedBy,
+            "aria-invalid": this.field.ariaInvalid,
         });
         effect(() => {
             const parent = this.parent();
             setInputAttribute(
                 hidden,
                 "name",
-                parent ? null : (this.name() ?? null),
+                parent ? null : (this.field.name() ?? this.name() ?? null),
             );
             hidden.value = this.value() ?? "on";
             hidden.checked = this.inputChecked();
@@ -165,6 +194,7 @@ export class CheckboxRoot {
             if (host.id === "") {
                 host.id = generated;
             }
+            this.hostId.set(host.id);
         });
         effect(() => {
             const group = this.group;

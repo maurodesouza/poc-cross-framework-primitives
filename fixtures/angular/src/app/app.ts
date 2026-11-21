@@ -17,6 +17,9 @@ import { DialogControlled } from "../scenarios/dialog/dialog-controlled.ts";
 import { DialogInitialFocus } from "../scenarios/dialog/dialog-initial-focus.ts";
 import { DialogNestedPopover } from "../scenarios/dialog/dialog-nested-popover.ts";
 import { DialogRejectedClose } from "../scenarios/dialog/dialog-rejected-close.ts";
+import { FieldBasic } from "../scenarios/field/field-basic.ts";
+import { FieldControls } from "../scenarios/field/field-controls.ts";
+import { FieldValidation } from "../scenarios/field/field-validation.ts";
 import { MenuBasic } from "../scenarios/menu/menu-basic.ts";
 import { MenuGroups } from "../scenarios/menu/menu-groups.ts";
 import { MenuSubmenu } from "../scenarios/menu/menu-submenu.ts";
@@ -75,6 +78,9 @@ import { ROUTES } from "./routes.ts";
         SliderRange,
         SliderVertical,
         SliderControlled,
+        FieldBasic,
+        FieldValidation,
+        FieldControls,
     ],
     template: `
         @switch (path) {
@@ -117,6 +123,9 @@ import { ROUTES } from "./routes.ts";
             @case ("/slider/vertical") { <main class="p-6" scenario-slider-vertical></main> }
             @case ("/slider/rtl") { <main class="p-6" scenario-slider-basic></main> }
             @case ("/slider/controlled") { <main class="p-6" scenario-slider-controlled></main> }
+            @case ("/field/basic") { <main class="p-6" scenario-field-basic></main> }
+            @case ("/field/validation") { <main class="p-6" scenario-field-validation></main> }
+            @case ("/field/controls") { <main class="p-6" scenario-field-controls></main> }
             @default {
                 <main class="p-6">
                     <h1 class="text-lg font-semibold">Angular fixture</h1>

@@ -17,6 +17,9 @@ import DialogControlled from "../scenarios/dialog/dialog-controlled.svelte";
 import DialogInitialFocus from "../scenarios/dialog/dialog-initial-focus.svelte";
 import DialogNestedPopover from "../scenarios/dialog/dialog-nested-popover.svelte";
 import DialogRejectedClose from "../scenarios/dialog/dialog-rejected-close.svelte";
+import FieldBasic from "../scenarios/field/field-basic.svelte";
+import FieldControls from "../scenarios/field/field-controls.svelte";
+import FieldValidation from "../scenarios/field/field-validation.svelte";
 import MenuBasic from "../scenarios/menu/menu-basic.svelte";
 import MenuGroups from "../scenarios/menu/menu-groups.svelte";
 import MenuSubmenu from "../scenarios/menu/menu-submenu.svelte";
@@ -78,4 +81,7 @@ export const routes: Record<string, Component<any>> = {
     "/slider/vertical": SliderVertical,
     "/slider/rtl": SliderBasic,
     "/slider/controlled": SliderControlled,
+    "/field/basic": FieldBasic,
+    "/field/validation": FieldValidation,
+    "/field/controls": FieldControls,
 };

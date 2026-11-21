@@ -12,8 +12,10 @@ import {
     thumbBounds,
     valueToPercent,
 } from "@poc/dom";
+import { writeFieldAria } from "../../utils/field-control.ts";
 import { injectFlush } from "../../utils/flush.ts";
 import { injectHost } from "../../utils/host-element.ts";
+import { ownAttribute } from "../../utils/own-attribute.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
 import { SliderRoot } from "./slider-root.directive.ts";
 
@@ -45,6 +47,8 @@ export interface SliderThumbState {
         "[attr.data-dragging]": "data().dragging",
         "[style]": "style()",
         "(keydown)": "onKeyDown($event)",
+        "(focus)": "root.field.focused()",
+        "(blur)": "root.field.blurred()",
     },
 })
 export class SliderThumb {
@@ -69,7 +73,7 @@ export class SliderThumb {
             value: root.values()[index] ?? root.min(),
             index,
             orientation: root.orientation(),
-            disabled: this.disabled() || root.disabled(),
+            disabled: this.disabled() || root.isDisabled(),
             dragging: root.dragging() && root.activeIndex() === index,
         };
     });
@@ -122,6 +126,14 @@ export class SliderThumb {
 
     constructor() {
         inject(DestroyRef).onDestroy(this.root.registerThumb(this.host));
+        const { field } = this.root;
+        // the field's label names a thumb that has no name of its own
+        const named = ownAttribute("aria-label") !== null;
+        writeFieldAria(field, this.host, {
+            "aria-describedby": field.describedBy,
+            "aria-invalid": field.ariaInvalid,
+            ...(named ? {} : { "aria-labelledby": field.labelledBy }),
+        });
     }
 
     protected onKeyDown(event: KeyboardEvent): void {

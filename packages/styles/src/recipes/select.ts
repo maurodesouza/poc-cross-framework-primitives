@@ -11,7 +11,7 @@ export const select: Recipe<
     | "item"
     | "item-indicator"
 > = {
-    trigger: `${BUTTON.replace("justify-center", "justify-between")} min-w-48 data-open:bg-palette-soft`,
+    trigger: `${BUTTON.replace("justify-center", "justify-between")} min-w-48 data-open:bg-palette-soft data-invalid:border-2 data-invalid:border-palette-contrast`,
     value: "truncate data-placeholder:text-palette-accent/85",
     positioner: "z-50",
     // no padding of its own: the list's box starts at the popup's

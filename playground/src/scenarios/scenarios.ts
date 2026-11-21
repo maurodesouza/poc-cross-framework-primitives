@@ -69,6 +69,9 @@ export const SCENARIOS: readonly Scenario[] = [
     scenario("/slider/vertical"),
     scenario("/slider/rtl", { dir: "rtl" }),
     scenario("/slider/controlled"),
+    scenario("/field/basic"),
+    scenario("/field/validation"),
+    scenario("/field/controls"),
 ];
 
 /**

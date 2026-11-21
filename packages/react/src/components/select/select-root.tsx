@@ -10,6 +10,7 @@ import {
     useState,
 } from "react";
 import { useControllableState } from "../../hooks/use-controllable-state.ts";
+import { useFieldControl } from "../../hooks/use-field-control.ts";
 import {
     type OverlayRootProps,
     useOverlayRoot,
@@ -42,7 +43,7 @@ export function SelectRoot({
     items,
     name,
     required = false,
-    disabled = false,
+    disabled: disabledProp = false,
     children,
     ...overlayProps
 }: SelectRootProps) {
@@ -52,6 +53,16 @@ export function SelectRoot({
         defaultValue,
         onValueChange,
     );
+    const input = useRef<HTMLInputElement>(null);
+    const field = useFieldControl({
+        // the trigger's rendered id: the consumer's, else the generated one
+        id: root.trigger?.id || root.triggerId,
+        labelable: true,
+        value,
+        filled: value !== null,
+        input: () => input.current,
+    });
+    const disabled = disabledProp || field.disabled;
     const [highlighted, setHighlighted] = useState<string | null>(null);
     const [placed, setPlaced] = useState<{ side: Side; align: Align }>({
         side: "bottom",
@@ -84,7 +95,6 @@ export function SelectRoot({
         [items, setValue, setOpen],
     );
 
-    const input = useRef<HTMLInputElement>(null);
     const latest = useRef({ defaultValue, setValue, trigger: root.trigger });
     latest.current = { defaultValue, setValue, trigger: root.trigger };
     useEffect(() => {
@@ -105,6 +115,7 @@ export function SelectRoot({
     const context = useMemo(
         () => ({
             ...root,
+            field,
             items,
             value,
             disabled,
@@ -120,6 +131,7 @@ export function SelectRoot({
         }),
         [
             root,
+            field,
             items,
             value,
             disabled,
@@ -139,7 +151,7 @@ export function SelectRoot({
                 ref={input}
                 aria-hidden="true"
                 tabIndex={-1}
-                name={name}
+                name={field.name ?? name}
                 value={value ?? ""}
                 required={required}
                 disabled={disabled}

@@ -132,3 +132,38 @@ Found in Epic F's playground check, fixed before this port was merged:
 Every fixture route was then loaded in `vite` dev (with the trigger opened where there is one):
 no error or warning. The production build the suite serves never raised either, which is why the
 suite did not catch them.
+
+## Field (Epic H)
+
+The Field layer ported to Svelte 5 (#51) from the React reference (#49), on the `@poc/dom` helpers
+(`validateField`, `validatesOnChange`, `shownAfterChange`, `fieldErrorShown`,
+`fieldStateAttributes`, `fieldDescribedBy`, `onSubmitAttempt`).
+
+- **Lines** (`wc -l`, Svelte against React): the `field/` folder 446 / 429, the control side of
+  the contract (`utils/use-field-control.svelte.ts` / `hooks/use-field-control.ts`) 120 / 119.
+  The integration into Checkbox, Select and Slider: +75 / -7 lines in 7 files, against React's
+  +68 / -7 (`git diff --stat` against the branch base).
+- **API**: `Field.Root` takes `name`, `disabled`, `invalid`, `validate` and `validationMode`;
+  `Field.Control` takes `bind:value`, `defaultValue` and `onValueChange` and forwards every native
+  attribute. The state lives in a `FieldRootState` class (`field-context.svelte.ts`, `getContext`
+  of the field's context); every part takes the `child` snippet and passes its attachments on.
+- **Conformance**: the 22 Field behaviour and contract tests passed on the first run, with no test
+  changed; the whole `--project=svelte` suite stayed green (186 passed, the visual layer skipped
+  locally). The four Field screens, and the checkbox, select and slider ones, match screenshots
+  React made on the same machine (`VISUAL=1`, 11 / 11). Every Field route, driven in `vite` dev,
+  raised no error or warning.
+
+### Port log (Field)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| `useFieldControl` | the value effect must depend on the serialized value only: it reads the input, the value and `filled` in `untrack`, so a bound element or a `filled` change never reports a change of its own | `@poc/svelte` |
+| messages | the description and the shown errors register in an effect; the list is written with `untrack` (as CheckboxGroup's ids and the slider's thumbs), so an effect never depends on what it writes | `@poc/svelte` |
+| Select, Slider | the binding is created before the root's state (it reads `getContext` while the component initializes), and the state needs the field's `disabled`: the binding's options are getters, read only in effects and handlers, so the order is free | `@poc/svelte` |
+| Slider | its first hidden input is the field's element (for its form): `bind:this={inputs[index]}` in the `{#each}`, as React's `ref` on the first | `@poc/svelte` |
+| `Field.Control` | a bound value the consumer keeps changes no state, so the input is re-asserted after the write, as `Combobox.Input` does | `@poc/svelte` |
+| fixture | no `kit/ui` in the Svelte fixture: the parts take the `field` recipe's classes inline (as the slider scenarios do), and the styled checkbox and fruit select of the earlier scenarios are reused (the select's `id` became optional, so the field gives it); markup glued as JSX renders it | `fixtures/svelte` |
+
+Boundary pressure on `@poc/dom`: none. The field's state (the interaction flags, what is shown,
+the ids and the message list) and its lifecycle are the package's; every rule of the validation
+came from `@poc/dom` unchanged.

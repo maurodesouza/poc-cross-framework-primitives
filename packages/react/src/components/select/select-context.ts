@@ -1,5 +1,6 @@
 import type { Align, Side } from "@poc/dom";
 import { createContext } from "react";
+import type { FieldControlBinding } from "../../hooks/use-field-control.ts";
 import type { OverlayRoot } from "../../hooks/use-overlay-root.ts";
 import type { ChangeReason } from "../../utils/change-details.ts";
 
@@ -11,6 +12,8 @@ export interface SelectItemData {
 }
 
 export interface SelectContextValue extends OverlayRoot {
+    /** The enclosing field's binding, for the trigger (spec/field.md). */
+    field: FieldControlBinding;
     items: readonly SelectItemData[];
     value: string | null;
     disabled: boolean;

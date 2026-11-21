@@ -1,7 +1,10 @@
 import type { ComputedRef, InjectionKey, Ref, ShallowRef } from "vue";
+import type { FieldControlBinding } from "../../composables/use-field-control.ts";
 import type { ChangeReason } from "../../utils/change-details.ts";
 
 export interface SliderContext {
+    /** The enclosing field's binding, for the thumbs (spec/field.md). */
+    field: FieldControlBinding;
     values: ComputedRef<readonly number[]>;
     min: () => number;
     max: () => number;

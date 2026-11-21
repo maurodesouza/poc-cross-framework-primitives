@@ -1,5 +1,6 @@
 import { afterNextRender, computed, Directive, inject } from "@angular/core";
 import { createTypeahead, menuKeyTarget } from "@poc/dom";
+import { writeFieldAria } from "../../utils/field-control.ts";
 import { injectFlush } from "../../utils/flush.ts";
 import { registerHost } from "../../utils/host-element.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
@@ -32,18 +33,26 @@ const TYPEAHEAD_SPACE = 500;
         "[attr.aria-controls]": "state().open ? root.listId : null",
         "[attr.aria-activedescendant]": "activeId()",
         "[attr.aria-required]": "root.required() ? 'true' : null",
+        "[attr.data-invalid]": "root.field.data().invalid",
+        "[attr.data-valid]": "root.field.data().valid",
+        "[attr.data-dirty]": "root.field.data().dirty",
+        "[attr.data-touched]": "root.field.data().touched",
+        "[attr.data-filled]": "root.field.data().filled",
+        "[attr.data-focused]": "root.field.data().focused",
         "[attr.data-open]": "data().open",
         "[attr.data-disabled]": "data().disabled",
         "[attr.data-placeholder]": "data().placeholder",
         "(click)": "onClick()",
         "(keydown)": "onKeyDown($event)",
+        "(focus)": "root.field.focused()",
+        "(blur)": "root.field.blurred()",
     },
 })
 export class SelectTrigger {
     protected readonly root = inject(SelectRoot);
     readonly state = computed<SelectTriggerState>(() => ({
         open: this.root.overlay.open(),
-        disabled: this.root.disabled(),
+        disabled: this.root.isDisabled(),
         placeholder: this.root.selected() === null,
     }));
     protected readonly data = computed(() => dataValues(this.state()));
@@ -60,11 +69,18 @@ export class SelectTrigger {
 
     constructor() {
         const host = registerHost(this.root.overlay.trigger);
+        const { field } = this.root;
+        writeFieldAria(field, host, {
+            "aria-labelledby": field.labelledBy,
+            "aria-describedby": field.describedBy,
+            "aria-invalid": field.ariaInvalid,
+        });
         // the consumer's own id wins (the label's `for` points at it)
         afterNextRender(() => {
             if (host.id === "") {
                 host.id = this.root.overlay.triggerId;
             }
+            this.root.triggerElementId.set(host.id);
         });
     }
 
@@ -113,7 +129,7 @@ export class SelectTrigger {
 
     protected onKeyDown(event: KeyboardEvent): void {
         const root = this.root;
-        if (root.disabled()) {
+        if (root.isDisabled()) {
             return;
         }
         const items = root.items();

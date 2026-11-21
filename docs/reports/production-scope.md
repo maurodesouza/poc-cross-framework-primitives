@@ -109,6 +109,8 @@ For a production date picker, compared with React Aria:
 
 Each of these is a recorded spec choice, mostly following the APG. Keeping one changes Fragiola UI's current behaviour. Each needs a maintainer decision before a port.
 
+**Decided on 2026-11-21:** see [`docs/decisions.md`](../decisions.md). The production version follows Base UI, except for Tooltip's ARIA wiring and Select's placement. This cycle applies only the Combobox decisions (Epic I); the others are pending.
+
 | difference | POC | Base UI (and so Fragiola UI today) |
 | --- | --- | --- |
 | Select placement | the list opens below the trigger | the selected item is laid over the trigger |

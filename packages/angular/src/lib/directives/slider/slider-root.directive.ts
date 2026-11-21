@@ -15,6 +15,7 @@ import type {
     ValueChangeEvent,
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
+import { fieldControl, writeFieldAria } from "../../utils/field-control.ts";
 import { injectHost } from "../../utils/host-element.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
 
@@ -48,6 +49,12 @@ function sameValues(a: readonly number[], b: readonly number[]): boolean {
     host: {
         role: "group",
         "data-slider-part": "root",
+        "[attr.data-invalid]": "field.data().invalid",
+        "[attr.data-valid]": "field.data().valid",
+        "[attr.data-dirty]": "field.data().dirty",
+        "[attr.data-touched]": "field.data().touched",
+        "[attr.data-filled]": "field.data().filled",
+        "[attr.data-focused]": "field.data().focused",
         "[attr.data-orientation]": "data().orientation",
         "[attr.data-disabled]": "data().disabled",
         "[attr.data-dragging]": "data().dragging",
@@ -83,6 +90,24 @@ export class SliderRoot {
             this.valueChangeDetails.emit({ value: this.shape(next), details }),
     );
     readonly values = this.current.value;
+    /** One hidden input per value, in order. */
+    private readonly inputs: HTMLInputElement[] = [];
+    /** The enclosing field's binding, for the root and the thumbs (spec/field.md). */
+    readonly field = fieldControl({
+        id: signal(undefined),
+        labelable: false,
+        value: computed(() => {
+            const values = this.values();
+            return this.range() ? [...values] : (values[0] ?? 0);
+        }),
+        // a slider always has a value
+        filled: signal(true),
+        input: () => this.inputs[0] ?? null,
+    });
+    /** Its own `disabled`, or the field's. */
+    readonly isDisabled = computed(
+        () => this.disabled() || this.field.disabled(),
+    );
     readonly dragging = signal(false);
     /** The thumb a pointer drags (or last pressed), else -1. */
     readonly activeIndex = signal(-1);
@@ -90,18 +115,21 @@ export class SliderRoot {
     readonly thumbs = signal<readonly HTMLElement[]>([]);
     readonly state = computed<SliderState>(() => ({
         orientation: this.orientation(),
-        disabled: this.disabled(),
+        disabled: this.isDisabled(),
         dragging: this.dragging(),
     }));
     protected readonly data = computed(() => dataValues(this.state()));
 
     constructor() {
         const host = injectHost();
+        writeFieldAria(this.field, host, {
+            "aria-labelledby": this.field.labelledBy,
+        });
         // one `type="hidden"` input per value, after the consumer's children (as React renders)
-        const inputs: HTMLInputElement[] = [];
+        const inputs = this.inputs;
         effect(() => {
             const values = this.values();
-            const name = this.name();
+            const name = this.field.name() ?? this.name();
             untracked(() => {
                 while (inputs.length > values.length) {
                     inputs.pop()?.remove();

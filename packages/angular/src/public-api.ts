@@ -2,7 +2,17 @@
 // written from scratch on @poc/dom and spec/ (AGENTS.md). Each part is an attribute directive on
 // the consumer's own element; see spec/README.md, "API mapping by framework".
 
-export type { Align, DateRange, PlainDate, Side, Weekday } from "@poc/dom";
+export type {
+    Align,
+    DateRange,
+    FieldErrorMatch,
+    FieldState,
+    FieldValidate,
+    FieldValidationMode,
+    PlainDate,
+    Side,
+    Weekday,
+} from "@poc/dom";
 export { CalendarCell } from "./lib/directives/calendar/calendar-cell.directive.ts";
 export { CalendarGrid } from "./lib/directives/calendar/calendar-grid.directive.ts";
 export { CalendarGridBody } from "./lib/directives/calendar/calendar-grid-body.directive.ts";
@@ -67,6 +77,17 @@ export {
     DialogTrigger,
     type DialogTriggerState,
 } from "./lib/directives/dialog/dialog-trigger.directive.ts";
+export { FieldControl } from "./lib/directives/field/field-control.directive.ts";
+export { FieldDescription } from "./lib/directives/field/field-description.directive.ts";
+export {
+    FieldError,
+    type FieldErrorContext,
+} from "./lib/directives/field/field-error.directive.ts";
+export { FieldLabel } from "./lib/directives/field/field-label.directive.ts";
+export {
+    type FieldControlEvents,
+    FieldRoot,
+} from "./lib/directives/field/field-root.directive.ts";
 export { MenuGroup } from "./lib/directives/menu/menu-group.directive.ts";
 export { MenuGroupLabel } from "./lib/directives/menu/menu-group-label.directive.ts";
 export {
@@ -180,6 +201,7 @@ export { injectCalendar } from "./lib/inject/inject-calendar.ts";
 export { injectCombobox } from "./lib/inject/inject-combobox.ts";
 export { injectDatePicker } from "./lib/inject/inject-date-picker.ts";
 export { injectDialog } from "./lib/inject/inject-dialog.ts";
+export { injectField } from "./lib/inject/inject-field.ts";
 export { injectMenu } from "./lib/inject/inject-menu.ts";
 export { injectPopover } from "./lib/inject/inject-popover.ts";
 export { injectTabs } from "./lib/inject/inject-tabs.ts";

@@ -11,7 +11,7 @@ let {
     onValueChange,
     onOpenChange,
 }: {
-    id: string;
+    id?: string;
     name?: string;
     required?: boolean;
     value?: string | null;

@@ -110,3 +110,35 @@ The React extras ported to Vue (#37), on the same `@poc/dom` modules. Current nu
 
 The boundary pressure is React's (above): the tooltip's hover tracking and CheckboxGroup's
 membership were written a second time.
+
+## Field (Epic H)
+
+The Field layer ported to Vue (#50), on the same `@poc/dom` helpers as React (`validateField`,
+`validatesOnChange`, `shownAfterChange`, `fieldErrorShown`, `fieldStateAttributes`,
+`fieldDescribedBy`, `onSubmitAttempt`).
+
+| part | `@poc/vue` | `@poc/react` |
+| --- | --- | --- |
+| `components/field/` (Root, Label, Control, Description, Error, context, namespace) | 482 | 429 |
+| `composables/use-field-control.ts` (the control's side of the contract) | 125 | 119 |
+| integration into Checkbox, Select, Slider (`git diff --stat`) | +77 / −9 | +68 / −7 |
+| fixture (three scenarios, validators, kit wrapper) | 166 | 208 |
+
+- **Conformance**: the whole `vue` project passes (186 passed, 28 skipped: the visual layer runs
+  only in CI), the Field tests included. Visual layer on this machine: the four Field screens and
+  the Checkbox, Select and Slider screens are pixel-identical to React's. No test, snapshot or spec
+  was changed for Vue.
+- **API**: `v-model:value` on `Field.Control` (as Select and Slider), with `@value-change`;
+  `:validate` and `validation-mode` on `Field.Root`; `Field.Error`'s content is its default slot.
+  The parts are render-function components (`.ts`), as every other Vue part.
+- **Boundary pressure on `@poc/dom`: none.** The port writes the field's state, its lifecycle and
+  the Vue API only.
+
+### Port log (Field)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| `useFieldControl` | Checkbox's `state` computed is defined after the composable's call (its `disabled` reads the field). A `watch` on the value created during the call ran its getter at once, hit the temporal dead zone, and Vue swallowed the error: the watch tracked nothing, so checking the checkbox never revalidated. The value watch now starts in `onMounted`, as React's effect does | `@poc/vue` |
+| `Field.Error` `match` | a prop typed `[Boolean, String]` is cast to `false` when absent unless it has a `default`; `default: undefined` keeps "no match" distinct from `match: false`, and a bare `match` reads as `true` | `@poc/vue` (from the start) |
+| fixture | each error and description text on one line inside its part: a template's condensed whitespace would add a leading and trailing space to the text node JSX trims | `fixtures/vue` (from the start) |
+| everything else | the three scenarios passed on the second run, the visual layer on the first | |

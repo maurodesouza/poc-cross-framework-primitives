@@ -150,3 +150,48 @@ fourth time.
 
 In dev mode (`vite`), the twelve extras' scenarios log no error or warning while opened, chosen,
 toggled, moved by a key, hovered and reset.
+
+## Field (Epic H)
+
+The Field layer (spec/field.md) ported to Angular (#53): Field Root, Label, Control,
+Description and Error, and Checkbox, Select and Slider inside a field, on `@poc/dom`'s field
+helpers (`validateField`, `validatesOnChange`, `shownAfterChange`, `fieldErrorShown`,
+`fieldStateAttributes`, `fieldDescribedBy`, `onSubmitAttempt`, `UNVALIDATED`).
+
+| part | Angular (lines) | React (lines) |
+| --- | --- | --- |
+| `lib/directives/field/` (five directives) | 550 | 429 (`components/field/`) |
+| `lib/utils/field-control.ts`, `own-attribute.ts`, `lib/inject/inject-field.ts` | 170 | 119 (`hooks/use-field-control.ts`) |
+| integration (Checkbox, Select, Slider; `git diff --stat`) | +133 / −21 in 6 files | +68 / −7 in 7 files |
+| fixture (three scenarios, routes) and `implementations.ts` | +232 / −2 in 8 files | |
+
+- **API**: `<div fieldRoot [name]="'email'" [validate]="fn" [validationMode]="'onBlur'">`,
+  `<label fieldLabel>`, `<input fieldControl>` (`[(value)]`, `(valueChangeDetails)`, every native
+  attribute on the consumer's own input), `<p fieldDescription>`, and the structural
+  `<div *fieldError="'valueMissing'">` (`*fieldError` alone: while invalid; `*fieldError="true"`:
+  always). The controls read the field through `injectField()`, an optional injection of the
+  enclosing `[fieldRoot]` (`null` outside).
+- **Conformance**: `--project=angular` 186 passed, 28 skipped (the visual layer, local), 0 failed,
+  the 22 Field behaviour and contract tests included, all green on the first run. The visual
+  layer matched React's screenshots made on this machine, 11 of 11 (field, checkbox, select,
+  slider). No test, snapshot or spec changed.
+- **Boundary pressure on `@poc/dom`**: none. The field's state, its control registration and the
+  message list stay in `FieldRoot`, as in React.
+
+### Port log (Field)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Field.Error with no children | Angular has no `children ?? fallback`: the Error is structural (rendered only while shown, like `*tabsPanel`), and when its element has no child nodes of its own the directive writes the messages into it (one text node, or `ul > li`), so the DOM is React's. `*fieldError="let errors"` gives the messages (a signal) to a template that renders them itself | `@poc/angular` |
+| reporting the value | React reports a change in `useEffect`, after the DOM holds it; a directive's `effect` runs before its host bindings and the hidden inputs' effects. The control side reports from `afterRenderEffect`, so `validateField` reads the native validity of the rendered value | `@poc/angular` (`lib/utils/field-control.ts`) |
+| `aria-describedby` | `fieldDescribedBy` reads each element's `id`; a description's `[attr.id]` host binding lands after the control read the list. The description (and the error) writes its id on the element first, then registers it, so the list recomputes with the id | `@poc/angular` |
+| a consumer's own ARIA (found in review) | a host binding to `null` removes the attribute: outside a field, host bindings for `aria-labelledby`, `aria-describedby` and `aria-invalid` stripped a consumer's own, static or bound. The field's ARIA is no host binding: `writeFieldAria` writes it from an effect only inside a field, so outside one the element's attributes are untouched; inside, a consumer's static attribute (`HostAttributeToken`) wins, which is also how a Slider.Thumb with its own `aria-label` keeps the field's label off. A consumer's dynamic `[attr.*]` binding of the same attribute inside a field still competes with the field (last write wins) | `@poc/angular` (`lib/utils/field-control.ts`, `own-attribute.ts`) |
+| Field.Control's value | `[value]` cannot be a host binding of a directive on any element under `typeCheckHostBindings`: an effect writes the value on the input | `@poc/angular` |
+| ids | Checkbox and Select.Trigger take their generated id after the first render (the consumer's wins); they register it with the field then, and the label's `for` follows | `@poc/angular` |
+| a kept value (found in review) | with a bound `[value]`, a consumer that keeps the old value never changes the input, so the binding never writes and the rejected text stayed. The Control flushes after reporting the change (`injectFlush`) and puts the bound value back on the input when they differ, as the Combobox input does | `@poc/angular` |
+| fixture | an attribute that names a directive input is still written on the element (`validationmode="onChange"` on the root's `<div>`): the fixture binds the root's inputs (`[name]="'email'"`), so the root carries no attribute React's has not | `fixtures/angular` |
+
+Zoneless timing (checklist item 8) needed nothing new: a submission attempt, a blur and a change
+render in the next task, which the suite's polling assertions meet, and the slider's key and the
+select's choice already flush. In dev mode (`vite`), the three scenarios log no error or warning
+while submitted, typed into, toggled, chosen and moved by a key.

@@ -62,9 +62,32 @@ export {
     previousTabbableBefore,
 } from "./focus/tabbable.ts";
 export {
+    type FieldValidationMode,
+    shownAfterChange,
+    validatesOnChange,
+} from "./form/field-change.ts";
+export { fieldDescribedBy } from "./form/field-described-by.ts";
+export {
+    type FieldErrorMatch,
+    fieldErrorShown,
+} from "./form/field-error-shown.ts";
+export { type FieldState, fieldStateAttributes } from "./form/field-state.ts";
+export {
+    CLEARED,
+    type FieldValidate,
+    type FieldValidation,
+    type FieldValidity,
+    UNVALIDATED,
+    VALIDITY_KEYS,
+    type ValidateFieldOptions,
+    type ValidityKey,
+    validateField,
+} from "./form/field-validity.ts";
+export {
     bridgeForm,
     type FormBridgeOptions,
 } from "./form/form-bridge.ts";
+export { onSubmitAttempt } from "./form/submit-attempt.ts";
 export { VISUALLY_HIDDEN_INPUT_STYLE } from "./form/visually-hidden.ts";
 export { createDelayGroup, type DelayGroup } from "./hover/delay-group.ts";
 export { createHoverIntent, type HoverIntent } from "./hover/hover-intent.ts";

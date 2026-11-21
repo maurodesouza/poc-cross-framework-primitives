@@ -82,6 +82,11 @@ export const SliderThumb = defineComponent({
         };
 
         return () => {
+            const { field } = context;
+            // the field's label names a thumb that has no name of its own
+            const named =
+                attrs["aria-label"] !== undefined ||
+                attrs["aria-labelledby"] !== undefined;
             const position = index();
             const value = context.values.value[position] ?? context.min();
             const disabled = props.disabled || context.disabled();
@@ -120,6 +125,10 @@ export const SliderThumb = defineComponent({
                     "aria-valuetext": props.getAriaValueText?.(value, position),
                     "aria-orientation": orientation,
                     "aria-disabled": disabled ? "true" : undefined,
+                    ...field.aria(),
+                    "aria-labelledby": named
+                        ? undefined
+                        : field.aria()["aria-labelledby"],
                     "data-slider-part": "thumb",
                     ...stateAttributes({
                         orientation,
@@ -129,6 +138,8 @@ export const SliderThumb = defineComponent({
                     }),
                     style,
                     onKeydown,
+                    onFocus: field.onFocus,
+                    onBlur: field.onBlur,
                     ref: setElement,
                 },
             );

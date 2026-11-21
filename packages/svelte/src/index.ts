@@ -7,6 +7,7 @@ export { default as CheckboxGroup } from "./components/checkbox-group/checkbox-g
 export { Combobox } from "./components/combobox/parts.ts";
 export { DatePicker, DateRangePicker } from "./components/date-picker/parts.ts";
 export { Dialog } from "./components/dialog/parts.ts";
+export { Field } from "./components/field/parts.ts";
 export { Menu } from "./components/menu/parts.ts";
 export { Popover } from "./components/popover/parts.ts";
 export { Select } from "./components/select/parts.ts";

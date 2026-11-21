@@ -5,6 +5,7 @@ import type {
 import { createContext } from "../../utils/context.ts";
 import { Controllable } from "../../utils/controllable.svelte.ts";
 import { OverlayRoot } from "../../utils/overlay-root.svelte.ts";
+import type { FieldControlBinding } from "../../utils/use-field-control.svelte.ts";
 
 /** One item of the Root's `items` (spec/select.md, "API"). */
 export interface SelectItemData {
@@ -35,6 +36,8 @@ export class SelectState extends OverlayRoot {
             items: () => readonly SelectItemData[];
             disabled: () => boolean;
             required: () => boolean;
+            /** The enclosing field's binding, for the trigger (spec/field.md). */
+            field: FieldControlBinding;
         },
     ) {
         super({ ...overlay, placed: { side: "bottom", align: "start" } });
@@ -45,6 +48,10 @@ export class SelectState extends OverlayRoot {
 
     get value(): string | null {
         return this.#value.value;
+    }
+
+    get field(): FieldControlBinding {
+        return this.options.field;
     }
 
     get items(): readonly SelectItemData[] {

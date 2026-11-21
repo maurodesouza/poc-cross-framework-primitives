@@ -152,7 +152,9 @@ export const SelectTrigger = defineComponent({
                             ? context.itemId(highlighted)
                             : undefined,
                     "aria-required": context.required() ? "true" : undefined,
+                    ...context.field.aria(),
                     "data-select-part": "trigger",
+                    ...context.field.attributes(),
                     ...stateAttributes({ open, disabled, placeholder }),
                     onClick: () => {
                         if (context.open.value) {
@@ -168,6 +170,8 @@ export const SelectTrigger = defineComponent({
                         }
                     },
                     onKeydown,
+                    onFocus: context.field.onFocus,
+                    onBlur: context.field.onBlur,
                     ref: setTrigger,
                 },
             );

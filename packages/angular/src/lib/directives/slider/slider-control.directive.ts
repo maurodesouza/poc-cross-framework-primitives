@@ -59,7 +59,7 @@ export class SliderControl {
     protected onPointerDown(event: PointerEvent): void {
         const root = this.root;
         if (
-            root.disabled() ||
+            root.isDisabled() ||
             (event.pointerType === "mouse" && event.button !== 0)
         ) {
             return;

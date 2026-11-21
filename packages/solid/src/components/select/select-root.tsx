@@ -2,6 +2,7 @@ import { bridgeForm } from "@poc/dom";
 import type { JSX } from "@solidjs/web";
 import { createEffect, createSignal, createUniqueId, flush } from "solid-js";
 import { createControllable } from "../../hooks/create-controllable.ts";
+import { createFieldControl } from "../../hooks/create-field-control.ts";
 import {
     createOverlayRoot,
     type OverlayRootProps,
@@ -45,6 +46,15 @@ export function SelectRoot(props: SelectRootProps) {
     }));
     const [input, setInput] = createSignal<HTMLInputElement | null>(null);
     const baseId = createUniqueId();
+    const field = createFieldControl({
+        // the trigger's rendered id: the consumer's, else the generated one
+        id: () => root.trigger()?.id || root.triggerId,
+        labelable: true,
+        value,
+        filled: () => value() !== null,
+        input,
+    });
+    const disabled = () => (props.disabled ?? false) || field.disabled();
     const items = () => props.items;
 
     createEffect(input, (element) => {
@@ -64,9 +74,10 @@ export function SelectRoot(props: SelectRootProps) {
 
     const context: SelectContextValue = {
         ...root,
+        field,
         items,
         value,
-        disabled: () => props.disabled ?? false,
+        disabled,
         required: () => props.required ?? false,
         highlighted,
         setHighlighted: (next) => setHighlighted(next),
@@ -96,10 +107,10 @@ export function SelectRoot(props: SelectRootProps) {
                 ref={(element) => setInput(element)}
                 aria-hidden="true"
                 tabindex={-1}
-                name={props.name}
+                name={field.name() ?? props.name}
                 value={value() ?? ""}
                 required={props.required ?? false}
-                disabled={props.disabled ?? false}
+                disabled={disabled()}
                 style={HIDDEN_INPUT_STYLE}
                 data-select-part="input"
             />

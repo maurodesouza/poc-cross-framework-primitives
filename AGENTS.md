@@ -68,6 +68,10 @@ decision for the maintainer, not an implementation detail.
      weekday and date names from `Intl`), which the consumer can still replace
      (`spec/README.md`);
    - sides are logical (`start`/`end`), never `left`/`right`.
+     The naming decision is taken (`docs/decisions.md`, row 10: Base UI's `inline-start` /
+     `inline-end` plus physical `left` / `right`, `loopFocus`, `data-popup-open`), and pending:
+     it is applied to every component at once in the production version. Until then, keep the
+     current names.
 6. **No Fragiola model API.** Primitives use controlled and uncontrolled props
    (`value`/`defaultValue`/`on<Value>Change` in React, `v-model` in Vue, an input with its `*Change` output in Angular,
    `$bindable` in Svelte, props and callbacks in Solid), as the spec's API mapping table says.

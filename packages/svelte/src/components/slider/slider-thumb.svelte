@@ -81,6 +81,11 @@ const onkeydown = (event: KeyboardEvent) => {
     context.commit(context.setThumb(index, target, "keyboard"));
 };
 
+const { field } = context;
+// the field's label names a thumb that has no name of its own
+const named = $derived(
+    rest["aria-label"] !== undefined || rest["aria-labelledby"] !== undefined,
+);
 const partState = $derived({
     value,
     index,
@@ -99,6 +104,10 @@ const partProps = $derived(
             "aria-valuetext": getAriaValueText?.(value, index),
             "aria-orientation": context.orientation,
             "aria-disabled": disabled ? "true" : undefined,
+            ...field.aria,
+            "aria-labelledby": named
+                ? undefined
+                : field.aria["aria-labelledby"],
             "data-slider-part": "thumb",
             ...stateAttributes({
                 orientation: context.orientation,
@@ -108,6 +117,8 @@ const partProps = $derived(
             }),
             style,
             onkeydown,
+            onfocus: field.onfocus,
+            onblur: field.onblur,
             ...ref,
         },
         rest,

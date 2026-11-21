@@ -3,6 +3,7 @@ import { bridgeForm } from "@poc/dom";
 import { type Snippet, untrack } from "svelte";
 import type { ChangeDetails } from "../../utils/change-details.ts";
 import { HIDDEN_INPUT_STYLE } from "../../utils/hidden-input-style.ts";
+import { useFieldControl } from "../../utils/use-field-control.svelte.ts";
 import {
     SelectContext,
     type SelectItemData,
@@ -20,7 +21,7 @@ let {
     items,
     name,
     required = false,
-    disabled = false,
+    disabled: disabledProp = false,
     children,
 }: {
     value?: string | null;
@@ -36,6 +37,18 @@ let {
     disabled?: boolean;
     children?: Snippet;
 } = $props();
+
+let input = $state<HTMLInputElement | null>(null);
+// its options are read once the select below exists (in effects and handlers)
+const field = useFieldControl({
+    // the trigger's rendered id: the consumer's, else the generated one
+    id: () => select.trigger?.id || select.triggerId,
+    labelable: true,
+    value: () => select.value,
+    filled: () => select.value !== null,
+    input: () => input,
+});
+const disabled = $derived(disabledProp || field.disabled);
 
 const select = new SelectState(
     {
@@ -54,11 +67,11 @@ const select = new SelectState(
         items: () => items,
         disabled: () => disabled,
         required: () => required,
+        field,
     },
 );
 SelectContext.provide(select);
 
-let input = $state<HTMLInputElement | null>(null);
 $effect(() => {
     const element = input;
     if (element === null) {
@@ -79,4 +92,4 @@ $effect(() => {
 });
 </script>
 
-{@render children?.()}<input bind:this={input} aria-hidden="true" tabindex={-1} {name} value={select.value ?? ""} {required} {disabled} style={HIDDEN_INPUT_STYLE} data-select-part="input" />
+{@render children?.()}<input bind:this={input} aria-hidden="true" tabindex={-1} name={field.name ?? name} value={select.value ?? ""} {required} {disabled} style={HIDDEN_INPUT_STYLE} data-select-part="input" />

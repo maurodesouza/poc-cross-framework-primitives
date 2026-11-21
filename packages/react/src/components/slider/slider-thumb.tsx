@@ -91,6 +91,11 @@ export function SliderThumb({
         context.commit(context.setThumb(index, target, "keyboard"));
     };
 
+    const { field } = context;
+    // the field's label names a thumb that has no name of its own
+    const named =
+        props["aria-label"] !== undefined ||
+        props["aria-labelledby"] !== undefined;
     const state = {
         value,
         index,
@@ -111,6 +116,10 @@ export function SliderThumb({
             "aria-valuetext": getAriaValueText?.(value, index),
             "aria-orientation": context.orientation,
             "aria-disabled": disabled ? "true" : undefined,
+            ...field.aria,
+            "aria-labelledby": named
+                ? undefined
+                : field.aria["aria-labelledby"],
             "data-slider-part": "thumb",
             ...stateAttributes({
                 orientation: context.orientation,
@@ -120,6 +129,8 @@ export function SliderThumb({
             }),
             style,
             onKeyDown,
+            onFocus: field.onFocus,
+            onBlur: field.onBlur,
         },
         ref,
     );

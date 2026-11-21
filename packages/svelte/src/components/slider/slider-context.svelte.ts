@@ -6,6 +6,7 @@ import type {
 } from "../../utils/change-details.ts";
 import { createContext } from "../../utils/context.ts";
 import { Controllable } from "../../utils/controllable.svelte.ts";
+import type { FieldControlBinding } from "../../utils/use-field-control.svelte.ts";
 
 export type SliderValue = number | readonly number[];
 
@@ -58,6 +59,8 @@ export class SliderState {
         },
         readonly range: boolean,
         readonly options: () => SliderOptions,
+        /** The enclosing field's binding, for the thumbs (spec/field.md). */
+        readonly field: FieldControlBinding,
     ) {
         this.#values = new Controllable(
             () => {

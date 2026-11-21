@@ -16,6 +16,7 @@ starts here (with its reason), then the tests, then the implementations (AGENTS.
 | [tooltip.md](tooltip.md) | Tooltip, with its delay group (an extra) |
 | [checkbox.md](checkbox.md) | Checkbox, CheckboxGroup (an extra) |
 | [slider.md](slider.md) | Slider, with one or more thumbs (an extra) |
+| [field.md](field.md) | Field: Root, Label, Control, Description, Error, and its integration into Checkbox, Select and Slider (Epic H) |
 
 Primary source: the WAI-ARIA Authoring Practices (APG) patterns in
 `~/organizations/fragiola/references/wai-aria-practices/content/patterns/`. Behaviour was compared
@@ -84,6 +85,8 @@ The vocabulary is shared by every component:
 | `data-instant` | a tooltip that opened with no delay |
 | `data-dragging` | a slider while a pointer drags a thumb |
 | `data-index` | a slider thumb's value index (a value) |
+| `data-invalid`, `data-valid` | a field that shows an error, or that validated and is valid (neither before its first validation) |
+| `data-dirty`, `data-touched`, `data-filled`, `data-focused` | a field whose value changed, whose control lost focus once, whose value is not empty, whose control has focus |
 
 ### No text, and the one exception
 
@@ -149,6 +152,20 @@ native control would. A hidden input is never in the accessibility tree nor in t
 (`aria-hidden="true"`, `tabindex="-1"`, or `type="hidden"`): users meet the primitive's own role
 only. Each hidden input carries the component's part attribute with the value `input`.
 
+**The Field layer** ([field.md](field.md)) sits above the controls. A `Field.Root` around a
+`Field.Control` (a native input), a Checkbox, a Select or a Slider gives the control:
+
+- its label (`Field.Label`, linked with `for` and `aria-labelledby`);
+- its description (`Field.Description`, in `aria-describedby`);
+- its validation: the native validity of the element the form validates, plus a `validate`
+  function, shown on submit, on blur or on change (`validationMode`), with `Field.Error` parts and
+  `aria-invalid`;
+- the states `data-invalid`, `data-valid`, `data-dirty`, `data-touched`, `data-filled` and
+  `data-focused`.
+
+Each control follows the spec's integration contract: it takes the field's ids, `name` and
+`disabled`, and reports its focus and its changes. Outside a field, it behaves as before.
+
 ## API mapping by framework
 
 The specs describe one API. Each framework expresses it with its own means, never as a foreign API:
@@ -164,6 +181,8 @@ The specs describe one API. Each framework expresses it with its own means, neve
 | class and style from state | `className` / `style` as a value or `(state) => value` | `class` / `style` values; state through `data-*` or the `render` slot | the consumer's own `class`; state through `data-*` or the directive's `state()` signal (`exportAs`) | `class` / `style` values; state through `data-*` or the `child` snippet | `class` / `style` as a value or `(state) => value` |
 | element reference | `ref` prop | template ref (the component instance, element as `$el`) | the host element: a template reference variable (`#cancel`); `#cancel="dialogClose"` gives the directive | an attachment (`{@attach (node) => ...}`): every part passes its attachments on to its element, or to the `child` snippet's props | `ref` prop (a callback; focus targets take a getter, `initialFocus={() => el}`) |
 | children function (collections, calendar weeks) | `children={(item) => ...}` | default scoped slot (`v-slot="{ week }"`) | `@for` over the directive's signal, read through `exportAs` (`@for (week of body.weeks(); ...)`, `{{ cell.dayNumber() }}`); a part rendered only in some states is structural (`*tabsPanel="'account'"`) | `children` snippet with arguments | `children={(item) => ...}` |
+| field context (a control inside `Field.Root`) | `useContext` of the field's context | `inject` of the field's provided state | `injectField()` (optional injection of the enclosing `[fieldRoot]`) | `getContext` of the field's context | `useContext` of the field's context |
+| field validation (`validate`, `validationMode`) | `validate={(value) => ...}` `validationMode="onBlur"` | `:validate="(value) => ..."` `validation-mode="onBlur"` | `[validate]="fn"` `validationMode="onBlur"` (inputs of `[fieldRoot]`) | `validate={(value) => ...}` `validationMode="onBlur"` | `validate={(value) => ...}` `validationMode="onBlur"` |
 | part hooks (lower layer) | `useDialogPopup()` → `{ state, props }` | `useDialogPopup()` composable → `{ state, props }` | `injectDialog()` → `{ state, ... }` of the enclosing root (the parts are the directives themselves) | `useDialogPopup()` (`.svelte.ts`) | `useDialogPopup()` → `{ state, props }` |
 
 Fragiola's existing mapping of the same contract: `~/organizations/fragiola/dockable/site/docs/concepts/primitive-contract.mdx`
