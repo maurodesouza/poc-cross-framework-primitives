@@ -45,8 +45,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-vue",
         port: 5330,
         layers: ["behaviour", "contract", "visual"],
-        // Combobox parity (Epic I, #62): pending until its port lands
-        pending: ["combobox"],
     },
     // @poc/svelte (Epic D)
     {

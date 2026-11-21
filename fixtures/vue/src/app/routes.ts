@@ -7,6 +7,15 @@ import CalendarUnavailable from "../scenarios/calendar/calendar-unavailable.vue"
 import CheckboxBasic from "../scenarios/checkbox/checkbox-basic.vue";
 import CheckboxControlled from "../scenarios/checkbox/checkbox-controlled.vue";
 import CheckboxGroupScenario from "../scenarios/checkbox/checkbox-group.vue";
+import ComboboxBasic from "../scenarios/combobox/combobox-basic.vue";
+import ComboboxControlled from "../scenarios/combobox/combobox-controlled.vue";
+import ComboboxField from "../scenarios/combobox/combobox-field.vue";
+import ComboboxFiltered from "../scenarios/combobox/combobox-filtered.vue";
+import ComboboxForm from "../scenarios/combobox/combobox-form.vue";
+import ComboboxGroups from "../scenarios/combobox/combobox-groups.vue";
+import ComboboxMultiple from "../scenarios/combobox/combobox-multiple.vue";
+import ComboboxObjects from "../scenarios/combobox/combobox-objects.vue";
+import ComboboxRejectedInput from "../scenarios/combobox/combobox-rejected-input.vue";
 import DatePickerBasic from "../scenarios/date-picker/date-picker-basic.vue";
 import DatePickerRange from "../scenarios/date-picker/date-picker-range.vue";
 import DialogBasic from "../scenarios/dialog/dialog-basic.vue";
@@ -50,6 +59,15 @@ export const routes: Record<string, Component> = {
     "/menu/basic": MenuBasic,
     "/menu/submenu": MenuSubmenu,
     "/menu/groups": MenuGroups,
+    "/combobox/basic": ComboboxBasic,
+    "/combobox/controlled": ComboboxControlled,
+    "/combobox/rejected-input": ComboboxRejectedInput,
+    "/combobox/filtered": ComboboxFiltered,
+    "/combobox/objects": ComboboxObjects,
+    "/combobox/multiple": ComboboxMultiple,
+    "/combobox/groups": ComboboxGroups,
+    "/combobox/form": ComboboxForm,
+    "/combobox/field": ComboboxField,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,
