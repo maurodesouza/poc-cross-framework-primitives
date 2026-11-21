@@ -43,7 +43,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "vue",
         fixture: "fixture-vue",
-        pending: EXTRAS,
         port: 5330,
         layers: ["behaviour", "contract", "visual"],
     },
