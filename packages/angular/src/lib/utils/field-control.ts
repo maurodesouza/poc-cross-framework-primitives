@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { onSubmitAttempt } from "@poc/dom";
 import { injectField } from "../inject/inject-field.ts";
+import { ownAttribute } from "./own-attribute.ts";
 
 export interface FieldControlOptions {
     /** The control's labelable element's id (or its main element's), once it has one. */
@@ -147,4 +148,33 @@ export function fieldControl(
         blurred: () =>
             events.blurred(options.input(), untracked(options.value)),
     };
+}
+
+/**
+ * Writes a field's ARIA (`aria-labelledby`, `aria-describedby`, `aria-invalid`) on a control's
+ * element, in its directive's injection context. Only inside a field: outside one, the element's
+ * attributes stay the consumer's, static or bound, as without the layer. Inside, a consumer's own
+ * static attribute wins over the field's value.
+ */
+export function writeFieldAria(
+    binding: FieldControlBinding,
+    host: HTMLElement,
+    attributes: Partial<Record<string, () => string | null>>,
+): void {
+    const own = Object.fromEntries(
+        Object.keys(attributes).map((name) => [name, ownAttribute(name)]),
+    );
+    if (!binding.inField) {
+        return;
+    }
+    effect(() => {
+        for (const [name, value] of Object.entries(attributes)) {
+            const next = own[name] ?? value?.() ?? null;
+            if (next === null) {
+                host.removeAttribute(name);
+            } else {
+                host.setAttribute(name, next);
+            }
+        }
+    });
 }

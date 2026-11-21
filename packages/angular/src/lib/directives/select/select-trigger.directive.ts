@@ -1,8 +1,8 @@
 import { afterNextRender, computed, Directive, inject } from "@angular/core";
 import { createTypeahead, menuKeyTarget } from "@poc/dom";
+import { writeFieldAria } from "../../utils/field-control.ts";
 import { injectFlush } from "../../utils/flush.ts";
 import { registerHost } from "../../utils/host-element.ts";
-import { ownAttribute } from "../../utils/own-attribute.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
 import { initialHighlight, SelectRoot } from "./select-root.directive.ts";
 
@@ -33,9 +33,6 @@ const TYPEAHEAD_SPACE = 500;
         "[attr.aria-controls]": "state().open ? root.listId : null",
         "[attr.aria-activedescendant]": "activeId()",
         "[attr.aria-required]": "root.required() ? 'true' : null",
-        "[attr.aria-labelledby]": "ownLabelledBy ?? root.field.labelledBy()",
-        "[attr.aria-describedby]": "ownDescribedBy ?? root.field.describedBy()",
-        "[attr.aria-invalid]": "root.field.ariaInvalid()",
         "[attr.data-invalid]": "root.field.data().invalid",
         "[attr.data-valid]": "root.field.data().valid",
         "[attr.data-dirty]": "root.field.data().dirty",
@@ -69,11 +66,15 @@ export class SelectTrigger {
     private readonly typeahead = createTypeahead();
     private lastTyped = 0;
     private readonly flush = injectFlush();
-    protected readonly ownLabelledBy = ownAttribute("aria-labelledby");
-    protected readonly ownDescribedBy = ownAttribute("aria-describedby");
 
     constructor() {
         const host = registerHost(this.root.overlay.trigger);
+        const { field } = this.root;
+        writeFieldAria(field, host, {
+            "aria-labelledby": field.labelledBy,
+            "aria-describedby": field.describedBy,
+            "aria-invalid": field.ariaInvalid,
+        });
         // the consumer's own id wins (the label's `for` points at it)
         afterNextRender(() => {
             if (host.id === "") {

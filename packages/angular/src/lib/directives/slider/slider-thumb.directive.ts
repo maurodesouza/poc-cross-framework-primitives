@@ -12,6 +12,7 @@ import {
     thumbBounds,
     valueToPercent,
 } from "@poc/dom";
+import { writeFieldAria } from "../../utils/field-control.ts";
 import { injectFlush } from "../../utils/flush.ts";
 import { injectHost } from "../../utils/host-element.ts";
 import { ownAttribute } from "../../utils/own-attribute.ts";
@@ -40,9 +41,6 @@ export interface SliderThumbState {
         "[attr.aria-valuetext]": "valueText()",
         "[attr.aria-orientation]": "state().orientation",
         "[attr.aria-disabled]": "state().disabled ? 'true' : null",
-        "[attr.aria-labelledby]": "labelledBy()",
-        "[attr.aria-describedby]": "ownDescribedBy ?? root.field.describedBy()",
-        "[attr.aria-invalid]": "root.field.ariaInvalid()",
         "[attr.data-orientation]": "data().orientation",
         "[attr.data-index]": "data().index",
         "[attr.data-disabled]": "data().disabled",
@@ -54,7 +52,7 @@ export interface SliderThumbState {
     },
 })
 export class SliderThumb {
-    protected readonly root = inject(SliderRoot);
+    private readonly root = inject(SliderRoot);
     /** Its value's index (default: its order among the thumbs). */
     readonly index = input<number | undefined>(undefined);
     /** The text for `aria-valuetext`. */
@@ -64,15 +62,6 @@ export class SliderThumb {
     readonly disabled = input(false, { transform: booleanAttribute });
     private readonly host = injectHost();
     private readonly flush = injectFlush();
-    private readonly ownLabel = ownAttribute("aria-label");
-    private readonly ownLabelledBy = ownAttribute("aria-labelledby");
-    protected readonly ownDescribedBy = ownAttribute("aria-describedby");
-    /** The field's label names a thumb that has no name of its own. */
-    protected readonly labelledBy = computed(() =>
-        this.ownLabel !== null || this.ownLabelledBy !== null
-            ? this.ownLabelledBy
-            : this.root.field.labelledBy(),
-    );
     private readonly position = computed(
         () =>
             this.index() ?? Math.max(this.root.thumbs().indexOf(this.host), 0),
@@ -137,6 +126,14 @@ export class SliderThumb {
 
     constructor() {
         inject(DestroyRef).onDestroy(this.root.registerThumb(this.host));
+        const { field } = this.root;
+        // the field's label names a thumb that has no name of its own
+        const named = ownAttribute("aria-label") !== null;
+        writeFieldAria(field, this.host, {
+            "aria-describedby": field.describedBy,
+            "aria-invalid": field.ariaInvalid,
+            ...(named ? {} : { "aria-labelledby": field.labelledBy }),
+        });
     }
 
     protected onKeyDown(event: KeyboardEvent): void {

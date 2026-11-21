@@ -17,13 +17,12 @@ import type {
     ValueChangeEvent,
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
-import { fieldControl } from "../../utils/field-control.ts";
+import { fieldControl, writeFieldAria } from "../../utils/field-control.ts";
 import {
     createHiddenInput,
     setInputAttribute,
 } from "../../utils/hidden-input.ts";
 import { injectHost } from "../../utils/host-element.ts";
-import { ownAttribute } from "../../utils/own-attribute.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
 import { CheckboxGroup } from "../checkbox-group/checkbox-group.directive.ts";
 
@@ -59,9 +58,6 @@ export function checkedAttributes(state: CheckboxState) {
         "[attr.aria-checked]": "ariaChecked()",
         "[attr.aria-required]": "state().required ? 'true' : null",
         "[attr.aria-controls]": "controls()",
-        "[attr.aria-labelledby]": "ownLabelledBy ?? field.labelledBy()",
-        "[attr.aria-describedby]": "ownDescribedBy ?? field.describedBy()",
-        "[attr.aria-invalid]": "field.ariaInvalid()",
         "[attr.data-invalid]": "field.data().invalid",
         "[attr.data-valid]": "field.data().valid",
         "[attr.data-dirty]": "field.data().dirty",
@@ -102,8 +98,6 @@ export class CheckboxRoot {
     });
     /** The button's id, once it has one (the consumer's, or one made after the first render). */
     private readonly hostId = signal<string | undefined>(undefined);
-    protected readonly ownLabelledBy = ownAttribute("aria-labelledby");
-    protected readonly ownDescribedBy = ownAttribute("aria-describedby");
     private readonly own = controllable<boolean, ChangeDetails>(
         this.checked,
         this.checkedChange,
@@ -174,6 +168,11 @@ export class CheckboxRoot {
     constructor() {
         const host = this.host;
         const hidden = this.hidden;
+        writeFieldAria(this.field, host, {
+            "aria-labelledby": this.field.labelledBy,
+            "aria-describedby": this.field.describedBy,
+            "aria-invalid": this.field.ariaInvalid,
+        });
         effect(() => {
             const parent = this.parent();
             setInputAttribute(

@@ -13,9 +13,8 @@ import type {
     ValueChangeEvent,
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
-import { fieldControl } from "../../utils/field-control.ts";
+import { fieldControl, writeFieldAria } from "../../utils/field-control.ts";
 import { injectHost } from "../../utils/host-element.ts";
-import { ownAttribute } from "../../utils/own-attribute.ts";
 import { dataValue } from "../../utils/state-attributes.ts";
 
 const OUTSIDE_STATE: FieldState = {
@@ -39,9 +38,6 @@ const OUTSIDE_STATE: FieldState = {
         "[attr.id]": "resolvedId()",
         "[attr.name]": "resolvedName()",
         "[attr.disabled]": "resolvedDisabled() ? '' : null",
-        "[attr.aria-labelledby]": "ownLabelledBy ?? field.labelledBy()",
-        "[attr.aria-describedby]": "ownDescribedBy ?? field.describedBy()",
-        "[attr.aria-invalid]": "field.ariaInvalid()",
         "data-field-part": "control",
         "[attr.data-invalid]": "field.data().invalid",
         "[attr.data-valid]": "field.data().valid",
@@ -74,8 +70,6 @@ export class FieldControl {
     protected readonly current = this.text.value;
     private readonly generated = createId("poc-field-control");
     protected readonly resolvedId = computed(() => this.id() ?? this.generated);
-    protected readonly ownLabelledBy = ownAttribute("aria-labelledby");
-    protected readonly ownDescribedBy = ownAttribute("aria-describedby");
     protected readonly field = fieldControl({
         id: this.resolvedId,
         labelable: true,
@@ -106,6 +100,11 @@ export class FieldControl {
     );
 
     constructor() {
+        writeFieldAria(this.field, this.host, {
+            "aria-labelledby": this.field.labelledBy,
+            "aria-describedby": this.field.describedBy,
+            "aria-invalid": this.field.ariaInvalid,
+        });
         // the value on the element (a host property binding needs a known element type)
         effect(() => {
             const value = this.current();

@@ -15,9 +15,8 @@ import type {
     ValueChangeEvent,
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
-import { fieldControl } from "../../utils/field-control.ts";
+import { fieldControl, writeFieldAria } from "../../utils/field-control.ts";
 import { injectHost } from "../../utils/host-element.ts";
-import { ownAttribute } from "../../utils/own-attribute.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
 
 /** A number, or an array of numbers for several thumbs. */
@@ -49,7 +48,6 @@ function sameValues(a: readonly number[], b: readonly number[]): boolean {
     exportAs: "sliderRoot",
     host: {
         role: "group",
-        "[attr.aria-labelledby]": "ownLabelledBy ?? field.labelledBy()",
         "data-slider-part": "root",
         "[attr.data-invalid]": "field.data().invalid",
         "[attr.data-valid]": "field.data().valid",
@@ -94,7 +92,6 @@ export class SliderRoot {
     readonly values = this.current.value;
     /** One hidden input per value, in order. */
     private readonly inputs: HTMLInputElement[] = [];
-    protected readonly ownLabelledBy = ownAttribute("aria-labelledby");
     /** The enclosing field's binding, for the root and the thumbs (spec/field.md). */
     readonly field = fieldControl({
         id: signal(undefined),
@@ -125,6 +122,9 @@ export class SliderRoot {
 
     constructor() {
         const host = injectHost();
+        writeFieldAria(this.field, host, {
+            "aria-labelledby": this.field.labelledBy,
+        });
         // one `type="hidden"` input per value, after the consumer's children (as React renders)
         const inputs = this.inputs;
         effect(() => {
