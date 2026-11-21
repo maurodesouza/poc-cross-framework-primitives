@@ -24,7 +24,7 @@ Angular's own means (spec/README.md, "API mapping by framework"):
 
 Source layout: `src/lib/directives/<component>/<part>.directive.ts` (one part per file, the same
 names as React's components), `src/lib/inject/` (the part hooks), `src/lib/utils/` (controllable
-state, presence, overlay root, portal, state attributes), `src/public-api.ts`.
+state, presence, overlay root, portal, positioning, state attributes), `src/public-api.ts`.
 
 ## Build
 
@@ -40,8 +40,12 @@ The fixture (`fixtures/angular`) compiles these sources with the app, through
 
 | part of the port | finding | fixed in |
 | --- | --- | --- |
-| fixture DOM | an Angular component has a host element, which React's tree does not: every scenario component uses an attribute selector and its host *is* an element of React's DOM (`<main scenario-dialog-basic>`, `<pre fixtureOutput>`) | `fixtures/angular` |
+| fixture DOM | an Angular component has a host element, which React's tree does not: every scenario component uses an attribute selector and its host *is* an element of React's DOM (`<main scenario-dialog-basic>`, `<p placedPopover>`, `<pre fixtureOutput>`) | `fixtures/angular` |
 | fixture text | Angular removes whitespace-only text nodes between tags (as JSX does), but keeps a collapsed space around text that touches a line break: text is written against its tags (`<label>Name<input /></label>`) | `fixtures/angular` |
 | roots | a root has no element of its own: it is an attribute directive on an `<ng-container>` (a comment node), found by dependency injection | `@poc/angular` |
 | change details | `model()` named `open` owns the `openChange` output, so the details come in `openChangeDetails` | `@poc/angular`, `spec/README.md` |
 | portal | `*dialogPortal` without a value binds `""`: the input's transform reads it as the default container | `@poc/angular` |
+| Menu keyboard | two quick ArrowDown presses both reached the trigger: zoneless Angular renders a state change in a later task, after input the browser already queued, so the popup (and the focus on its first item) came too late. An open change renders at once (`injectFlush`, `ApplicationRef.tick()` from the event handler), as React renders a discrete event's state before the next one | `@poc/angular` |
+| submenu portal | a submenu's portal lives inside its parent's popup; destroying the parent's view detaches only that view's own nodes, so the submenu's nodes (moved to `body`) stayed: the portal removes the nodes it moved when it is destroyed | `@poc/angular` |
+| disabled item | the consumer's `(click)` sits on the item's own element, so the item cannot leave it out as React does: a capturing listener on the item stops a disabled item's click before it (at the target, capturing listeners run first) | `@poc/angular` |
+| submenus | one `MenuRoot` directive with two selectors, `[menuRoot]` and `[menuSubmenuRoot]`; the attribute (`HostAttributeToken`) tells a nested level apart, and it injects its parent level with `skipSelf` | `@poc/angular` |

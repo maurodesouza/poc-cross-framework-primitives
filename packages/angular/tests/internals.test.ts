@@ -1,5 +1,6 @@
 import { ElementRef } from "@angular/core";
 import { describe, expect, it } from "vitest";
+import { menuItems } from "../src/lib/directives/menu/menu-items.ts";
 import { resolveFocusTarget } from "../src/lib/utils/change-details.ts";
 import { portalContainer } from "../src/lib/utils/portal.ts";
 import { dataValue, dataValues } from "../src/lib/utils/state-attributes.ts";
@@ -32,5 +33,16 @@ describe("portalContainer", () => {
         const element = document.createElement("div");
         expect(portalContainer("")).toBeNull();
         expect(portalContainer(element)).toBe(element);
+    });
+});
+
+describe("menuItems", () => {
+    it("lists a level's own items, not its submenu's", () => {
+        document.body.innerHTML = `<div role="menu" id="root"><div role="menuitem">A</div><div><div role="menu"><div role="menuitem">B</div></div></div><div role="menuitem">C</div></div>`;
+        const popup = document.getElementById("root") as HTMLElement;
+        expect(menuItems(popup).map((item) => item.textContent)).toEqual([
+            "A",
+            "C",
+        ]);
     });
 });
