@@ -61,6 +61,13 @@ export {
     nextTabbableAfter,
     previousTabbableBefore,
 } from "./focus/tabbable.ts";
+export {
+    bridgeForm,
+    type FormBridgeOptions,
+} from "./form/form-bridge.ts";
+export { VISUALLY_HIDDEN_INPUT_STYLE } from "./form/visually-hidden.ts";
+export { createDelayGroup, type DelayGroup } from "./hover/delay-group.ts";
+export { createHoverIntent, type HoverIntent } from "./hover/hover-intent.ts";
 export { createId } from "./id/create-id.ts";
 export { inertOutside } from "./inert/inert-outside.ts";
 export { watchFocusOutside } from "./layers/focus-outside.ts";
@@ -75,6 +82,11 @@ export {
     type OverlaySessionOptions,
     openOverlaySession,
 } from "./overlay/overlay-session.ts";
+export {
+    type DragSessionOptions,
+    startDrag,
+} from "./pointer/drag-session.ts";
+export { isInHoverBridge } from "./pointer/hover-bridge.ts";
 export { isInSafeArea, type Point } from "./pointer/safe-area.ts";
 export {
     type AnchorOptions,
@@ -87,4 +99,16 @@ export {
     toPlacement,
 } from "./positioning/placement.ts";
 export { nextFrame, waitForAnimations } from "./presence/presence.ts";
+export {
+    fractionAlong,
+    moveThumb,
+    nearestThumb,
+    type RangeOptions,
+    snapToStep,
+    type ThumbOptions,
+    thumbBounds,
+    valueAtFraction,
+    valueToPercent,
+} from "./range/range-math.ts";
+export { type SliderKeyOptions, sliderKeyTarget } from "./range/slider-keys.ts";
 export { lockScroll } from "./scroll-lock/lock-scroll.ts";
