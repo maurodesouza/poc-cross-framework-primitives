@@ -1,6 +1,6 @@
 {
     "framework": "vue",
-    "generatedAt": "2026-11-21T10:49:28.789Z",
+    "generatedAt": "2026-11-21T12:00:29.629Z",
     "loc": {
         "components": [
             {
@@ -108,12 +108,12 @@
             },
             {
                 "component": "tooltip",
-                "framework": 415,
-                "dom": 272,
+                "framework": 406,
+                "dom": 280,
                 "domModules": [
                     "hover/delay-group.ts",
                     "hover/hover-intent.ts",
-                    "pointer/hover-bridge.ts",
+                    "pointer/track-hover-bridge.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
                     "presence/presence.ts"
@@ -131,7 +131,7 @@
             },
             {
                 "component": "checkbox-group",
-                "framework": 102,
+                "framework": 104,
                 "dom": 0,
                 "domModules": []
             },
@@ -149,7 +149,7 @@
             }
         ],
         "shared": 424,
-        "domTotal": 1448
+        "domTotal": 1479
     },
     "sizes": [
         {
@@ -209,7 +209,7 @@
             "ours": {
                 "entry": "export { Tabs } from \"@poc/vue\";",
                 "minified": 6401,
-                "gzip": 2483
+                "gzip": 2482
             },
             "baseline": {
                 "entry": "export { TabsRoot, TabsList, TabsTrigger, TabsIndicator, TabsContent } from \"reka-ui\";",
@@ -260,8 +260,8 @@
             "component": "tooltip",
             "ours": {
                 "entry": "export { Tooltip } from \"@poc/vue\";",
-                "minified": 27508,
-                "gzip": 10566
+                "minified": 27601,
+                "gzip": 10605
             },
             "baseline": {
                 "entry": "export { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipPortal, TooltipContent, TooltipArrow } from \"reka-ui\";",
@@ -274,7 +274,7 @@
             "ours": {
                 "entry": "export { Checkbox } from \"@poc/vue\";",
                 "minified": 4555,
-                "gzip": 1957
+                "gzip": 1958
             },
             "baseline": {
                 "entry": "export { CheckboxRoot, CheckboxIndicator } from \"reka-ui\";",
@@ -360,13 +360,13 @@
         },
         "svelte": {
             "behaviour": {
-                "passed": 92,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -374,19 +374,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 92,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -394,19 +394,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 92,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -414,7 +414,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         }
@@ -461,9 +461,9 @@
             "last": "2026-11-21T07:47:29-03:00"
         },
         "tooltip": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:47:29-03:00",
-            "last": "2026-11-21T07:47:29-03:00"
+            "last": "2026-11-21T08:11:23-03:00"
         },
         "checkbox": {
             "commits": 1,
@@ -471,9 +471,9 @@
             "last": "2026-11-21T07:47:29-03:00"
         },
         "checkbox-group": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:47:29-03:00",
-            "last": "2026-11-21T07:47:29-03:00"
+            "last": "2026-11-21T07:50:39-03:00"
         },
         "slider": {
             "commits": 1,

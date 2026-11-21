@@ -172,7 +172,10 @@ Select, Tooltip, Checkbox and CheckboxGroup, and Slider, specified in Epic F (#3
    open, closing once the pointer leaves the trigger, the popup and the gap) is about 25 lines,
    written in each framework. It is a session like `openOverlaySession`: a candidate to move into
    `@poc/dom` before Epic G ports it three more times. It stayed out here because it decides when
-   to close, with the framework's open state at hand.
+   to close, with the framework's open state at hand. **Epic G moved it** before the three ports:
+   `trackHoverBridge(trigger, popup, { inside, outside })` only reports where the pointer is;
+   the decision (cancel, or start the close delay) stays in `Tooltip.Root`, which now calls it
+   in three lines (React and Vue alike).
 2. **The delay group** (`createDelayGroup`) went into `@poc/dom` because it holds no member's open
    state: only the open member's close callback and the time of the last close. Each tooltip
    keeps its own `open` and reports to it.

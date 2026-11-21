@@ -20,7 +20,7 @@ export interface Controllable<T, Details> {
  */
 export function controllable<T, Details>(
     bound: Signal<T | undefined>,
-    change: OutputEmitterRef<T>,
+    change: Pick<OutputEmitterRef<T>, "emit">,
     fallback: () => T,
     onChange: (value: T, details: Details) => void,
 ): Controllable<T, Details> {

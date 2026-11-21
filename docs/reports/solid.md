@@ -87,3 +87,46 @@ About 29 minutes, the most of any port so far (React ~17.7, Vue ~11, Svelte ~12.
 went into Solid 2.0 itself: a fresh major whose rendering details (memo children, `dynamic`, effect
 order) the port had to discover, which a Solid 1.9 port would not have paid. Commit timestamps of
 agent runs: a proxy for effort, not human time.
+
+## Extras (Epic G)
+
+The React extras ported to Solid 2.0 (#40), on the same `@poc/dom` modules. Lines below are
+`wc -l` of each component folder at the port; the measured numbers (the `@poc/dom` share, sizes
+against Kobalte 0.13.14) are in [`data/solid.md`](data/solid.md) once `pnpm metrics` reran.
+
+| component | `@poc/solid` | `@poc/react` |
+| --- | --- | --- |
+| select | 624 | 650 |
+| tooltip | 420 | 456 |
+| checkbox | 254 | 234 |
+| checkbox-group | 117 | 120 |
+| slider | 504 | 551 |
+
+- **Conformance**: behaviour and contract pass for all ten components (164 passed, the 24 visual
+  tests skipped locally), and five repeats of the extras' tests stayed green. With `VISUAL=1`, the
+  24 visual tests match React's screenshots made on the same machine (in CI, against the golden
+  set). No test changed for Solid, no snapshot of its own.
+- **API**: `value` / `defaultValue` / `onValueChange` (Select, CheckboxGroup, Slider, with
+  `onValueCommit`), `checked` / `defaultChecked` / `onCheckedChange`, `open` / `defaultOpen` /
+  `onOpenChange` (Select, Tooltip), with the details, as in React.
+- **Part hooks: none.** Every part reads its root's context (or its item's), as in React and Vue.
+- **Effort**: about 14 minutes of agent time from an empty folder to a green suite, against ~29 for
+  the six mandatory components in Epic D. The checklist ("Porting a framework") and Epic D's Solid
+  findings (memo parts, static `dynamic`, `untrack` seeds, `flush()` after writes) were applied
+  from the start: every extra passed the suite on its first run. The one new finding came from
+  Solid's development diagnostics, not from the suite.
+
+### Port log (extras)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| tooltip | the hover tracking is `trackHoverBridge` from `@poc/dom` (moved there in this Epic, before the three ports): the Solid root only turns its `inside` / `outside` into the hover intent's calls | `@poc/dom` |
+| slider thumb | registering each thumb by DOM order (React's way) made the thumb's render read the element its own ref writes: in the dev build, Solid reported `EFFECT_WRITES_OWN_SOURCE` and `EFFECT_RELAY_TEAR` (two flushes, the first frame with stale thumbs). A thumb now takes the lowest default index no mounted thumb holds (its creation order, which is the document order; a remounted thumb takes its index back), reads its direction in an effect, and keeps its element in a plain array the control focuses | `@poc/solid` |
+| forms | a form reset arrives late (`bridgeForm`), and a value that is already the default does not re-run the binding: Checkbox and Select set the default, `flush()`, then write it back onto the hidden input | `@poc/solid` |
+| hidden inputs | Solid's style objects take CSS property names: `VISUALLY_HIDDEN_INPUT_STYLE` (DOM names, `clipPath`) is converted once (`utils/hidden-input-style.ts`); the thumb, the indicator and the control write `inset-inline-start`, `touch-action` | `@poc/solid` |
+| lint | `noAriaHiddenOnFocusable` does not read Solid's lower-case `tabindex={-1}` on the hidden inputs: an ignore comment with the reason | `@poc/solid` |
+| optional contexts | Solid 2's `useContext` has no default without one: the CheckboxGroup and Tooltip Provider contexts are created with `null`, as the date picker's | `@poc/solid` |
+
+Boundary pressure: none new. The tooltip's hover tracking no longer repeats per framework;
+CheckboxGroup's membership and the slider's number-or-array shape stay component state and API,
+written a third time (React's report, "Boundary pressure (extras)").

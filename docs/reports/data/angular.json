@@ -1,6 +1,6 @@
 {
     "framework": "angular",
-    "generatedAt": "2026-11-21T01:55:01.617Z",
+    "generatedAt": "2026-11-21T12:01:03.521Z",
     "loc": {
         "components": [
             {
@@ -98,10 +98,67 @@
                     "positioning/placement.ts",
                     "presence/presence.ts"
                 ]
+            },
+            {
+                "component": "select",
+                "framework": 582,
+                "dom": 409,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "id/create-id.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tooltip",
+                "framework": 380,
+                "dom": 285,
+                "domModules": [
+                    "hover/delay-group.ts",
+                    "hover/hover-intent.ts",
+                    "id/create-id.ts",
+                    "pointer/track-hover-bridge.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "checkbox",
+                "framework": 264,
+                "dom": 50,
+                "domModules": [
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "id/create-id.ts"
+                ]
+            },
+            {
+                "component": "checkbox-group",
+                "framework": 83,
+                "dom": 0,
+                "domModules": []
+            },
+            {
+                "component": "slider",
+                "framework": 425,
+                "dom": 195,
+                "domModules": [
+                    "direction/direction.ts",
+                    "pointer/drag-session.ts",
+                    "range/range-math.ts",
+                    "range/slider-keys.ts"
+                ]
             }
         ],
-        "shared": 524,
-        "domTotal": 1111
+        "shared": 569,
+        "domTotal": 1479
     },
     "sizes": [
         {
@@ -186,26 +243,75 @@
                 "gzip": 12191
             },
             "baseline": null
+        },
+        {
+            "component": "select",
+            "ours": {
+                "entry": "export { SelectItem, SelectItemIndicator, SelectList, SelectPopup, SelectPortal, SelectPositioner, SelectRoot, SelectTrigger, SelectValue } from \"@poc/angular\";",
+                "minified": 47222,
+                "gzip": 14156
+            },
+            "baseline": {
+                "entry": "export { Combobox, ComboboxPopup, ComboboxWidget } from \"@angular/aria/combobox\"; export { Listbox, Option } from \"@angular/aria/listbox\";",
+                "minified": 38052,
+                "gzip": 8802
+            }
+        },
+        {
+            "component": "tooltip",
+            "ours": {
+                "entry": "export { TooltipArrow, TooltipPopup, TooltipPortal, TooltipPositioner, TooltipProvider, TooltipRoot, TooltipTrigger } from \"@poc/angular\";",
+                "minified": 40073,
+                "gzip": 12226
+            },
+            "baseline": null
+        },
+        {
+            "component": "checkbox",
+            "ours": {
+                "entry": "export { CheckboxIndicator, CheckboxRoot, CheckboxGroup } from \"@poc/angular\";",
+                "minified": 9899,
+                "gzip": 3093
+            },
+            "baseline": null
+        },
+        {
+            "component": "checkbox-group",
+            "ours": {
+                "entry": "export { CheckboxGroup } from \"@poc/angular\";",
+                "minified": 2805,
+                "gzip": 1157
+            },
+            "baseline": null
+        },
+        {
+            "component": "slider",
+            "ours": {
+                "entry": "export { SliderControl, SliderIndicator, SliderRoot, SliderThumb, SliderTrack } from \"@poc/angular\";",
+                "minified": 13209,
+                "gzip": 3818
+            },
+            "baseline": null
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 79,
+                "passed": 123,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 11
+                "expectedFailures": 17
             }
         },
         "react": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -213,19 +319,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -233,19 +339,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -253,19 +359,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -273,19 +379,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -293,46 +399,71 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         }
     },
     "effort": {
         "dialog": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:28:42-03:00",
-            "last": "2026-11-20T22:28:42-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
         },
         "popover": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:29:27-03:00",
-            "last": "2026-11-20T22:29:27-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
         },
         "menu": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:29:27-03:00",
-            "last": "2026-11-20T22:29:27-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
         },
         "combobox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:42:13-03:00",
-            "last": "2026-11-20T22:42:13-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
         },
         "tabs": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:42:13-03:00",
-            "last": "2026-11-20T22:42:13-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
         },
         "calendar": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:42:13-03:00",
-            "last": "2026-11-20T22:42:13-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
         },
         "date-picker": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T22:42:13-03:00",
-            "last": "2026-11-20T22:42:13-03:00"
+            "last": "2026-11-20T22:55:20-03:00"
+        },
+        "select": {
+            "commits": 1,
+            "first": "2026-11-21T08:24:15-03:00",
+            "last": "2026-11-21T08:24:15-03:00"
+        },
+        "tooltip": {
+            "commits": 1,
+            "first": "2026-11-21T08:24:15-03:00",
+            "last": "2026-11-21T08:24:15-03:00"
+        },
+        "checkbox": {
+            "commits": 1,
+            "first": "2026-11-21T08:24:15-03:00",
+            "last": "2026-11-21T08:24:15-03:00"
+        },
+        "checkbox-group": {
+            "commits": 1,
+            "first": "2026-11-21T08:24:15-03:00",
+            "last": "2026-11-21T08:24:15-03:00"
+        },
+        "slider": {
+            "commits": 1,
+            "first": "2026-11-21T08:24:15-03:00",
+            "last": "2026-11-21T08:24:15-03:00"
         }
     }
 }

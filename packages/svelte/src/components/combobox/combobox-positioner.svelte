@@ -34,7 +34,9 @@ usePositioner(
     () => context.trigger,
     () => context.positioner,
     () => null,
-    (placed) => (context.placed = placed),
+    (placed) => {
+        context.placed = placed;
+    },
 );
 $effect(() => {
     const positioner = context.positioner;

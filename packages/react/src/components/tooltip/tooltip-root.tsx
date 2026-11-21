@@ -2,8 +2,8 @@ import {
     type Align,
     createDelayGroup,
     createHoverIntent,
-    isInHoverBridge,
     type Side,
+    trackHoverBridge,
 } from "@poc/dom";
 import {
     type ReactNode,
@@ -122,21 +122,10 @@ export function TooltipRoot({
         if (!open || !openedByHover.current || trigger === null) {
             return undefined;
         }
-        const doc = trigger.ownerDocument;
-        const onMove = (event: PointerEvent) => {
-            const point = { x: event.clientX, y: event.clientY };
-            const inside =
-                popup !== null
-                    ? isInHoverBridge(point, trigger, popup)
-                    : trigger.contains(event.target as Node);
-            if (inside) {
-                intent.cancel();
-            } else {
-                intent.leave(closeDelay);
-            }
-        };
-        doc.addEventListener("pointermove", onMove);
-        return () => doc.removeEventListener("pointermove", onMove);
+        return trackHoverBridge(trigger, popup, {
+            inside: () => intent.cancel(),
+            outside: () => intent.leave(closeDelay),
+        });
     }, [open, trigger, popup, intent, closeDelay]);
 
     // Escape closes it and stops there

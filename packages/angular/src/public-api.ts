@@ -16,6 +16,15 @@ export { CalendarRow } from "./lib/directives/calendar/calendar-row.directive.ts
 export type { CellState } from "./lib/directives/calendar/calendar-state.ts";
 export type { CalendarValue } from "./lib/directives/calendar/calendar-value.ts";
 export { RangeCalendarRoot } from "./lib/directives/calendar/range-calendar-root.directive.ts";
+export { CheckboxIndicator } from "./lib/directives/checkbox/checkbox-indicator.directive.ts";
+export {
+    CheckboxRoot,
+    type CheckboxState,
+} from "./lib/directives/checkbox/checkbox-root.directive.ts";
+export {
+    CheckboxGroup,
+    type CheckboxGroupState,
+} from "./lib/directives/checkbox-group/checkbox-group.directive.ts";
 export { ComboboxEmpty } from "./lib/directives/combobox/combobox-empty.directive.ts";
 export { ComboboxInput } from "./lib/directives/combobox/combobox-input.directive.ts";
 export {
@@ -108,6 +117,37 @@ export {
     PopoverTrigger,
     type PopoverTriggerState,
 } from "./lib/directives/popover/popover-trigger.directive.ts";
+export {
+    SelectItem,
+    type SelectItemState,
+} from "./lib/directives/select/select-item.directive.ts";
+export { SelectItemIndicator } from "./lib/directives/select/select-item-indicator.directive.ts";
+export { SelectList } from "./lib/directives/select/select-list.directive.ts";
+export { SelectPopup } from "./lib/directives/select/select-popup.directive.ts";
+export { SelectPortal } from "./lib/directives/select/select-portal.directive.ts";
+export { SelectPositioner } from "./lib/directives/select/select-positioner.directive.ts";
+export {
+    type SelectItemData,
+    SelectRoot,
+    type SelectState,
+} from "./lib/directives/select/select-root.directive.ts";
+export {
+    SelectTrigger,
+    type SelectTriggerState,
+} from "./lib/directives/select/select-trigger.directive.ts";
+export { SelectValue } from "./lib/directives/select/select-value.directive.ts";
+export { SliderControl } from "./lib/directives/slider/slider-control.directive.ts";
+export { SliderIndicator } from "./lib/directives/slider/slider-indicator.directive.ts";
+export {
+    SliderRoot,
+    type SliderState,
+    type SliderValue,
+} from "./lib/directives/slider/slider-root.directive.ts";
+export {
+    SliderThumb,
+    type SliderThumbState,
+} from "./lib/directives/slider/slider-thumb.directive.ts";
+export { SliderTrack } from "./lib/directives/slider/slider-track.directive.ts";
 export { TabsIndicator } from "./lib/directives/tabs/tabs-indicator.directive.ts";
 export { TabsList } from "./lib/directives/tabs/tabs-list.directive.ts";
 export {
@@ -123,6 +163,19 @@ export {
     TabsTab,
     type TabsTabState,
 } from "./lib/directives/tabs/tabs-tab.directive.ts";
+export { TooltipArrow } from "./lib/directives/tooltip/tooltip-arrow.directive.ts";
+export {
+    TooltipPopup,
+    type TooltipPopupState,
+} from "./lib/directives/tooltip/tooltip-popup.directive.ts";
+export { TooltipPortal } from "./lib/directives/tooltip/tooltip-portal.directive.ts";
+export { TooltipPositioner } from "./lib/directives/tooltip/tooltip-positioner.directive.ts";
+export { TooltipProvider } from "./lib/directives/tooltip/tooltip-provider.directive.ts";
+export {
+    TooltipRoot,
+    type TooltipState,
+} from "./lib/directives/tooltip/tooltip-root.directive.ts";
+export { TooltipTrigger } from "./lib/directives/tooltip/tooltip-trigger.directive.ts";
 export { injectCalendar } from "./lib/inject/inject-calendar.ts";
 export { injectCombobox } from "./lib/inject/inject-combobox.ts";
 export { injectDatePicker } from "./lib/inject/inject-date-picker.ts";

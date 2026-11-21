@@ -2,8 +2,8 @@ import {
     type Align,
     createDelayGroup,
     createHoverIntent,
-    isInHoverBridge,
     type Side,
+    trackHoverBridge,
 } from "@poc/dom";
 import {
     defineComponent,
@@ -84,21 +84,12 @@ export const TooltipRoot = defineComponent({
                 if (!open || !openedByHover || trigger === null) {
                     return;
                 }
-                const doc = trigger.ownerDocument;
-                const onMove = (event: PointerEvent) => {
-                    const point = { x: event.clientX, y: event.clientY };
-                    const inside =
-                        popup !== null
-                            ? isInHoverBridge(point, trigger, popup)
-                            : trigger.contains(event.target as Node);
-                    if (inside) {
-                        intent.cancel();
-                    } else {
-                        intent.leave(closeDelay());
-                    }
-                };
-                doc.addEventListener("pointermove", onMove);
-                onCleanup(() => doc.removeEventListener("pointermove", onMove));
+                onCleanup(
+                    trackHoverBridge(trigger, popup, {
+                        inside: () => intent.cancel(),
+                        outside: () => intent.leave(closeDelay()),
+                    }),
+                );
             },
             { immediate: true },
         );

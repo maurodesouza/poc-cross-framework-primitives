@@ -1,6 +1,6 @@
 {
     "framework": "solid",
-    "generatedAt": "2026-11-21T01:45:10.738Z",
+    "generatedAt": "2026-11-21T12:00:43.314Z",
     "loc": {
         "components": [
             {
@@ -91,10 +91,61 @@
                     "positioning/placement.ts",
                     "presence/presence.ts"
                 ]
+            },
+            {
+                "component": "select",
+                "framework": 566,
+                "dom": 404,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tooltip",
+                "framework": 375,
+                "dom": 280,
+                "domModules": [
+                    "hover/delay-group.ts",
+                    "hover/hover-intent.ts",
+                    "pointer/track-hover-bridge.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "checkbox",
+                "framework": 229,
+                "dom": 45,
+                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+            },
+            {
+                "component": "checkbox-group",
+                "framework": 105,
+                "dom": 0,
+                "domModules": []
+            },
+            {
+                "component": "slider",
+                "framework": 466,
+                "dom": 195,
+                "domModules": [
+                    "direction/direction.ts",
+                    "pointer/drag-session.ts",
+                    "range/range-math.ts",
+                    "range/slider-keys.ts"
+                ]
             }
         ],
-        "shared": 387,
-        "domTotal": 1111
+        "shared": 400,
+        "domTotal": 1479
     },
     "sizes": [
         {
@@ -179,26 +230,87 @@
                 "gzip": 11671
             },
             "baseline": null
+        },
+        {
+            "component": "select",
+            "ours": {
+                "entry": "export { Select } from \"@poc/solid\";",
+                "minified": 42594,
+                "gzip": 13713
+            },
+            "baseline": {
+                "entry": "export { Select } from \"@kobalte/core/select\";",
+                "minified": 110091,
+                "gzip": 31600
+            }
+        },
+        {
+            "component": "tooltip",
+            "ours": {
+                "entry": "export { Tooltip } from \"@poc/solid\";",
+                "minified": 36385,
+                "gzip": 11758
+            },
+            "baseline": {
+                "entry": "export { Tooltip } from \"@kobalte/core/tooltip\";",
+                "minified": 52042,
+                "gzip": 16387
+            }
+        },
+        {
+            "component": "checkbox",
+            "ours": {
+                "entry": "export { Checkbox } from \"@poc/solid\";",
+                "minified": 6734,
+                "gzip": 2632
+            },
+            "baseline": {
+                "entry": "export { Checkbox } from \"@kobalte/core/checkbox\";",
+                "minified": 15500,
+                "gzip": 4900
+            }
+        },
+        {
+            "component": "checkbox-group",
+            "ours": {
+                "entry": "export { CheckboxGroup } from \"@poc/solid\";",
+                "minified": 3328,
+                "gzip": 1368
+            },
+            "baseline": null
+        },
+        {
+            "component": "slider",
+            "ours": {
+                "entry": "export { Slider } from \"@poc/solid\";",
+                "minified": 11072,
+                "gzip": 3902
+            },
+            "baseline": {
+                "entry": "export { Slider } from \"@kobalte/core/slider\";",
+                "minified": 30342,
+                "gzip": 9165
+            }
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 79,
+                "passed": 123,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 11
+                "expectedFailures": 17
             }
         },
         "react": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -206,19 +318,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -226,19 +338,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -246,19 +358,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -266,19 +378,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -286,7 +398,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         }
@@ -326,6 +438,31 @@
             "commits": 1,
             "first": "2026-11-20T21:51:17-03:00",
             "last": "2026-11-20T21:51:17-03:00"
+        },
+        "select": {
+            "commits": 1,
+            "first": "2026-11-21T08:21:29-03:00",
+            "last": "2026-11-21T08:21:29-03:00"
+        },
+        "tooltip": {
+            "commits": 1,
+            "first": "2026-11-21T08:21:29-03:00",
+            "last": "2026-11-21T08:21:29-03:00"
+        },
+        "checkbox": {
+            "commits": 1,
+            "first": "2026-11-21T08:21:29-03:00",
+            "last": "2026-11-21T08:21:29-03:00"
+        },
+        "checkbox-group": {
+            "commits": 1,
+            "first": "2026-11-21T08:21:29-03:00",
+            "last": "2026-11-21T08:21:29-03:00"
+        },
+        "slider": {
+            "commits": 1,
+            "first": "2026-11-21T08:21:29-03:00",
+            "last": "2026-11-21T08:21:29-03:00"
         }
     }
 }

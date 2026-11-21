@@ -50,7 +50,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "svelte",
         fixture: "fixture-svelte",
-        pending: EXTRAS,
         port: 5340,
         layers: ["behaviour", "contract", "visual"],
     },
@@ -58,7 +57,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "solid",
         fixture: "fixture-solid",
-        pending: EXTRAS,
         port: 5350,
         layers: ["behaviour", "contract", "visual"],
     },
@@ -66,7 +64,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "angular",
         fixture: "fixture-angular",
-        pending: EXTRAS,
         port: 5360,
         layers: ["behaviour", "contract", "visual"],
     },

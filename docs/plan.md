@@ -66,7 +66,8 @@ React 19, Vue 3.5, Angular 22 (standalone, signals, zoneless), Svelte 5 (runes),
 | D (#24) | Svelte and Solid (2.0) ports | done |
 | E (#29) | Angular port and the five-framework report | done |
 | F (#38) | the extras' yardstick (specs, tests, Base UI baseline), React and Vue | done |
-| G | the extras in Svelte, Solid and Angular, and the final report | planned |
+| G (#43) | the extras in Svelte, Solid and Angular, and the final report | done |
+| manual | the screen reader spot check (`docs/reports/screen-readers.md`): needs a person | pending |
 
 Nothing after Epic C was planned or started before the checkpoint decision.
 
@@ -85,8 +86,8 @@ and written up in `docs/reports/<name>.md`:
 - **Bundle size** per component (minified and gzipped, framework external), against Base UI
   (React), Reka UI (Vue), Bits UI (Svelte), Kobalte (Solid) and Angular CDK / Angular Aria where
   they have an equivalent.
-- **Screen readers**: a manual spot check (VoiceOver or NVDA) on Dialog, Menu, Combobox and
-  Calendar, as a checklist with findings.
+- **Screen readers**: a manual spot check (VoiceOver or NVDA) on Dialog, Menu, Combobox,
+  Calendar, Select and Slider, as a checklist with findings.
 - **API ergonomics**: does the API read natively in each framework?
 - **Boundary pressure**: every time component logic wanted to move into `@poc/dom`.
 
@@ -124,3 +125,12 @@ are separate, later projects).
   (`pointer/` drag and hover bridge, `hover/`, `range/`, `form/`). No part hook was needed.
   Svelte, Solid and Angular mark the extras as pending until Epic G. Reports: the "Extras"
   sections of `docs/reports/react.md` and `docs/reports/vue.md`.
+- 2026-11-21: Epic G (#43) done. `@poc/svelte`, `@poc/solid` and `@poc/angular` have the extras,
+  pass every layer for all ten components with no test changed for a port, and match React's
+  golden screenshots. Before them, the tooltip's hover tracking moved into `@poc/dom`
+  (`trackHoverBridge`), React and Vue moved onto it. The extras cost 0.4–0.9 of React's effort
+  (Solid 0.9 and Angular 0.6, down from 1.6 and 1.9). Svelte's dev-mode update loop in Tabs is
+  fixed (#44), and the flaky baseline Select test waits for each highlight. Reports:
+  `docs/reports/frameworks.md` (the final comparison), `docs/reports/final.md` (the verdict and a
+  recommendation for Fragiola). **Remaining**: the screen reader spot check, which needs a person
+  (`docs/reports/screen-readers.md`), then the maintainer's decision.

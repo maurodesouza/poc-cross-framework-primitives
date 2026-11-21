@@ -1,6 +1,6 @@
 {
     "framework": "svelte",
-    "generatedAt": "2026-11-21T01:45:09.940Z",
+    "generatedAt": "2026-11-21T12:00:41.980Z",
     "loc": {
         "components": [
             {
@@ -17,7 +17,7 @@
             },
             {
                 "component": "popover",
-                "framework": 360,
+                "framework": 362,
                 "dom": 381,
                 "domModules": [
                     "focus/focus-trap.ts",
@@ -30,7 +30,7 @@
             },
             {
                 "component": "menu",
-                "framework": 717,
+                "framework": 719,
                 "dom": 456,
                 "domModules": [
                     "collection/key-maps.ts",
@@ -46,7 +46,7 @@
             },
             {
                 "component": "combobox",
-                "framework": 557,
+                "framework": 560,
                 "dom": 315,
                 "domModules": [
                     "collection/list-navigation.ts",
@@ -58,7 +58,7 @@
             },
             {
                 "component": "tabs",
-                "framework": 366,
+                "framework": 369,
                 "dom": 67,
                 "domModules": [
                     "collection/key-maps.ts",
@@ -81,7 +81,7 @@
             },
             {
                 "component": "date-picker",
-                "framework": 283,
+                "framework": 285,
                 "dom": 258,
                 "domModules": [
                     "overlay/overlay-session.ts",
@@ -89,10 +89,61 @@
                     "positioning/placement.ts",
                     "presence/presence.ts"
                 ]
+            },
+            {
+                "component": "select",
+                "framework": 595,
+                "dom": 404,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tooltip",
+                "framework": 395,
+                "dom": 280,
+                "domModules": [
+                    "hover/delay-group.ts",
+                    "hover/hover-intent.ts",
+                    "pointer/track-hover-bridge.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "checkbox",
+                "framework": 232,
+                "dom": 45,
+                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+            },
+            {
+                "component": "checkbox-group",
+                "framework": 136,
+                "dom": 0,
+                "domModules": []
+            },
+            {
+                "component": "slider",
+                "framework": 466,
+                "dom": 195,
+                "domModules": [
+                    "direction/direction.ts",
+                    "pointer/drag-session.ts",
+                    "range/range-math.ts",
+                    "range/slider-keys.ts"
+                ]
             }
         ],
-        "shared": 332,
-        "domTotal": 1111
+        "shared": 344,
+        "domTotal": 1479
     },
     "sizes": [
         {
@@ -112,8 +163,8 @@
             "component": "popover",
             "ours": {
                 "entry": "export { Popover } from \"@poc/svelte\";",
-                "minified": 44207,
-                "gzip": 13152
+                "minified": 44215,
+                "gzip": 13155
             },
             "baseline": {
                 "entry": "export { Popover } from \"bits-ui\";",
@@ -125,8 +176,8 @@
             "component": "menu",
             "ours": {
                 "entry": "export { Menu } from \"@poc/svelte\";",
-                "minified": 51956,
-                "gzip": 15276
+                "minified": 51964,
+                "gzip": 15278
             },
             "baseline": {
                 "entry": "export { DropdownMenu } from \"bits-ui\";",
@@ -138,8 +189,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/svelte\";",
-                "minified": 46381,
-                "gzip": 13603
+                "minified": 46457,
+                "gzip": 13620
             },
             "baseline": {
                 "entry": "export { Combobox } from \"bits-ui\";",
@@ -151,8 +202,8 @@
             "component": "tabs",
             "ours": {
                 "entry": "export { Tabs } from \"@poc/svelte\";",
-                "minified": 11813,
-                "gzip": 3399
+                "minified": 11832,
+                "gzip": 3446
             },
             "baseline": {
                 "entry": "export { Tabs } from \"bits-ui\";",
@@ -177,34 +228,95 @@
             "component": "date-picker",
             "ours": {
                 "entry": "export { DatePicker, DateRangePicker } from \"@poc/svelte\";",
-                "minified": 39233,
-                "gzip": 12279
+                "minified": 39241,
+                "gzip": 12281
             },
             "baseline": {
                 "entry": "export { DatePicker, DateRangePicker } from \"bits-ui\";",
                 "minified": 302853,
                 "gzip": 66193
             }
+        },
+        {
+            "component": "select",
+            "ours": {
+                "entry": "export { Select } from \"@poc/svelte\";",
+                "minified": 48783,
+                "gzip": 14589
+            },
+            "baseline": {
+                "entry": "export { Select } from \"bits-ui\";",
+                "minified": 162259,
+                "gzip": 37784
+            }
+        },
+        {
+            "component": "tooltip",
+            "ours": {
+                "entry": "export { Tooltip } from \"@poc/svelte\";",
+                "minified": 40622,
+                "gzip": 12434
+            },
+            "baseline": {
+                "entry": "export { Tooltip } from \"bits-ui\";",
+                "minified": 139990,
+                "gzip": 34547
+            }
+        },
+        {
+            "component": "checkbox",
+            "ours": {
+                "entry": "export { Checkbox } from \"@poc/svelte\";",
+                "minified": 7861,
+                "gzip": 2838
+            },
+            "baseline": {
+                "entry": "export { Checkbox } from \"bits-ui\";",
+                "minified": 28308,
+                "gzip": 7920
+            }
+        },
+        {
+            "component": "checkbox-group",
+            "ours": {
+                "entry": "export { CheckboxGroup } from \"@poc/svelte\";",
+                "minified": 3816,
+                "gzip": 1569
+            },
+            "baseline": null
+        },
+        {
+            "component": "slider",
+            "ours": {
+                "entry": "export { Slider } from \"@poc/svelte\";",
+                "minified": 14945,
+                "gzip": 4454
+            },
+            "baseline": {
+                "entry": "export { Slider } from \"bits-ui\";",
+                "minified": 49766,
+                "gzip": 11403
+            }
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 79,
+                "passed": 123,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 11
+                "expectedFailures": 17
             }
         },
         "react": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -212,19 +324,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -232,19 +344,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -252,19 +364,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -272,19 +384,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 90,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -292,7 +404,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         }
@@ -304,24 +416,24 @@
             "last": "2026-11-20T21:22:17-03:00"
         },
         "popover": {
-            "commits": 2,
+            "commits": 3,
             "first": "2026-11-20T21:17:13-03:00",
-            "last": "2026-11-20T21:22:17-03:00"
+            "last": "2026-11-21T08:42:59-03:00"
         },
         "menu": {
-            "commits": 2,
+            "commits": 3,
             "first": "2026-11-20T21:17:13-03:00",
-            "last": "2026-11-20T21:22:17-03:00"
+            "last": "2026-11-21T08:42:59-03:00"
         },
         "combobox": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-20T21:22:17-03:00",
-            "last": "2026-11-20T21:22:17-03:00"
+            "last": "2026-11-21T08:42:59-03:00"
         },
         "tabs": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T21:22:17-03:00",
-            "last": "2026-11-20T21:22:17-03:00"
+            "last": "2026-11-21T08:42:59-03:00"
         },
         "calendar": {
             "commits": 1,
@@ -329,9 +441,34 @@
             "last": "2026-11-20T21:22:17-03:00"
         },
         "date-picker": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T21:22:17-03:00",
-            "last": "2026-11-20T21:22:17-03:00"
+            "last": "2026-11-21T08:42:59-03:00"
+        },
+        "select": {
+            "commits": 1,
+            "first": "2026-11-21T08:36:03-03:00",
+            "last": "2026-11-21T08:36:03-03:00"
+        },
+        "tooltip": {
+            "commits": 1,
+            "first": "2026-11-21T08:36:03-03:00",
+            "last": "2026-11-21T08:36:03-03:00"
+        },
+        "checkbox": {
+            "commits": 1,
+            "first": "2026-11-21T08:36:03-03:00",
+            "last": "2026-11-21T08:36:03-03:00"
+        },
+        "checkbox-group": {
+            "commits": 1,
+            "first": "2026-11-21T08:36:03-03:00",
+            "last": "2026-11-21T08:36:03-03:00"
+        },
+        "slider": {
+            "commits": 1,
+            "first": "2026-11-21T08:36:03-03:00",
+            "last": "2026-11-21T08:36:03-03:00"
         }
     }
 }

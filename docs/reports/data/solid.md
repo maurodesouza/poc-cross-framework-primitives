@@ -9,8 +9,13 @@
 | tabs | 357 | 67 | 16% |
 | calendar | 757 | 448 | 37% |
 | date-picker | 254 | 258 | 50% |
+| select | 566 | 404 | 42% |
+| tooltip | 375 | 280 | 43% |
+| checkbox | 229 | 45 | 16% |
+| checkbox-group | 105 | 0 | 0% |
+| slider | 466 | 195 | 30% |
 
-Shared framework infrastructure (hooks, utils): 387 lines. All of @poc/dom: 1111 lines.
+Shared framework infrastructure (hooks, utils): 400 lines. All of @poc/dom: 1479 lines.
 
 ### Bundle size (minified + gzip, framework external)
 
@@ -23,27 +28,32 @@ Shared framework infrastructure (hooks, utils): 387 lines. All of @poc/dom: 1111
 | tabs | 2.9 kB | 11.5 kB |
 | calendar | 5.0 kB | - |
 | date-picker | 11.4 kB | - |
+| select | 13.4 kB | 30.9 kB |
+| tooltip | 11.5 kB | 16.0 kB |
+| checkbox | 2.6 kB | 4.8 kB |
+| checkbox-group | 1.3 kB | - |
+| slider | 3.8 kB | 9.0 kB |
 
 ### Conformance
 
 | project | layer | passed | failed | expected failures | skipped |
 | --- | --- | --- | --- | --- | --- |
-| angular | behaviour | 90 | 0 | 0 | 0 |
-| angular | contract | 16 | 0 | 0 | 0 |
-| angular | visual | 0 | 0 | 0 | 16 |
-| baseline | behaviour | 79 | 0 | 11 | 0 |
-| react | behaviour | 90 | 0 | 0 | 0 |
-| react | contract | 16 | 0 | 0 | 0 |
-| react | visual | 0 | 0 | 0 | 16 |
-| solid | behaviour | 90 | 0 | 0 | 0 |
-| solid | contract | 16 | 0 | 0 | 0 |
-| solid | visual | 0 | 0 | 0 | 16 |
-| svelte | behaviour | 90 | 0 | 0 | 0 |
-| svelte | contract | 16 | 0 | 0 | 0 |
-| svelte | visual | 0 | 0 | 0 | 16 |
-| vue | behaviour | 90 | 0 | 0 | 0 |
-| vue | contract | 16 | 0 | 0 | 0 |
-| vue | visual | 0 | 0 | 0 | 16 |
+| angular | behaviour | 140 | 0 | 0 | 0 |
+| angular | contract | 24 | 0 | 0 | 0 |
+| angular | visual | 0 | 0 | 0 | 24 |
+| baseline | behaviour | 123 | 0 | 17 | 0 |
+| react | behaviour | 140 | 0 | 0 | 0 |
+| react | contract | 24 | 0 | 0 | 0 |
+| react | visual | 0 | 0 | 0 | 24 |
+| solid | behaviour | 140 | 0 | 0 | 0 |
+| solid | contract | 24 | 0 | 0 | 0 |
+| solid | visual | 0 | 0 | 0 | 24 |
+| svelte | behaviour | 140 | 0 | 0 | 0 |
+| svelte | contract | 24 | 0 | 0 | 0 |
+| svelte | visual | 0 | 0 | 0 | 24 |
+| vue | behaviour | 140 | 0 | 0 | 0 |
+| vue | contract | 24 | 0 | 0 | 0 |
+| vue | visual | 0 | 0 | 0 | 24 |
 
 ### Effort (commits per component folder)
 
@@ -56,3 +66,8 @@ Shared framework infrastructure (hooks, utils): 387 lines. All of @poc/dom: 1111
 | tabs | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |
 | calendar | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |
 | date-picker | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |
+| select | 1 | 2026-11-21T08:21:29-03:00 | 2026-11-21T08:21:29-03:00 |
+| tooltip | 1 | 2026-11-21T08:21:29-03:00 | 2026-11-21T08:21:29-03:00 |
+| checkbox | 1 | 2026-11-21T08:21:29-03:00 | 2026-11-21T08:21:29-03:00 |
+| checkbox-group | 1 | 2026-11-21T08:21:29-03:00 | 2026-11-21T08:21:29-03:00 |
+| slider | 1 | 2026-11-21T08:21:29-03:00 | 2026-11-21T08:21:29-03:00 |
