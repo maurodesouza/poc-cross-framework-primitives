@@ -5,6 +5,8 @@ packages:
   - "fixtures/*"
   # the Playwright conformance suite, run against every fixture
   - "conformance"
+  # every scenario in every framework, live (pnpm playground)
+  - "playground"
 
 # Dependencies allowed to run install scripts (pnpm refuses an ignored build script in CI).
 allowBuilds:
