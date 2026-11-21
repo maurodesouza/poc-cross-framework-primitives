@@ -1,0 +1,32 @@
+{
+    "name": "@poc/svelte",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "sideEffects": false,
+    "svelte": "./src/index.ts",
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "svelte": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "scripts": {
+        "build": "svelte-package -i src -o dist",
+        "typecheck": "svelte-check --tsconfig ./tsconfig.json --threshold error"
+    },
+    "dependencies": {
+        "@poc/dom": "workspace:*"
+    },
+    "peerDependencies": {
+        "svelte": "^5.29.0"
+    },
+    "devDependencies": {
+        "@sveltejs/package": "3.0.2",
+        "svelte": "5.57.3",
+        "svelte-check": "4.7.8",
+        "typescript": "6.0.3",
+        "vitest": "5.1.0"
+    }
+}

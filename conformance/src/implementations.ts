@@ -37,6 +37,20 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         port: 5330,
         layers: ["behaviour", "contract", "visual"],
     },
+    // @poc/svelte (Epic D)
+    {
+        name: "svelte",
+        fixture: "fixture-svelte",
+        port: 5340,
+        layers: ["behaviour", "contract", "visual"],
+    },
+    // @poc/solid (Epic D): Solid 2.0
+    {
+        name: "solid",
+        fixture: "fixture-solid",
+        port: 5350,
+        layers: ["behaviour", "contract", "visual"],
+    },
 ];
 
 /** The project names given with `--project` on the command line, if any. */

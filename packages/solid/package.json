@@ -1,0 +1,32 @@
+{
+    "name": "@poc/solid",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "solid": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "scripts": {
+        "build": "vite build",
+        "typecheck": "tsc -p tsconfig.json"
+    },
+    "dependencies": {
+        "@poc/dom": "workspace:*"
+    },
+    "peerDependencies": {
+        "@solidjs/web": "^2.0.0",
+        "solid-js": "^2.0.0"
+    },
+    "devDependencies": {
+        "@solidjs/vite-plugin": "3.0.1",
+        "@solidjs/web": "2.0.3",
+        "solid-js": "2.0.3",
+        "typescript": "7.0.2",
+        "vite": "8.3.8"
+    }
+}

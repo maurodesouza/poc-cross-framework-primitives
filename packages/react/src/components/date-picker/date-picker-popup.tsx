@@ -1,4 +1,4 @@
-import { pushLayer, watchFocusOutside } from "@poc/dom";
+import { openOverlaySession } from "@poc/dom";
 import { useEffect } from "react";
 import { useRequiredContext } from "../../hooks/use-required-context.ts";
 import { type PartProps, renderElement } from "../../utils/render-element.tsx";
@@ -18,25 +18,18 @@ export function DatePickerPopup(
         if (!open || popup === null) {
             return undefined;
         }
-        const doc = popup.ownerDocument;
-        const layer = pushLayer(doc, {
+        const session = openOverlaySession(popup.ownerDocument, {
             elements: () => [positioner ?? popup],
             ignore: () => [trigger],
-            onEscape: () => setOpen(false, "escape-key"),
-            onOutsidePress: () => setOpen(false, "outside-press"),
+            dismiss: (reason) => setOpen(false, reason),
+            focusOut: () => [trigger],
+            returnFocus: {
+                when: RETURNS_FOCUS,
+                reason: () => lastReason.current,
+                to: () => trigger,
+            },
         });
-        const stopWatching = watchFocusOutside(
-            doc,
-            () => [positioner ?? popup, trigger, ...layer.elementsAbove()],
-            () => setOpen(false, "focus-out"),
-        );
-        return () => {
-            layer.remove();
-            stopWatching();
-            if (RETURNS_FOCUS.has(lastReason.current ?? "")) {
-                trigger?.focus({ preventScroll: true });
-            }
-        };
+        return session.end;
     }, [open, popup, positioner, trigger, setOpen, lastReason]);
 
     const status = context.presence.status;

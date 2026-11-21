@@ -1,6 +1,12 @@
 // @poc/dom: framework-free DOM behaviours and pure math (AGENTS.md rule 2). Never component state.
 
 export {
+    menuKeyTarget,
+    submenuKeys,
+    type TabsKeyOptions,
+    tabsKeyTarget,
+} from "./collection/key-maps.ts";
+export {
     edgeIndex,
     type NavigationOptions,
     stepIndex,
@@ -63,6 +69,12 @@ export {
     type LayerOptions,
     pushLayer,
 } from "./layers/layer-stack.ts";
+export {
+    type DismissReason,
+    type OverlaySession,
+    type OverlaySessionOptions,
+    openOverlaySession,
+} from "./overlay/overlay-session.ts";
 export { isInSafeArea, type Point } from "./pointer/safe-area.ts";
 export {
     type AnchorOptions,

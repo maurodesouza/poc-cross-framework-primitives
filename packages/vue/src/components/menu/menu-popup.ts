@@ -1,9 +1,10 @@
 import {
     getDirection,
+    menuKeyTarget,
     nextTabbableAfter,
+    openOverlaySession,
     previousTabbableBefore,
-    pushLayer,
-    stepIndex,
+    submenuKeys,
 } from "@poc/dom";
 import { defineComponent, watch } from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
@@ -12,6 +13,13 @@ import { asProp, renderPart } from "../../utils/render-part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
 import { type MenuContext, MenuKey } from "./menu-context.ts";
 import { menuItems } from "./menu-items.ts";
+
+const ROOT_RETURNS_FOCUS = new Set([
+    "escape-key",
+    "item-press",
+    "trigger-press",
+]);
+const SUBMENU_RETURNS_FOCUS = new Set(["escape-key", "list-navigation"]);
 
 function rootOf(context: MenuContext): MenuContext {
     return context.parent ? rootOf(context.parent) : context;
@@ -43,14 +51,20 @@ export const MenuPopup = defineComponent({
                 if (!open || popup === null) {
                     return;
                 }
-                const doc = popup.ownerDocument;
                 const trigger = context.trigger.value;
-                const layer = pushLayer(doc, {
+                // Escape, an item and the trigger give focus back to this level's trigger; the
+                // closing arrow of a submenu gives it back to its submenu trigger
+                const session = openOverlaySession(popup.ownerDocument, {
                     elements: () => [positioner ?? popup],
                     ignore: () => [trigger],
-                    onEscape: () => context.setOpen(false, "escape-key"),
-                    onOutsidePress: () =>
-                        context.setOpen(false, "outside-press"),
+                    dismiss: (reason) => context.setOpen(false, reason),
+                    returnFocus: {
+                        when: nested
+                            ? SUBMENU_RETURNS_FOCUS
+                            : ROOT_RETURNS_FOCUS,
+                        reason: () => context.lastReason.current,
+                        to: () => trigger,
+                    },
                 });
                 const items = menuItems(popup);
                 const highlight = context.pendingHighlight.current;
@@ -62,19 +76,7 @@ export const MenuPopup = defineComponent({
                           ? items.at(-1)
                           : undefined;
                 (target ?? popup).focus({ preventScroll: true });
-                onCleanup(() => {
-                    layer.remove();
-                    const reason = context.lastReason.current;
-                    const returns = nested
-                        ? reason === "escape-key" ||
-                          reason === "list-navigation"
-                        : reason === "escape-key" ||
-                          reason === "item-press" ||
-                          reason === "trigger-press";
-                    if (returns) {
-                        trigger?.focus({ preventScroll: true });
-                    }
-                });
+                onCleanup(session.end);
             },
             { flush: "post", immediate: true },
         );
@@ -90,26 +92,26 @@ export const MenuPopup = defineComponent({
             const current = active ? items.indexOf(active) : -1;
             const focusAt = (index: number) =>
                 items[index]?.focus({ preventScroll: true });
-            const closeKey =
-                getDirection(popup) === "rtl" ? "ArrowRight" : "ArrowLeft";
+            const { close: closeKey } = submenuKeys(
+                getDirection(popup) === "rtl",
+            );
             switch (event.key) {
                 case "ArrowDown":
                 case "ArrowUp":
-                    event.preventDefault();
-                    focusAt(
-                        stepIndex(
-                            items.length,
-                            current,
-                            event.key === "ArrowDown" ? 1 : -1,
-                            { loop: context.loop() },
-                        ),
-                    );
-                    return;
                 case "Home":
-                case "End":
+                case "End": {
                     event.preventDefault();
-                    focusAt(event.key === "Home" ? 0 : items.length - 1);
+                    const target = menuKeyTarget(
+                        event.key,
+                        current,
+                        items.length,
+                        { loop: context.loop() },
+                    );
+                    if (target !== null) {
+                        focusAt(target);
+                    }
                     return;
+                }
                 case "Enter":
                 case " ":
                     if (active && current !== -1) {

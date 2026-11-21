@@ -1,4 +1,4 @@
-import { pushLayer, watchFocusOutside } from "@poc/dom";
+import { openOverlaySession } from "@poc/dom";
 import { defineComponent, watch } from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import { useRequiredContext } from "../../composables/use-required-context.ts";
@@ -27,31 +27,19 @@ export const DatePickerPopup = defineComponent({
                 if (!open || popup === null) {
                     return;
                 }
-                const doc = popup.ownerDocument;
                 const trigger = context.trigger.value;
-                const layer = pushLayer(doc, {
+                const session = openOverlaySession(popup.ownerDocument, {
                     elements: () => [positioner ?? popup],
                     ignore: () => [trigger],
-                    onEscape: () => context.setOpen(false, "escape-key"),
-                    onOutsidePress: () =>
-                        context.setOpen(false, "outside-press"),
+                    dismiss: (reason) => context.setOpen(false, reason),
+                    focusOut: () => [trigger],
+                    returnFocus: {
+                        when: RETURNS_FOCUS,
+                        reason: () => context.lastReason.current,
+                        to: () => trigger,
+                    },
                 });
-                const stopWatching = watchFocusOutside(
-                    doc,
-                    () => [
-                        positioner ?? popup,
-                        trigger,
-                        ...layer.elementsAbove(),
-                    ],
-                    () => context.setOpen(false, "focus-out"),
-                );
-                onCleanup(() => {
-                    layer.remove();
-                    stopWatching();
-                    if (RETURNS_FOCUS.has(context.lastReason.current ?? "")) {
-                        trigger?.focus({ preventScroll: true });
-                    }
-                });
+                onCleanup(session.end);
             },
             { flush: "post", immediate: true },
         );

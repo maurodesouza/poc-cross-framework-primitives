@@ -1,9 +1,10 @@
 import {
     getDirection,
+    menuKeyTarget,
     nextTabbableAfter,
+    openOverlaySession,
     previousTabbableBefore,
-    pushLayer,
-    stepIndex,
+    submenuKeys,
 } from "@poc/dom";
 import { type KeyboardEvent, useEffect } from "react";
 import { useRequiredContext } from "../../hooks/use-required-context.ts";
@@ -11,6 +12,13 @@ import { type PartProps, renderElement } from "../../utils/render-element.tsx";
 import { stateAttributes } from "../../utils/state-attributes.ts";
 import { MenuContext, type MenuContextValue } from "./menu-context.ts";
 import { menuItems } from "./menu-items.ts";
+
+const ROOT_RETURNS_FOCUS = new Set([
+    "escape-key",
+    "item-press",
+    "trigger-press",
+]);
+const SUBMENU_RETURNS_FOCUS = new Set(["escape-key", "list-navigation"]);
 
 function rootOf(context: MenuContextValue): MenuContextValue {
     return context.parent ? rootOf(context.parent) : context;
@@ -42,12 +50,17 @@ export function MenuPopup(
         if (!open || popup === null) {
             return undefined;
         }
-        const doc = popup.ownerDocument;
-        const layer = pushLayer(doc, {
+        // Escape, an item and the trigger give focus back to this level's trigger; the closing
+        // arrow of a submenu gives it back to its submenu trigger
+        const session = openOverlaySession(popup.ownerDocument, {
             elements: () => [positioner ?? popup],
             ignore: () => [trigger],
-            onEscape: () => setOpen(false, "escape-key"),
-            onOutsidePress: () => setOpen(false, "outside-press"),
+            dismiss: (reason) => setOpen(false, reason),
+            returnFocus: {
+                when: nested ? SUBMENU_RETURNS_FOCUS : ROOT_RETURNS_FOCUS,
+                reason: () => lastReason.current,
+                to: () => trigger,
+            },
         });
         const items = menuItems(popup);
         const highlight = pendingHighlight.current;
@@ -59,20 +72,7 @@ export function MenuPopup(
                   ? items.at(-1)
                   : undefined;
         (target ?? popup).focus({ preventScroll: true });
-        return () => {
-            layer.remove();
-            // Escape, an item and the trigger give focus back to this level's trigger; the left
-            // arrow of a submenu gives it back to its submenu trigger
-            const reason = lastReason.current;
-            const returns = nested
-                ? reason === "escape-key" || reason === "list-navigation"
-                : reason === "escape-key" ||
-                  reason === "item-press" ||
-                  reason === "trigger-press";
-            if (returns) {
-                trigger?.focus({ preventScroll: true });
-            }
-        };
+        return session.end;
     }, [
         open,
         popup,
@@ -93,26 +93,21 @@ export function MenuPopup(
         const current = active ? items.indexOf(active) : -1;
         const focusAt = (index: number) =>
             items[index]?.focus({ preventScroll: true });
-        const closeKey =
-            getDirection(popup) === "rtl" ? "ArrowRight" : "ArrowLeft";
+        const { close: closeKey } = submenuKeys(getDirection(popup) === "rtl");
         switch (event.key) {
             case "ArrowDown":
             case "ArrowUp":
-                event.preventDefault();
-                focusAt(
-                    stepIndex(
-                        items.length,
-                        current,
-                        event.key === "ArrowDown" ? 1 : -1,
-                        { loop: context.loop },
-                    ),
-                );
-                return;
             case "Home":
-            case "End":
+            case "End": {
                 event.preventDefault();
-                focusAt(event.key === "Home" ? 0 : items.length - 1);
+                const target = menuKeyTarget(event.key, current, items.length, {
+                    loop: context.loop,
+                });
+                if (target !== null) {
+                    focusAt(target);
+                }
                 return;
+            }
             case "Enter":
             case " ":
                 if (active && current !== -1) {

@@ -1,4 +1,4 @@
-import { getDirection } from "@poc/dom";
+import { getDirection, submenuKeys } from "@poc/dom";
 import { defineComponent, onBeforeUnmount, shallowRef } from "vue";
 import { useRequiredContext } from "../../composables/use-required-context.ts";
 import { asProp, renderPart } from "../../utils/render-part.ts";
@@ -72,10 +72,9 @@ export const MenuSubmenuTrigger = defineComponent({
                     onClick: () => open(null, "trigger-press"),
                     onKeydown: (event: KeyboardEvent) => {
                         const node = element.value;
-                        const openKey =
-                            node && getDirection(node) === "rtl"
-                                ? "ArrowLeft"
-                                : "ArrowRight";
+                        const { open: openKey } = submenuKeys(
+                            node !== null && getDirection(node) === "rtl",
+                        );
                         if (
                             event.key === openKey ||
                             event.key === "Enter" ||

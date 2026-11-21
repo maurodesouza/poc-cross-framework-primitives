@@ -9,11 +9,12 @@ API. No framework import (`tests/guard.test.ts`). The only runtime dependency is
 | folder | exports | used by |
 | --- | --- | --- |
 | `positioning/` | `anchorFloating(anchor, floating, options)` → cleanup; `toPlacement`, `fromPlacement` (logical `start`/`end` ↔ physical) | Popover, Menu, Combobox, DatePicker |
+| `overlay/` | `openOverlaySession(document, { elements, ignore, dismiss, focusOut, returnFocus })` → `{ elementsAbove, end }`: the layer, the focus-out watch and the focus return of an overlay | every overlay |
 | `layers/` | `pushLayer(document, { elements, ignore, onEscape, onOutsidePress })` → `{ isTop, remove }`; `watchFocusOutside` | every overlay |
 | `focus/` | `getTabbables`, `nextTabbableAfter`, `trapFocus`, `focusInitial`, `isKeyboardModality` | Dialog (trap), Popover (tab order) |
 | `scroll-lock/` | `lockScroll(document)` → unlock (counted) | Dialog |
 | `inert/` | `inertOutside(elements)` → restore | Dialog |
-| `collection/` | `stepIndex`, `edgeIndex` (list navigation), `createTypeahead` | Menu, Tabs, Combobox |
+| `collection/` | `stepIndex`, `edgeIndex`, `stepThroughNone` (list navigation), `tabsKeyTarget`, `menuKeyTarget`, `submenuKeys` (key maps), `createTypeahead` | Menu, Tabs, Combobox |
 | `presence/` | `nextFrame`, `waitForAnimations` | enter and exit states |
 | `pointer/` | `isInSafeArea` (the submenu's safe hover triangle) | Menu |
 | `id/`, `direction/` | `createId`, `getDirection` | |

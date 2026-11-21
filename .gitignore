@@ -3,6 +3,8 @@ node_modules/
 
 # Build output
 dist/
+# svelte-package's working folder (packages/svelte build)
+.svelte-kit/
 
 # Test output
 coverage/

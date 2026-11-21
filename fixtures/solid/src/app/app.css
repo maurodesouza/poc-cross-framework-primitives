@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "@poc/styles/theme.css";
+@source "../../node_modules/@poc/styles/src";
+
+/* The fixture's own frame. Identical in every framework's fixture, so screenshots compare. */
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+}

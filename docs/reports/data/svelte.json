@@ -1,0 +1,317 @@
+{
+    "framework": "svelte",
+    "generatedAt": "2026-11-21T01:03:51.972Z",
+    "loc": {
+        "components": [
+            {
+                "component": "dialog",
+                "framework": 272,
+                "dom": 214,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "inert/inert-outside.ts",
+                    "overlay/overlay-session.ts",
+                    "presence/presence.ts",
+                    "scroll-lock/lock-scroll.ts"
+                ]
+            },
+            {
+                "component": "popover",
+                "framework": 360,
+                "dom": 381,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "focus/tabbable.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "menu",
+                "framework": 717,
+                "dom": 456,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "direction/direction.ts",
+                    "focus/tabbable.ts",
+                    "overlay/overlay-session.ts",
+                    "pointer/safe-area.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "combobox",
+                "framework": 557,
+                "dom": 315,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tabs",
+                "framework": 366,
+                "dom": 67,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "direction/direction.ts"
+                ]
+            },
+            {
+                "component": "calendar",
+                "framework": 710,
+                "dom": 271,
+                "domModules": [
+                    "date/calendar-keys.ts",
+                    "date/date-math.ts",
+                    "date/locale-data.ts",
+                    "date/month-grid.ts",
+                    "date/plain-date.ts",
+                    "direction/direction.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "date-picker",
+                "framework": 283,
+                "dom": 258,
+                "domModules": [
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            }
+        ],
+        "shared": 332,
+        "domTotal": 1111
+    },
+    "sizes": [
+        {
+            "component": "dialog",
+            "ours": {
+                "entry": "export { Dialog } from \"@poc/svelte\";",
+                "minified": 17788,
+                "gzip": 4854
+            },
+            "baseline": {
+                "entry": "export { Dialog } from \"bits-ui\";",
+                "minified": 69305,
+                "gzip": 16963
+            }
+        },
+        {
+            "component": "popover",
+            "ours": {
+                "entry": "export { Popover } from \"@poc/svelte\";",
+                "minified": 44207,
+                "gzip": 13152
+            },
+            "baseline": {
+                "entry": "export { Popover } from \"bits-ui\";",
+                "minified": 135887,
+                "gzip": 33009
+            }
+        },
+        {
+            "component": "menu",
+            "ours": {
+                "entry": "export { Menu } from \"@poc/svelte\";",
+                "minified": 51956,
+                "gzip": 15276
+            },
+            "baseline": {
+                "entry": "export { DropdownMenu } from \"bits-ui\";",
+                "minified": 182290,
+                "gzip": 41030
+            }
+        },
+        {
+            "component": "combobox",
+            "ours": {
+                "entry": "export { Combobox } from \"@poc/svelte\";",
+                "minified": 46381,
+                "gzip": 13603
+            },
+            "baseline": {
+                "entry": "export { Combobox } from \"bits-ui\";",
+                "minified": 160164,
+                "gzip": 37190
+            }
+        },
+        {
+            "component": "tabs",
+            "ours": {
+                "entry": "export { Tabs } from \"@poc/svelte\";",
+                "minified": 11813,
+                "gzip": 3399
+            },
+            "baseline": {
+                "entry": "export { Tabs } from \"bits-ui\";",
+                "minified": 29706,
+                "gzip": 8168
+            }
+        },
+        {
+            "component": "calendar",
+            "ours": {
+                "entry": "export { Calendar, RangeCalendar } from \"@poc/svelte\";",
+                "minified": 23913,
+                "gzip": 5980
+            },
+            "baseline": {
+                "entry": "export { Calendar, RangeCalendar } from \"bits-ui\";",
+                "minified": 127408,
+                "gzip": 26971
+            }
+        },
+        {
+            "component": "date-picker",
+            "ours": {
+                "entry": "export { DatePicker, DateRangePicker } from \"@poc/svelte\";",
+                "minified": 39233,
+                "gzip": 12279
+            },
+            "baseline": {
+                "entry": "export { DatePicker, DateRangePicker } from \"bits-ui\";",
+                "minified": 302853,
+                "gzip": 66193
+            }
+        }
+    ],
+    "conformance": {
+        "baseline": {
+            "behaviour": {
+                "passed": 79,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 11
+            }
+        },
+        "react": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "vue": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "svelte": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "solid": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        }
+    },
+    "effort": {
+        "dialog": {
+            "commits": 2,
+            "first": "2026-11-20T21:17:13-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        },
+        "popover": {
+            "commits": 2,
+            "first": "2026-11-20T21:17:13-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        },
+        "menu": {
+            "commits": 2,
+            "first": "2026-11-20T21:17:13-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        },
+        "combobox": {
+            "commits": 1,
+            "first": "2026-11-20T21:22:17-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        },
+        "tabs": {
+            "commits": 1,
+            "first": "2026-11-20T21:22:17-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        },
+        "calendar": {
+            "commits": 1,
+            "first": "2026-11-20T21:22:17-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        },
+        "date-picker": {
+            "commits": 1,
+            "first": "2026-11-20T21:22:17-03:00",
+            "last": "2026-11-20T21:22:17-03:00"
+        }
+    }
+}

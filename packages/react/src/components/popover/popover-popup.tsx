@@ -2,8 +2,7 @@ import {
     focusInitial,
     getTabbables,
     nextTabbableAfter,
-    pushLayer,
-    watchFocusOutside,
+    openOverlaySession,
 } from "@poc/dom";
 import { type KeyboardEvent, useEffect, useRef } from "react";
 import { useRequiredContext } from "../../hooks/use-required-context.ts";
@@ -46,34 +45,27 @@ export function PopoverPopup({
         if (!open || popup === null) {
             return undefined;
         }
-        const doc = popup.ownerDocument;
-        const layer = pushLayer(doc, {
+        const session = openOverlaySession(popup.ownerDocument, {
             elements: () => [positioner ?? popup],
             ignore: () => [trigger],
-            onEscape: () => setOpen(false, "escape-key"),
-            onOutsidePress: () => setOpen(false, "outside-press"),
+            dismiss: (reason) => setOpen(false, reason),
+            focusOut: () => [trigger],
+            returnFocus: {
+                when: RETURNS_FOCUS,
+                reason: () => lastReason.current,
+                to: () => {
+                    const final = resolveFocusTarget(
+                        focusTargets.current.finalFocus,
+                    );
+                    return final === false ? false : (final ?? trigger);
+                },
+            },
         });
         const initial = resolveFocusTarget(focusTargets.current.initialFocus);
         if (initial !== false) {
             focusInitial(popup, initial ?? popup);
         }
-        const stopWatching = watchFocusOutside(
-            doc,
-            () => [positioner ?? popup, trigger, ...layer.elementsAbove()],
-            () => setOpen(false, "focus-out"),
-        );
-        return () => {
-            layer.remove();
-            stopWatching();
-            if (RETURNS_FOCUS.has(lastReason.current ?? "")) {
-                const final = resolveFocusTarget(
-                    focusTargets.current.finalFocus,
-                );
-                if (final !== false) {
-                    (final ?? trigger)?.focus({ preventScroll: true });
-                }
-            }
-        };
+        return session.end;
     }, [open, popup, positioner, trigger, setOpen, lastReason]);
 
     const onKeyDown = (event: KeyboardEvent) => {

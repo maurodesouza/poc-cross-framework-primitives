@@ -1,4 +1,4 @@
-import { getDirection, stepIndex } from "@poc/dom";
+import { getDirection, tabsKeyTarget } from "@poc/dom";
 import { defineComponent } from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import { useRequiredContext } from "../../composables/use-required-context.ts";
@@ -28,40 +28,20 @@ export const TabsList = defineComponent({
             if (current === -1) {
                 return;
             }
-            const orientation = context.orientation();
-            const rtl = getDirection(list) === "rtl";
-            const next =
-                orientation === "vertical"
-                    ? "ArrowDown"
-                    : rtl
-                      ? "ArrowLeft"
-                      : "ArrowRight";
-            const previous =
-                orientation === "vertical"
-                    ? "ArrowUp"
-                    : rtl
-                      ? "ArrowRight"
-                      : "ArrowLeft";
-            let index = -1;
-            if (event.key === next || event.key === previous) {
-                index = stepIndex(
-                    tabs.length,
-                    current,
-                    event.key === next ? 1 : -1,
-                    { loop: context.loop() },
-                );
-            } else if (event.key === "Home") {
-                index = 0;
-            } else if (event.key === "End") {
-                index = tabs.length - 1;
-            } else if (event.key === "Enter" || event.key === " ") {
+            if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
                 const info = context.tabs.get(tabs[current] as HTMLElement);
                 if (info && !info.disabled) {
                     context.select(info.value, "trigger-press");
                 }
                 return;
-            } else {
+            }
+            const index = tabsKeyTarget(event.key, current, tabs.length, {
+                orientation: context.orientation(),
+                rtl: getDirection(list) === "rtl",
+                loop: context.loop(),
+            });
+            if (index === null) {
                 return;
             }
             event.preventDefault();
