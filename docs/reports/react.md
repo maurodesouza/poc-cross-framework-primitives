@@ -239,3 +239,45 @@ listener's lifecycle, and each framework expresses those with its own reactivity
 | Description | the recipe dimmed a disabled field's description, which axe flags (contrast). Only the control and the label are dimmed now | `@poc/styles` |
 | Slider | its hidden inputs are `type="hidden"`, which the browser never validates: `validate` shows its messages but cannot block a native submission (recorded in the spec) | spec |
 | Select | the field took the select's generated trigger id, so a consumer `id` on `Select.Trigger` left the label's `for` pointing nowhere. The select now registers the trigger's rendered id (found in the Epic review, fixed in React, Vue, Svelte and Solid) | `@poc/react` and the ports |
+
+## Combobox parity (Epic I)
+
+The Combobox of `spec/combobox.md` rewritten to Fragiola UI's scope (#56), after the spec, the
+tests and the Base UI baseline of #55, with the maintainer's decisions 5 and 6 applied
+(`docs/decisions.md`): the combobox filters `items` itself, closing without a choice resets the
+text, and a press on the input opens the list.
+
+| piece | lines |
+| --- | --- |
+| `components/combobox/` before (9 parts, context, namespace) | 590 |
+| `components/combobox/` now (20 parts, context, namespace) | 1389, of which the Root 415 |
+| new in `@poc/dom` (`collection/combobox-items.ts`, `chip-keys.ts`), pure and tested with Vitest | 288 |
+| fixture (nine scenarios, data, kit wrapper) | 734 |
+
+- **Conformance.** React passed the 42 Combobox behaviour and contract tests on its first suite
+  run. The Epic review then found a stale highlight when the list reopens during its exit
+  animation; the fix added one test (43). The golden screenshots (five) come from CI run
+  44925304669, made with React alone registered for Combobox.
+- **Effort.** About ten minutes of agent time from the green baseline (13:25) to the green
+  React suite (13:34), after about twenty for the spec, the tests and the baseline.
+- **The baseline** (Base UI 1.9) passes every Combobox behaviour test except two recorded
+  deviations: axe while open (its `aria-hidden` outside the list hides the input's label) and a
+  form reset, which leaves Base UI's value and text as they were.
+
+### Boundary pressure (Combobox parity)
+
+None that crossed the boundary. What holds no state went into `@poc/dom` before the ports:
+`itemLabel` and `itemFormValue` (the item-to-string defaults), the locale-aware `textContains`
+and `containsFilter`, `queryIsLabel`, `filterItems` (groups and a limit), `includesItem` and
+`toggleItem`, and `chipKeyTarget`. The value, the text, the highlight, the "typed since open"
+flag that decides when the whole list shows, the registry of rendered items and the reset of
+the text on close stay in the framework.
+
+### Port log (Combobox parity)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| baseline | Base UI highlights the selected item when a click opens the list, and keeps its filter while the list closes: the spec follows the first, and the tests avoid depending on the second | spec, tests |
+| Separator | Base UI renders it as `role="presentation"` inside the listbox (a `listbox` owns only groups and options); the spec follows | spec |
+| hidden inputs | their part value is `hidden-input`, since `input` is the visible Input's | spec |
+| List | a list reopened during its 150 ms exit animation kept its element and its item count, so the pending highlight was never applied and the old one stayed. Every close now drops the highlight, and the List applies a pending one on every open (found in the Epic review, fixed in the five frameworks) | `@poc/react` and the ports |
