@@ -65,6 +65,12 @@ test.describe("select / basic", () => {
     }) => {
         await trigger(page).click();
         await expect(listbox(page)).toBeVisible();
+        // measured once the popup's enter transition (if any) has finished
+        await page.evaluate(() =>
+            Promise.all(
+                document.getAnimations().map((animation) => animation.finished),
+            ),
+        );
         const box = await trigger(page).boundingBox();
         const list = await listbox(page).boundingBox();
         expect(box).not.toBeNull();
@@ -117,6 +123,7 @@ test.describe("select / basic", () => {
         await expectOutput(page, "value", "mango");
         await trigger(page).focus();
         await page.keyboard.press("ArrowDown");
+        await expect(listbox(page)).toBeVisible();
         await page.keyboard.press("Home");
         await page.keyboard.press("Enter");
         await expectOutput(page, "value", "apple");
