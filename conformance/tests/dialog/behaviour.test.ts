@@ -188,3 +188,42 @@ test("dialog / controlled: an external button opens it, Close reports and return
     await expectOutput(page, "reason", "close-press");
     await expect(opener).toBeFocused();
 });
+
+test("dialog / rejected-close: a consumer that keeps open: true keeps the dialog open", async ({
+    page,
+}) => {
+    await openScenario(page, "/dialog/rejected-close");
+    await page
+        .getByRole("button", { name: "Open dialog", includeHidden: true })
+        .click();
+    const dialog = page.getByRole("dialog", { name: "Locked" });
+    await expect(dialog).toBeVisible();
+    await expect(page.getByRole("button", { name: "Close" })).toBeFocused();
+
+    await page.keyboard.press("Escape");
+    await expectOutput(page, "reason", "escape-key");
+    await expectOutput(page, "open", "true");
+    await expect(dialog).toBeVisible();
+    await expect(page.getByRole("button", { name: "Close" })).toBeFocused();
+
+    await page.mouse.click(5, 5);
+    await expectOutput(page, "reason", "outside-press");
+    await expect(dialog).toBeVisible();
+
+    await page.getByRole("button", { name: "Close" }).click();
+    await expectOutput(page, "reason", "close-press");
+    await expectOutput(page, "open", "true");
+    await expect(dialog).toBeVisible();
+
+    // still a working modal: Escape is still handled, and the outside stays inert
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeVisible();
+    expect(
+        await isInertOrHidden(
+            page.getByRole("button", {
+                name: "Open dialog",
+                includeHidden: true,
+            }),
+        ),
+    ).toBe(true);
+});

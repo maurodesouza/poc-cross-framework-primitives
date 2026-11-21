@@ -1,6 +1,7 @@
 import {
     Component,
     computed,
+    input,
     model,
     output,
     ViewEncapsulation,
@@ -43,7 +44,7 @@ let count = 0;
     ],
     host: { class: "flex flex-col gap-1" },
     template: `
-        <ng-container comboboxRoot [(value)]="value" [(inputValue)]="inputValue" [(open)]="open" (openChangeDetails)="openChangeDetails.emit($event)">
+        <ng-container comboboxRoot [(value)]="value" [inputValue]="inputValue()" (inputValueChange)="inputValueChange.emit($event)" [(open)]="open" (openChangeDetails)="openChangeDetails.emit($event)">
             <label [attr.for]="id" class="text-sm font-medium">Fruit</label>
             <div class="flex items-center gap-1">
                 <input comboboxInput [id]="id" [class]="styles.input" />
@@ -70,7 +71,9 @@ export class FruitCombobox {
     protected readonly styles = combobox;
     protected readonly id = `fruit-${++count}`;
     readonly value = model.required<string | null>();
-    readonly inputValue = model.required<string>();
+    // an input and its change output, not model(): a consumer may keep the old value
+    readonly inputValue = input.required<string>();
+    readonly inputValueChange = output<string>();
     readonly open = model.required<boolean>();
     readonly openChangeDetails = output<OpenChangeEvent>();
     protected readonly filtered = computed(() =>

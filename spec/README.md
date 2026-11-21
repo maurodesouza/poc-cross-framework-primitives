@@ -115,6 +115,16 @@ shared:
 Controlled and uncontrolled: when `value` (or `open`) is given, the component is controlled and
 only reports changes; otherwise it keeps its own state, seeded by `defaultValue`.
 
+**A controlled value the consumer rejects stays the consumer's value.** A controlled component
+reports a change and then shows whatever the consumer gives back. When the consumer keeps the
+value unchanged (an `inputValue` that refuses some characters, an `open` that stays `true`), the
+component shows the consumer's value, not the user's input: the input's text goes back to the
+kept value within the same event, and a kept `open` leaves the overlay open and working (focus
+inside, the outside inert). Frameworks that write a native element before the consumer answers
+(an `<input>`'s text) must re-assert the kept value after the consumer's update has rendered.
+Scenarios: [`/combobox/rejected-input`](combobox.md#comboboxrejected-input) and
+[`/dialog/rejected-close`](dialog.md#dialogrejected-close).
+
 ## API mapping by framework
 
 The specs describe one API. Each framework expresses it with its own means, never as a foreign API:

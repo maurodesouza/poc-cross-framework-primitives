@@ -6,12 +6,14 @@ import CalendarTwoMonths from "../scenarios/calendar/calendar-two-months.vue";
 import CalendarUnavailable from "../scenarios/calendar/calendar-unavailable.vue";
 import ComboboxBasic from "../scenarios/combobox/combobox-basic.vue";
 import ComboboxControlled from "../scenarios/combobox/combobox-controlled.vue";
+import ComboboxRejectedInput from "../scenarios/combobox/combobox-rejected-input.vue";
 import DatePickerBasic from "../scenarios/date-picker/date-picker-basic.vue";
 import DatePickerRange from "../scenarios/date-picker/date-picker-range.vue";
 import DialogBasic from "../scenarios/dialog/dialog-basic.vue";
 import DialogControlled from "../scenarios/dialog/dialog-controlled.vue";
 import DialogInitialFocus from "../scenarios/dialog/dialog-initial-focus.vue";
 import DialogNestedPopover from "../scenarios/dialog/dialog-nested-popover.vue";
+import DialogRejectedClose from "../scenarios/dialog/dialog-rejected-close.vue";
 import MenuBasic from "../scenarios/menu/menu-basic.vue";
 import MenuGroups from "../scenarios/menu/menu-groups.vue";
 import MenuSubmenu from "../scenarios/menu/menu-submenu.vue";
@@ -29,6 +31,7 @@ export const routes: Record<string, Component> = {
     "/dialog/initial-focus": DialogInitialFocus,
     "/dialog/nested-popover": DialogNestedPopover,
     "/dialog/controlled": DialogControlled,
+    "/dialog/rejected-close": DialogRejectedClose,
     "/popover/basic": PopoverBasic,
     "/popover/placement": PopoverPlacement,
     "/popover/rtl": PopoverRtl,
@@ -38,6 +41,7 @@ export const routes: Record<string, Component> = {
     "/menu/groups": MenuGroups,
     "/combobox/basic": ComboboxBasic,
     "/combobox/controlled": ComboboxControlled,
+    "/combobox/rejected-input": ComboboxRejectedInput,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,
