@@ -50,7 +50,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "svelte",
         fixture: "fixture-svelte",
-        pending: EXTRAS,
         port: 5340,
         layers: ["behaviour", "contract", "visual"],
     },
