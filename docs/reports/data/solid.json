@@ -1,6 +1,6 @@
 {
     "framework": "solid",
-    "generatedAt": "2026-11-21T12:00:43.314Z",
+    "generatedAt": "2026-11-21T17:22:58.401Z",
     "loc": {
         "components": [
             {
@@ -46,10 +46,17 @@
             },
             {
                 "component": "combobox",
-                "framework": 539,
-                "dom": 315,
+                "framework": 1281,
+                "dom": 634,
                 "domModules": [
+                    "collection/chip-keys.ts",
+                    "collection/combobox-items.ts",
                     "collection/list-navigation.ts",
+                    "direction/direction.ts",
+                    "form/field-state.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
@@ -94,12 +101,14 @@
             },
             {
                 "component": "select",
-                "framework": 566,
-                "dom": 404,
+                "framework": 582,
+                "dom": 445,
                 "domModules": [
                     "collection/key-maps.ts",
                     "collection/typeahead.ts",
+                    "form/field-state.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
@@ -122,9 +131,14 @@
             },
             {
                 "component": "checkbox",
-                "framework": 229,
-                "dom": 45,
-                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+                "framework": 244,
+                "dom": 86,
+                "domModules": [
+                    "form/field-state.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts"
+                ]
             },
             {
                 "component": "checkbox-group",
@@ -134,18 +148,33 @@
             },
             {
                 "component": "slider",
-                "framework": 466,
-                "dom": 195,
+                "framework": 496,
+                "dom": 236,
                 "domModules": [
                     "direction/direction.ts",
+                    "form/field-state.ts",
+                    "form/submit-attempt.ts",
                     "pointer/drag-session.ts",
                     "range/range-math.ts",
                     "range/slider-keys.ts"
                 ]
+            },
+            {
+                "component": "field",
+                "framework": 398,
+                "dom": 175,
+                "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-error-shown.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts"
+                ]
             }
         ],
-        "shared": 400,
-        "domTotal": 1479
+        "shared": 493,
+        "domTotal": 1926
     },
     "sizes": [
         {
@@ -191,8 +220,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/solid\";",
-                "minified": 40171,
-                "gzip": 12812
+                "minified": 55835,
+                "gzip": 17130
             },
             "baseline": {
                 "entry": "export { Combobox } from \"@kobalte/core/combobox\";",
@@ -235,8 +264,8 @@
             "component": "select",
             "ours": {
                 "entry": "export { Select } from \"@poc/solid\";",
-                "minified": 42594,
-                "gzip": 13713
+                "minified": 44445,
+                "gzip": 14293
             },
             "baseline": {
                 "entry": "export { Select } from \"@kobalte/core/select\";",
@@ -261,8 +290,8 @@
             "component": "checkbox",
             "ours": {
                 "entry": "export { Checkbox } from \"@poc/solid\";",
-                "minified": 6734,
-                "gzip": 2632
+                "minified": 8554,
+                "gzip": 3189
             },
             "baseline": {
                 "entry": "export { Checkbox } from \"@kobalte/core/checkbox\";",
@@ -283,34 +312,43 @@
             "component": "slider",
             "ours": {
                 "entry": "export { Slider } from \"@poc/solid\";",
-                "minified": 11072,
-                "gzip": 3902
+                "minified": 13175,
+                "gzip": 4560
             },
             "baseline": {
                 "entry": "export { Slider } from \"@kobalte/core/slider\";",
                 "minified": 30342,
                 "gzip": 9165
             }
+        },
+        {
+            "component": "field",
+            "ours": {
+                "entry": "export { Field } from \"@poc/solid\";",
+                "minified": 10203,
+                "gzip": 3653
+            },
+            "baseline": null
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 123,
+                "passed": 162,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 17
+                "expectedFailures": 19
             }
         },
         "react": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -318,19 +356,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -338,19 +376,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -358,19 +396,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -378,19 +416,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -398,7 +436,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         }
@@ -420,9 +458,9 @@
             "last": "2026-11-20T21:41:06-03:00"
         },
         "combobox": {
-            "commits": 2,
+            "commits": 4,
             "first": "2026-11-20T21:51:17-03:00",
-            "last": "2026-11-20T22:04:03-03:00"
+            "last": "2026-11-21T14:18:43-03:00"
         },
         "tabs": {
             "commits": 1,
@@ -440,9 +478,9 @@
             "last": "2026-11-20T21:51:17-03:00"
         },
         "select": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:21:29-03:00",
-            "last": "2026-11-21T08:21:29-03:00"
+            "last": "2026-11-21T12:59:26-03:00"
         },
         "tooltip": {
             "commits": 1,
@@ -450,9 +488,9 @@
             "last": "2026-11-21T08:21:29-03:00"
         },
         "checkbox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T08:21:29-03:00",
-            "last": "2026-11-21T08:21:29-03:00"
+            "last": "2026-11-21T12:43:53-03:00"
         },
         "checkbox-group": {
             "commits": 1,
@@ -460,9 +498,14 @@
             "last": "2026-11-21T08:21:29-03:00"
         },
         "slider": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:21:29-03:00",
-            "last": "2026-11-21T08:21:29-03:00"
+            "last": "2026-11-21T12:43:53-03:00"
+        },
+        "field": {
+            "commits": 1,
+            "first": "2026-11-21T12:43:53-03:00",
+            "last": "2026-11-21T12:43:53-03:00"
         }
     }
 }

@@ -1,6 +1,6 @@
 {
     "framework": "angular",
-    "generatedAt": "2026-11-21T12:01:03.521Z",
+    "generatedAt": "2026-11-21T17:23:35.426Z",
     "loc": {
         "components": [
             {
@@ -49,10 +49,20 @@
             },
             {
                 "component": "combobox",
-                "framework": 529,
-                "dom": 320,
+                "framework": 1170,
+                "dom": 755,
                 "domModules": [
+                    "collection/chip-keys.ts",
+                    "collection/combobox-items.ts",
                     "collection/list-navigation.ts",
+                    "direction/direction.ts",
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts",
                     "id/create-id.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
@@ -101,12 +111,17 @@
             },
             {
                 "component": "select",
-                "framework": 582,
-                "dom": 409,
+                "framework": 618,
+                "dom": 566,
                 "domModules": [
                     "collection/key-maps.ts",
                     "collection/typeahead.ts",
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "id/create-id.ts",
                     "overlay/overlay-session.ts",
@@ -131,10 +146,15 @@
             },
             {
                 "component": "checkbox",
-                "framework": 264,
-                "dom": 50,
+                "framework": 293,
+                "dom": 207,
                 "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "id/create-id.ts"
                 ]
@@ -147,18 +167,37 @@
             },
             {
                 "component": "slider",
-                "framework": 425,
-                "dom": 195,
+                "framework": 460,
+                "dom": 352,
                 "domModules": [
                     "direction/direction.ts",
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts",
                     "pointer/drag-session.ts",
                     "range/range-math.ts",
                     "range/slider-keys.ts"
                 ]
+            },
+            {
+                "component": "field",
+                "framework": 486,
+                "dom": 180,
+                "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-error-shown.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts",
+                    "id/create-id.ts"
+                ]
             }
         ],
-        "shared": 569,
-        "domTotal": 1479
+        "shared": 788,
+        "domTotal": 1926
     },
     "sizes": [
         {
@@ -203,9 +242,9 @@
         {
             "component": "combobox",
             "ours": {
-                "entry": "export { ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList, ComboboxPopup, ComboboxPortal, ComboboxPositioner, ComboboxRoot, ComboboxTrigger } from \"@poc/angular\";",
-                "minified": 44957,
-                "gzip": 13265
+                "entry": "export { ComboboxChip, ComboboxChipRemove, ComboboxChips, ComboboxClear, ComboboxEmpty, ComboboxGroup, ComboboxGroupLabel, ComboboxInput, ComboboxInputGroup, ComboboxItem, ComboboxItemIndicator, ComboboxList, ComboboxPopup, ComboboxPortal, ComboboxPositioner, ComboboxRoot, ComboboxSeparator, ComboboxStatus, ComboboxTrigger } from \"@poc/angular\";",
+                "minified": 70869,
+                "gzip": 18992
             },
             "baseline": {
                 "entry": "export { Combobox, ComboboxPopup, ComboboxWidget } from \"@angular/aria/combobox\"; export { Listbox, Option } from \"@angular/aria/listbox\";",
@@ -248,8 +287,8 @@
             "component": "select",
             "ours": {
                 "entry": "export { SelectItem, SelectItemIndicator, SelectList, SelectPopup, SelectPortal, SelectPositioner, SelectRoot, SelectTrigger, SelectValue } from \"@poc/angular\";",
-                "minified": 47222,
-                "gzip": 14156
+                "minified": 54858,
+                "gzip": 16150
             },
             "baseline": {
                 "entry": "export { Combobox, ComboboxPopup, ComboboxWidget } from \"@angular/aria/combobox\"; export { Listbox, Option } from \"@angular/aria/listbox\";",
@@ -270,8 +309,8 @@
             "component": "checkbox",
             "ours": {
                 "entry": "export { CheckboxIndicator, CheckboxRoot, CheckboxGroup } from \"@poc/angular\";",
-                "minified": 9899,
-                "gzip": 3093
+                "minified": 17429,
+                "gzip": 5075
             },
             "baseline": null
         },
@@ -288,8 +327,17 @@
             "component": "slider",
             "ours": {
                 "entry": "export { SliderControl, SliderIndicator, SliderRoot, SliderThumb, SliderTrack } from \"@poc/angular\";",
-                "minified": 13209,
-                "gzip": 3818
+                "minified": 20915,
+                "gzip": 5864
+            },
+            "baseline": null
+        },
+        {
+            "component": "field",
+            "ours": {
+                "entry": "export { FieldControl, FieldDescription, FieldError, FieldLabel, FieldRoot } from \"@poc/angular\";",
+                "minified": 15724,
+                "gzip": 4416
             },
             "baseline": null
         }
@@ -297,21 +345,21 @@
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 123,
+                "passed": 162,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 17
+                "expectedFailures": 19
             }
         },
         "react": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -319,19 +367,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -339,19 +387,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -359,19 +407,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -379,19 +427,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -399,7 +447,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         }
@@ -421,9 +469,9 @@
             "last": "2026-11-20T22:55:20-03:00"
         },
         "combobox": {
-            "commits": 2,
+            "commits": 4,
             "first": "2026-11-20T22:42:13-03:00",
-            "last": "2026-11-20T22:55:20-03:00"
+            "last": "2026-11-21T14:18:43-03:00"
         },
         "tabs": {
             "commits": 2,
@@ -441,19 +489,19 @@
             "last": "2026-11-20T22:55:20-03:00"
         },
         "select": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:24:15-03:00",
-            "last": "2026-11-21T08:24:15-03:00"
+            "last": "2026-11-21T13:00:03-03:00"
         },
         "tooltip": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T08:24:15-03:00",
-            "last": "2026-11-21T08:24:15-03:00"
+            "last": "2026-11-21T09:01:29-03:00"
         },
         "checkbox": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:24:15-03:00",
-            "last": "2026-11-21T08:24:15-03:00"
+            "last": "2026-11-21T13:00:03-03:00"
         },
         "checkbox-group": {
             "commits": 1,
@@ -461,9 +509,14 @@
             "last": "2026-11-21T08:24:15-03:00"
         },
         "slider": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:24:15-03:00",
-            "last": "2026-11-21T08:24:15-03:00"
+            "last": "2026-11-21T13:00:03-03:00"
+        },
+        "field": {
+            "commits": 3,
+            "first": "2026-11-21T12:47:32-03:00",
+            "last": "2026-11-21T13:00:54-03:00"
         }
     }
 }

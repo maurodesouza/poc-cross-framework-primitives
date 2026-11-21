@@ -1,6 +1,6 @@
 {
     "framework": "vue",
-    "generatedAt": "2026-11-21T12:00:29.629Z",
+    "generatedAt": "2026-11-21T17:22:42.909Z",
     "loc": {
         "components": [
             {
@@ -46,10 +46,17 @@
             },
             {
                 "component": "combobox",
-                "framework": 592,
-                "dom": 315,
+                "framework": 1361,
+                "dom": 634,
                 "domModules": [
+                    "collection/chip-keys.ts",
+                    "collection/combobox-items.ts",
                     "collection/list-navigation.ts",
+                    "direction/direction.ts",
+                    "form/field-state.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
@@ -93,12 +100,14 @@
             },
             {
                 "component": "select",
-                "framework": 630,
-                "dom": 404,
+                "framework": 646,
+                "dom": 445,
                 "domModules": [
                     "collection/key-maps.ts",
                     "collection/typeahead.ts",
+                    "form/field-state.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
@@ -121,10 +130,12 @@
             },
             {
                 "component": "checkbox",
-                "framework": 242,
-                "dom": 61,
+                "framework": 259,
+                "dom": 102,
                 "domModules": [
+                    "form/field-state.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "presence/presence.ts"
                 ]
@@ -137,19 +148,35 @@
             },
             {
                 "component": "slider",
-                "framework": 477,
-                "dom": 211,
+                "framework": 508,
+                "dom": 252,
                 "domModules": [
                     "direction/direction.ts",
+                    "form/field-state.ts",
+                    "form/submit-attempt.ts",
                     "pointer/drag-session.ts",
                     "presence/presence.ts",
                     "range/range-math.ts",
                     "range/slider-keys.ts"
                 ]
+            },
+            {
+                "component": "field",
+                "framework": 450,
+                "dom": 191,
+                "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-error-shown.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts",
+                    "presence/presence.ts"
+                ]
             }
         ],
-        "shared": 424,
-        "domTotal": 1479
+        "shared": 530,
+        "domTotal": 1926
     },
     "sizes": [
         {
@@ -157,7 +184,7 @@
             "ours": {
                 "entry": "export { Dialog } from \"@poc/vue\";",
                 "minified": 9853,
-                "gzip": 3799
+                "gzip": 3798
             },
             "baseline": {
                 "entry": "export { DialogRoot, DialogTrigger, DialogPortal, DialogOverlay, DialogContent, DialogTitle, DialogDescription, DialogClose } from \"reka-ui\";",
@@ -195,8 +222,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/vue\";",
-                "minified": 31221,
-                "gzip": 11637
+                "minified": 43431,
+                "gzip": 15240
             },
             "baseline": {
                 "entry": "export { ComboboxRoot, ComboboxAnchor, ComboboxInput, ComboboxTrigger, ComboboxPortal, ComboboxContent, ComboboxViewport, ComboboxItem, ComboboxEmpty } from \"reka-ui\";",
@@ -209,7 +236,7 @@
             "ours": {
                 "entry": "export { Tabs } from \"@poc/vue\";",
                 "minified": 6401,
-                "gzip": 2482
+                "gzip": 2483
             },
             "baseline": {
                 "entry": "export { TabsRoot, TabsList, TabsTrigger, TabsIndicator, TabsContent } from \"reka-ui\";",
@@ -222,7 +249,7 @@
             "ours": {
                 "entry": "export { Calendar, RangeCalendar } from \"@poc/vue\";",
                 "minified": 12434,
-                "gzip": 4591
+                "gzip": 4592
             },
             "baseline": {
                 "entry": "export { CalendarRoot, CalendarHeader, CalendarHeading, CalendarPrev, CalendarNext, CalendarGrid, CalendarGridHead, CalendarGridBody, CalendarGridRow, CalendarHeadCell, CalendarCell, CalendarCellTrigger, RangeCalendarRoot, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarPrev, RangeCalendarNext, RangeCalendarGrid, RangeCalendarGridHead, RangeCalendarGridBody, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarCell, RangeCalendarCellTrigger } from \"reka-ui\";",
@@ -247,8 +274,8 @@
             "component": "select",
             "ours": {
                 "entry": "export { Select } from \"@poc/vue\";",
-                "minified": 32336,
-                "gzip": 12140
+                "minified": 33911,
+                "gzip": 12708
             },
             "baseline": {
                 "entry": "export { SelectRoot, SelectTrigger, SelectValue, SelectPortal, SelectContent, SelectViewport, SelectItem, SelectItemText, SelectItemIndicator } from \"reka-ui\";",
@@ -260,8 +287,8 @@
             "component": "tooltip",
             "ours": {
                 "entry": "export { Tooltip } from \"@poc/vue\";",
-                "minified": 27601,
-                "gzip": 10605
+                "minified": 27607,
+                "gzip": 10609
             },
             "baseline": {
                 "entry": "export { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipPortal, TooltipContent, TooltipArrow } from \"reka-ui\";",
@@ -273,8 +300,8 @@
             "component": "checkbox",
             "ours": {
                 "entry": "export { Checkbox } from \"@poc/vue\";",
-                "minified": 4555,
-                "gzip": 1958
+                "minified": 6086,
+                "gzip": 2493
             },
             "baseline": {
                 "entry": "export { CheckboxRoot, CheckboxIndicator } from \"reka-ui\";",
@@ -287,7 +314,7 @@
             "ours": {
                 "entry": "export { CheckboxGroup } from \"@poc/vue\";",
                 "minified": 1811,
-                "gzip": 884
+                "gzip": 886
             },
             "baseline": {
                 "entry": "export { CheckboxGroupRoot } from \"reka-ui\";",
@@ -299,34 +326,43 @@
             "component": "slider",
             "ours": {
                 "entry": "export { Slider } from \"@poc/vue\";",
-                "minified": 8492,
-                "gzip": 3269
+                "minified": 10229,
+                "gzip": 3881
             },
             "baseline": {
                 "entry": "export { SliderRoot, SliderTrack, SliderRange, SliderThumb } from \"reka-ui\";",
                 "minified": 23278,
                 "gzip": 8023
             }
+        },
+        {
+            "component": "field",
+            "ours": {
+                "entry": "export { Field } from \"@poc/vue\";",
+                "minified": 8046,
+                "gzip": 3108
+            },
+            "baseline": null
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 123,
+                "passed": 162,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 17
+                "expectedFailures": 19
             }
         },
         "react": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -334,19 +370,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -354,19 +390,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -374,19 +410,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -394,19 +430,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -414,7 +450,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         }
@@ -436,9 +472,9 @@
             "last": "2026-11-20T21:09:33-03:00"
         },
         "combobox": {
-            "commits": 3,
+            "commits": 5,
             "first": "2026-11-20T20:11:34-03:00",
-            "last": "2026-11-21T07:08:28-03:00"
+            "last": "2026-11-21T14:18:43-03:00"
         },
         "tabs": {
             "commits": 2,
@@ -456,9 +492,9 @@
             "last": "2026-11-20T21:09:33-03:00"
         },
         "select": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T07:47:29-03:00",
-            "last": "2026-11-21T07:47:29-03:00"
+            "last": "2026-11-21T12:59:26-03:00"
         },
         "tooltip": {
             "commits": 2,
@@ -466,9 +502,9 @@
             "last": "2026-11-21T08:11:23-03:00"
         },
         "checkbox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:47:29-03:00",
-            "last": "2026-11-21T07:47:29-03:00"
+            "last": "2026-11-21T12:42:23-03:00"
         },
         "checkbox-group": {
             "commits": 2,
@@ -476,9 +512,14 @@
             "last": "2026-11-21T07:50:39-03:00"
         },
         "slider": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:47:29-03:00",
-            "last": "2026-11-21T07:47:29-03:00"
+            "last": "2026-11-21T12:42:23-03:00"
+        },
+        "field": {
+            "commits": 1,
+            "first": "2026-11-21T12:42:23-03:00",
+            "last": "2026-11-21T12:42:23-03:00"
         }
     }
 }
