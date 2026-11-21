@@ -1,21 +1,24 @@
 <script lang="ts">
 import { combobox } from "@poc/styles";
 import { type ChangeDetails, Combobox } from "@poc/svelte";
-import { filterFruits } from "./fruits.ts";
+import FruitPopup from "./fruit-popup.svelte";
+import { FRUITS, type Fruit } from "./fruits.ts";
 
+// The combobox of `/combobox/basic` (spec/combobox.md).
 let {
     value = $bindable(),
     inputValue = $bindable(),
     open = $bindable(),
+    onInputValueChange,
     onOpenChange,
 }: {
-    value: string | null;
+    value: Fruit | null;
     inputValue: string;
     open: boolean;
+    onInputValueChange?: (inputValue: string, details: ChangeDetails) => void;
     onOpenChange?: (open: boolean, details: ChangeDetails) => void;
 } = $props();
-const id = "fruit-input";
-const filtered = $derived(filterFruits(inputValue));
+const id = $props.id();
 </script>
 
-<Combobox.Root bind:value bind:inputValue bind:open {onOpenChange}><div class="flex flex-col gap-1"><label for={id} class="text-sm font-medium">Fruit</label><div class="flex items-center gap-1"><Combobox.Input {id} class={combobox.input} /><Combobox.Trigger aria-label="Show fruits" class={combobox.trigger}>▾</Combobox.Trigger></div></div><Combobox.Portal><Combobox.Positioner sideOffset={4} class={combobox.positioner}><Combobox.Popup class={combobox.popup}>{#if filtered.length === 0}<Combobox.Empty class={combobox.empty}>No fruit found.</Combobox.Empty>{/if}<Combobox.List class={combobox.list}>{#each filtered as fruit (fruit.value)}<Combobox.Item value={fruit.value} disabled={fruit.disabled} class={combobox.item}>{fruit.label}</Combobox.Item>{/each}</Combobox.List></Combobox.Popup></Combobox.Positioner></Combobox.Portal></Combobox.Root>
+<Combobox.Root items={FRUITS} bind:value bind:inputValue bind:open {onInputValueChange} {onOpenChange}><div class="flex flex-col gap-1"><label for={id} class="text-sm font-medium">Fruit</label><Combobox.InputGroup class={combobox["input-group"]}><Combobox.Input {id} class={combobox.input} /><Combobox.Clear aria-label="Clear fruit" class={combobox.clear}>×</Combobox.Clear><Combobox.Trigger aria-label="Show fruits" class={combobox.trigger}>▾</Combobox.Trigger></Combobox.InputGroup></div><FruitPopup /></Combobox.Root>

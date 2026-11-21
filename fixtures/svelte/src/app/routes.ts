@@ -7,6 +7,15 @@ import CalendarUnavailable from "../scenarios/calendar/calendar-unavailable.svel
 import CheckboxBasic from "../scenarios/checkbox/checkbox-basic.svelte";
 import CheckboxControlled from "../scenarios/checkbox/checkbox-controlled.svelte";
 import CheckboxGroupScenario from "../scenarios/checkbox/checkbox-group.svelte";
+import ComboboxBasic from "../scenarios/combobox/combobox-basic.svelte";
+import ComboboxControlled from "../scenarios/combobox/combobox-controlled.svelte";
+import ComboboxField from "../scenarios/combobox/combobox-field.svelte";
+import ComboboxFiltered from "../scenarios/combobox/combobox-filtered.svelte";
+import ComboboxForm from "../scenarios/combobox/combobox-form.svelte";
+import ComboboxGroups from "../scenarios/combobox/combobox-groups.svelte";
+import ComboboxMultiple from "../scenarios/combobox/combobox-multiple.svelte";
+import ComboboxObjects from "../scenarios/combobox/combobox-objects.svelte";
+import ComboboxRejectedInput from "../scenarios/combobox/combobox-rejected-input.svelte";
 import DatePickerBasic from "../scenarios/date-picker/date-picker-basic.svelte";
 import DatePickerRange from "../scenarios/date-picker/date-picker-range.svelte";
 import DialogBasic from "../scenarios/dialog/dialog-basic.svelte";
@@ -51,6 +60,15 @@ export const routes: Record<string, Component<any>> = {
     "/menu/basic": MenuBasic,
     "/menu/submenu": MenuSubmenu,
     "/menu/groups": MenuGroups,
+    "/combobox/basic": ComboboxBasic,
+    "/combobox/controlled": ComboboxControlled,
+    "/combobox/rejected-input": ComboboxRejectedInput,
+    "/combobox/filtered": ComboboxFiltered,
+    "/combobox/objects": ComboboxObjects,
+    "/combobox/multiple": ComboboxMultiple,
+    "/combobox/groups": ComboboxGroups,
+    "/combobox/form": ComboboxForm,
+    "/combobox/field": ComboboxField,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,

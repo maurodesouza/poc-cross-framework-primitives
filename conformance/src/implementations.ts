@@ -52,8 +52,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-svelte",
         port: 5340,
         layers: ["behaviour", "contract", "visual"],
-        // Combobox parity (Epic I, #62): pending until its port lands
-        pending: ["combobox"],
     },
     // @poc/solid (Epic D): Solid 2.0
     {
