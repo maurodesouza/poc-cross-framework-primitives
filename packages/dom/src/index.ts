@@ -89,6 +89,10 @@ export {
 export { isInHoverBridge } from "./pointer/hover-bridge.ts";
 export { isInSafeArea, type Point } from "./pointer/safe-area.ts";
 export {
+    type HoverBridgeCallbacks,
+    trackHoverBridge,
+} from "./pointer/track-hover-bridge.ts";
+export {
     type AnchorOptions,
     anchorFloating,
 } from "./positioning/anchor-floating.ts";
