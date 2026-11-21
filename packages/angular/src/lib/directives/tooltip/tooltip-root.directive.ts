@@ -72,19 +72,26 @@ export class TooltipRoot {
 
     constructor() {
         const overlay = this.overlay;
-        inject(DestroyRef).onDestroy(() => this.intent.cancel());
+        inject(DestroyRef).onDestroy(() => {
+            this.intent.cancel();
+            // a tooltip destroyed while open leaves its group, or the group keeps it as open
+            this.leaveGroup();
+        });
 
-        // the group hears this tooltip close (it opens in `show`, an event: closing the previous
-        // member renders at once, which an effect must not do)
-        let member: (() => void) | null = null;
+        // The group hears this tooltip open and close. An open from an event joins in `show`
+        // (closing the previous member renders at once, which an effect must not do); an open
+        // the consumer made (`[open]`) joins in a microtask, out of the effect.
         effect(() => {
             const open = overlay.open();
             untracked(() => {
-                if (open && member === null) {
-                    member = this.member;
-                } else if (!open && member !== null) {
-                    this.group().closed(member);
-                    member = null;
+                if (open && !this.joined) {
+                    queueMicrotask(() => {
+                        if (untracked(overlay.open)) {
+                            this.joinGroup();
+                        }
+                    });
+                } else if (!open) {
+                    this.leaveGroup();
                 }
             });
         });
@@ -128,6 +135,23 @@ export class TooltipRoot {
         });
     }
 
+    /** Whether this tooltip is its group's open member. */
+    private joined = false;
+
+    private joinGroup(): void {
+        if (!this.joined) {
+            this.joined = true;
+            this.group().opened(this.member);
+        }
+    }
+
+    private leaveGroup(): void {
+        if (this.joined) {
+            this.joined = false;
+            this.group().closed(this.member);
+        }
+    }
+
     private group() {
         return this.provider?.group() ?? this.ownGroup;
     }
@@ -146,7 +170,7 @@ export class TooltipRoot {
         this.overlay.setOpen(true, reason);
         // one open tooltip per group: the previous one closes
         if (untracked(this.overlay.open)) {
-            this.group().opened(this.member);
+            this.joinGroup();
         }
     }
 
