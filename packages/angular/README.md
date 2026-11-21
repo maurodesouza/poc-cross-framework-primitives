@@ -34,9 +34,16 @@ Angular's own means (spec/README.md, "API mapping by framework"):
 - **part hooks** are injection functions: `injectDialog()`, `injectPopover()`, `injectMenu()`,
   `injectTabs()`, `injectCombobox()`, `injectCalendar()` and `injectDatePicker()` give a
   component of the consumer's inside a root its `state` (and the root's own actions).
+- **the field** (spec/field.md): `<div fieldRoot [name]="'email'" [validate]="check">` with
+  `<label fieldLabel>`, `<input fieldControl>`, `<p fieldDescription>` and the structural
+  `<div *fieldError="'valueMissing'">` (rendered only while shown; with no children of its own it
+  shows the messages, or `*fieldError="let errors"` gives them to the template). Checkbox, Select
+  and Slider read the enclosing field with `injectField()` (an optional injection: `null`
+  outside a field, where they behave as before).
 
 Components: Dialog, Popover, Menu (with submenus), Tabs, Combobox, Calendar, RangeCalendar,
-DatePicker and DateRangePicker, with the parts of the specs.
+DatePicker and DateRangePicker, Select, Tooltip, Checkbox, CheckboxGroup, Slider and Field, with
+the parts of the specs.
 
 Source layout: `src/lib/directives/<component>/<part>.directive.ts` (one part per file, the same
 names as React's components), `src/lib/inject/` (the part hooks), `src/lib/utils/` (controllable
