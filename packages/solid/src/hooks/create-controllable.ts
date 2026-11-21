@@ -1,15 +1,19 @@
-import { createSignal } from "solid-js";
+import { createSignal, untrack } from "solid-js";
 
 /**
  * Controlled when `value()` is defined (it only reports changes), uncontrolled otherwise, seeded
- * by `initial()` (spec/README.md, "Normalized API names").
+ * by `initial()` once (spec/README.md, "Normalized API names").
  */
 export function createControllable<T, Details>(
     value: () => T | undefined,
     initial: () => T,
     onChange: (value: T, details: Details) => void,
 ): [() => T, (next: T, details: Details) => void] {
-    const [own, setOwn] = createSignal<T>(() => initial());
+    // seeded once, as React's `useState`: a function would make a derived signal that resets
+    // whenever `initial()` changes
+    const [own, setOwn] = createSignal<T>(
+        untrack(initial) as Exclude<T, Function>,
+    );
     const current = () => {
         const controlled = value();
         return controlled !== undefined ? controlled : own();

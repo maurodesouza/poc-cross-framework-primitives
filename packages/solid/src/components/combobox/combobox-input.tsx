@@ -1,5 +1,5 @@
 import { stepThroughNone } from "@poc/dom";
-import { useContext } from "solid-js";
+import { flush, useContext } from "solid-js";
 import { type PartProps, renderPart } from "../../utils/part.tsx";
 import { stateAttributes } from "../../utils/state-attributes.ts";
 import { ComboboxContext, orderedItems } from "./combobox-context.ts";
@@ -106,14 +106,18 @@ export function ComboboxInput(
                 "data-combobox-part": "input",
                 ...stateAttributes(state()),
                 onInput: (event: InputEvent) => {
-                    context.setInputValue(
-                        (event.currentTarget as HTMLInputElement).value,
-                        "input-change",
-                    );
+                    const input = event.currentTarget as HTMLInputElement;
+                    context.setInputValue(input.value, "input-change");
                     context.setHighlighted(null);
                     if (!context.open()) {
                         context.pendingHighlight.current = null;
                         context.setOpen(true, "input-change");
+                    }
+                    // a controlled `inputValue` the consumer kept unchanged: the binding does
+                    // not re-run, so put the accepted text back (React re-asserts it too)
+                    flush();
+                    if (input.value !== context.inputValue()) {
+                        input.value = context.inputValue();
                     }
                 },
                 onKeyDown,
