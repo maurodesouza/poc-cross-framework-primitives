@@ -10,6 +10,11 @@ export type ChangeReason =
     | "item-press"
     | "list-navigation"
     | "input-change"
+    | "trigger-hover"
+    | "trigger-focus"
+    | "keyboard"
+    | "track-press"
+    | "drag"
     | "none";
 
 export interface ChangeDetails {
