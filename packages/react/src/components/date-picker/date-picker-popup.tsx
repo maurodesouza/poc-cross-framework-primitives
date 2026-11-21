@@ -1,5 +1,5 @@
-import { openOverlaySession } from "@poc/dom";
-import { useEffect } from "react";
+import { getTabbables, nextTabbableAfter, openOverlaySession } from "@poc/dom";
+import { type KeyboardEvent, useEffect } from "react";
 import { useRequiredContext } from "../../hooks/use-required-context.ts";
 import { type PartProps, renderElement } from "../../utils/render-element.tsx";
 import { stateAttributes } from "../../utils/state-attributes.ts";
@@ -32,6 +32,29 @@ export function DatePickerPopup(
         return session.end;
     }, [open, popup, positioner, trigger, setOpen, lastReason]);
 
+    const onKeyDown = (event: KeyboardEvent) => {
+        if (event.key !== "Tab" || popup === null || event.defaultPrevented) {
+            return;
+        }
+        // in the tab order, the popup's content comes right after the trigger (as popover.md)
+        const tabbables = getTabbables(popup);
+        const active = popup.ownerDocument.activeElement;
+        const first = tabbables[0] ?? popup;
+        const last = tabbables.at(-1) ?? popup;
+        if (event.shiftKey && (active === first || active === popup)) {
+            event.preventDefault();
+            setOpen(false, "focus-out");
+            trigger?.focus();
+        } else if (!event.shiftKey && active === last) {
+            event.preventDefault();
+            const next = trigger
+                ? nextTabbableAfter(trigger, [positioner, popup])
+                : null;
+            setOpen(false, "focus-out");
+            next?.focus();
+        }
+    };
+
     const status = context.presence.status;
     return renderElement(
         "div",
@@ -41,6 +64,7 @@ export function DatePickerPopup(
             id: context.popupId,
             role: "dialog",
             "data-date-picker-part": "popup",
+            onKeyDown,
             ...stateAttributes({
                 open,
                 side: context.placed.side,

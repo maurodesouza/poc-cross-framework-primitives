@@ -391,6 +391,31 @@ test.describe("date-picker / basic", () => {
         await expect(page.getByRole("dialog")).toBeHidden();
     });
 
+    test("Tab out of the popup closes it, as a popover", async ({ page }) => {
+        baselineDeviation(
+            "React Aria's picker popover is modal and contains focus (spec/calendar.md)",
+        );
+        await trigger(page).click();
+        await expectFocusWithin(cell(page, 11, 20));
+        await page.keyboard.press("Tab");
+        await expect(page.getByRole("dialog")).toBeHidden();
+        await expectOutput(page, "reason", "focus-out");
+        await trigger(page).click();
+        await expectFocusWithin(cell(page, 11, 20));
+        await page.keyboard.press("Shift+Tab");
+        await expect(
+            page.getByRole("button", { name: "Next month" }),
+        ).toBeFocused();
+        await page.keyboard.press("Shift+Tab");
+        await expect(
+            page.getByRole("button", { name: "Previous month" }),
+        ).toBeFocused();
+        await page.keyboard.press("Shift+Tab");
+        await expect(page.getByRole("dialog")).toBeHidden();
+        await expectOutput(page, "reason", "focus-out");
+        await expect(trigger(page)).toBeFocused();
+    });
+
     test("has no axe violation while open", async ({ page }) => {
         await trigger(page).click();
         await expect(page.getByRole("dialog")).toBeVisible();
