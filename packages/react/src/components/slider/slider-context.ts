@@ -1,7 +1,10 @@
 import { createContext } from "react";
+import type { FieldControlBinding } from "../../hooks/use-field-control.ts";
 import type { ChangeReason } from "../../utils/change-details.ts";
 
 export interface SliderContextValue {
+    /** The enclosing field's binding, for the thumbs (spec/field.md). */
+    field: FieldControlBinding;
     values: readonly number[];
     min: number;
     max: number;

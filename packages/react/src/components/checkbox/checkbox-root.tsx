@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useControllableState } from "../../hooks/use-controllable-state.ts";
 import { useElement } from "../../hooks/use-element.ts";
+import { useFieldControl } from "../../hooks/use-field-control.ts";
 import type { ChangeDetails } from "../../utils/change-details.ts";
 import { type PartProps, renderElement } from "../../utils/render-element.tsx";
 import { stateAttributes } from "../../utils/state-attributes.ts";
@@ -75,7 +76,15 @@ export function CheckboxRoot({
         inGroup && parent
             ? (groupChecked ?? 0) > 0 && !checked
             : indeterminateProp;
-    const disabled = disabledProp || (group?.disabled ?? false);
+    const field = useFieldControl({
+        id,
+        labelable: true,
+        value: checked,
+        filled: checked,
+        input: () => input.current,
+    });
+    const disabled =
+        disabledProp || (group?.disabled ?? false) || field.disabled;
 
     const { registerId } = group ?? {};
     useEffect(() => {
@@ -143,12 +152,16 @@ export function CheckboxRoot({
                     "aria-checked": indeterminate ? "mixed" : checked,
                     "aria-required": required ? "true" : undefined,
                     "aria-controls": controls,
+                    ...field.aria,
                     "data-checkbox-part": "root",
+                    ...field.attributes,
                     ...stateAttributes({
                         ...checkedAttributes(state),
                         required,
                     }),
                     onClick: toggle,
+                    onFocus: field.onFocus,
+                    onBlur: field.onBlur,
                     onKeyDown: (event: KeyboardEvent) => {
                         // APG: Space toggles, Enter does not (a button would click on Enter)
                         if (event.key === "Enter") {
@@ -163,7 +176,7 @@ export function CheckboxRoot({
                 type="checkbox"
                 aria-hidden="true"
                 tabIndex={-1}
-                name={parent ? undefined : name}
+                name={parent ? undefined : (field.name ?? name)}
                 value={value ?? "on"}
                 checked={checked && !(parent && inGroup)}
                 required={required}

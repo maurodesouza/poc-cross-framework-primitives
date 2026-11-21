@@ -2,6 +2,7 @@ import { moveThumb } from "@poc/dom";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useControllableState } from "../../hooks/use-controllable-state.ts";
 import { useElement } from "../../hooks/use-element.ts";
+import { useFieldControl } from "../../hooks/use-field-control.ts";
 import type {
     ChangeDetails,
     ChangeReason,
@@ -55,7 +56,7 @@ export function SliderRoot({
     largeStep = 10,
     minStepsBetweenValues = 0,
     orientation = "horizontal",
-    disabled = false,
+    disabled: disabledProp = false,
     name,
     children,
     ...props
@@ -71,6 +72,16 @@ export function SliderRoot({
         toArray(defaultValue ?? min),
         (next, details) => onValueChange?.(output(next), details),
     );
+    const firstInput = useRef<HTMLInputElement>(null);
+    const field = useFieldControl({
+        id: undefined,
+        labelable: false,
+        value: output(current),
+        // a slider always has a value
+        filled: true,
+        input: () => firstInput.current,
+    });
+    const disabled = disabledProp || field.disabled;
     const [root, rootRef] = useElement<HTMLElement>();
     const [control, setControl] = useState<HTMLElement | null>(null);
     const [thumbs, setThumbs] = useState<readonly HTMLElement[]>([]);
@@ -130,6 +141,7 @@ export function SliderRoot({
 
     const context = useMemo(
         () => ({
+            field,
             values: current,
             min,
             max,
@@ -151,6 +163,7 @@ export function SliderRoot({
             stopDragging,
         }),
         [
+            field,
             current,
             min,
             max,
@@ -177,8 +190,9 @@ export function SliderRoot({
             // one per value, in order
             // biome-ignore lint/suspicious/noArrayIndexKey: the index is the thumb's identity
             key={index}
+            ref={index === 0 ? firstInput : undefined}
             type="hidden"
-            name={name}
+            name={field.name ?? name}
             value={entry}
             data-slider-part="input"
         />
@@ -199,7 +213,9 @@ export function SliderRoot({
                 state,
                 {
                     role: "group",
+                    "aria-labelledby": field.aria["aria-labelledby"],
                     "data-slider-part": "root",
+                    ...field.attributes,
                     ...stateAttributes({
                         orientation,
                         disabled,
