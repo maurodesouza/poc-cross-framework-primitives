@@ -106,7 +106,7 @@ sizes against Bits UI 2.21) are in [`data/svelte.md`](data/svelte.md), regenerat
 | --- | --- | --- |
 | hidden inputs | `VISUALLY_HIDDEN_INPUT_STYLE` is a DOM style object (`clipPath`); Svelte's `style` takes CSS text, so it is converted once (`utils/hidden-input-style.ts`) | `@poc/svelte` |
 | late form reset | `bridgeForm` calls back after the browser reset the controls; a state already at its default does not re-run the `checked` / `value` binding, so Checkbox (CheckboxGroup children included) and Select write their state back onto the hidden input | `@poc/svelte` |
-| positioners (dev mode) | `(placed) => (context.placed = placed)` returns the assignment, and Svelte warns `assignment_value_stale` on a `$state` proxy property: the new positioners use a block body. Menu, Combobox and Popover have the same expression (the date picker's is #44) | `@poc/svelte` (Select, Tooltip) |
+| positioners (dev mode) | `(placed) => (context.placed = placed)` returns the assignment, and Svelte warns `assignment_value_stale` on a `$state` proxy property: the new positioners use a block body. Menu, Combobox, Popover and the date picker had the same expression (#44) | `@poc/svelte` (Select and Tooltip here; the four others in the #44 fix) |
 | CheckboxGroup ids | the children register their ids in an effect; a spread `{ ...ids, [value]: id }` would read the state it writes (an update loop). The group mutates its `$state` record instead, and registration is `untrack`ed | `@poc/svelte` |
 | slider thumbs | the thumb list is written by each thumb's effect and read by every thumb's index: the registration is `untrack`ed, so an effect never depends on what it writes | `@poc/svelte` |
 | fixture | markup glued as JSX renders it: each label next to its checkbox (`<StyledCheckbox />Accept terms`), an item's label next to its indicator; the checkbox indicator uses the `child` snippet as React's `render` | `fixtures/svelte` |
@@ -118,3 +118,17 @@ Every extras route was then loaded in `vite` dev mode and driven by the keyboard
 Boundary pressure: none new. The tooltip uses `trackHoverBridge`, moved into `@poc/dom` before
 this port; CheckboxGroup's membership and the slider's number-or-array value shape stay in the
 package (component state and API), written a third time.
+
+### Dev-mode fixes (#44)
+
+Found in Epic F's playground check, fixed before this port was merged:
+
+- **Tabs**: `Tabs.Tab` bumped `version` with `+=` in the effect that registers it, so the effect
+  read what it wrote and each bump re-ran every tab's registration (`effect_update_depth_exceeded`
+  on every Tabs scenario in `vite` dev). The bump is untracked now.
+- **Positioners**: Menu, Combobox, Popover and DatePicker reported their placement with an arrow
+  returning the assignment (`assignment_value_stale`): a block body now.
+
+Every fixture route was then loaded in `vite` dev (with the trigger opened where there is one):
+no error or warning. The production build the suite serves never raised either, which is why the
+suite did not catch them.
