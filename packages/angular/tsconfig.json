@@ -1,0 +1,19 @@
+{
+    // TypeScript 6.0.3, pinned in this package only: the Angular compiler (ngc, ng-packagr)
+    // supports `typescript >=6.0 <6.1` (AGENTS.md, "Toolchain"), as Dockable's Angular adapter.
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "useDefineForClassFields": false
+    },
+    "angularCompilerOptions": {
+        "strictTemplates": true,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictStandalone": true,
+        "typeCheckHostBindings": true,
+        "extendedDiagnostics": {
+            "defaultCategory": "error"
+        }
+    },
+    "include": ["src", "tests", "vitest.config.ts"]
+}
