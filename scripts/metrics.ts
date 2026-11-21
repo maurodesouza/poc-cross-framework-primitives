@@ -25,7 +25,7 @@ const FRAMEWORKS: Record<
         fixture: string;
         /** Where the component folders live, under the package's `src/` (default `components`). */
         components?: string;
-        /** It has ported the extras (Select, Tooltip, Checkbox, CheckboxGroup, Slider). */
+        /** It has ported the extras (Select, Tooltip, Checkbox, CheckboxGroup, Slider) and Field. */
         extras?: boolean;
         external: string[];
         /** The Vite plugin that compiles the package's source; esbuild bundles it when absent. */
@@ -60,6 +60,7 @@ const FRAMEWORKS: Record<
                 "checkbox-group":
                     'export { CheckboxGroup } from "@base-ui/react/checkbox-group";',
                 slider: 'export { Slider } from "@base-ui/react/slider";',
+                field: 'export { Field } from "@base-ui/react/field";',
             },
         },
     },
@@ -211,6 +212,7 @@ const NAMESPACES: Record<string, string> = {
     checkbox: "Checkbox",
     "checkbox-group": "CheckboxGroup",
     slider: "Slider",
+    field: "Field",
 };
 
 function parseFramework(argv: readonly string[]): string {
