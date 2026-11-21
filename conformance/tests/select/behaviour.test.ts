@@ -21,6 +21,14 @@ async function expectHighlighted(page: Page, name: string) {
     );
 }
 
+/**
+ * The highlighted option, whichever way the implementation tracks it (`data-highlighted`, spec
+ * state attribute, which the baseline sets too): a wait for the highlight before the next key.
+ */
+async function expectActiveOption(page: Page, name: string) {
+    await expect(option(page, name)).toHaveAttribute("data-highlighted");
+}
+
 test.describe("select / basic", () => {
     test.beforeEach(async ({ page }) => {
         await openScenario(page, "/select/basic");
@@ -119,12 +127,17 @@ test.describe("select / basic", () => {
         await trigger(page).click();
         await expect(listbox(page)).toBeVisible();
         await page.keyboard.type("m");
+        await expectActiveOption(page, "Mango");
         await page.keyboard.press("Enter");
         await expectOutput(page, "value", "mango");
         await trigger(page).focus();
         await page.keyboard.press("ArrowDown");
         await expect(listbox(page)).toBeVisible();
+        // the selected option is highlighted on open; Home moves on from it (Base UI settles its
+        // open highlight a frame late, so a Home sent earlier was overridden in CI)
+        await expectActiveOption(page, "Mango");
         await page.keyboard.press("Home");
+        await expectActiveOption(page, "Apple");
         await page.keyboard.press("Enter");
         await expectOutput(page, "value", "apple");
     });
