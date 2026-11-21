@@ -1,6 +1,6 @@
 {
     "framework": "react",
-    "generatedAt": "2026-11-21T10:49:25.618Z",
+    "generatedAt": "2026-11-21T11:46:19.837Z",
     "loc": {
         "components": [
             {
@@ -107,12 +107,12 @@
             },
             {
                 "component": "tooltip",
-                "framework": 421,
-                "dom": 272,
+                "framework": 410,
+                "dom": 280,
                 "domModules": [
                     "hover/delay-group.ts",
                     "hover/hover-intent.ts",
-                    "pointer/hover-bridge.ts",
+                    "pointer/track-hover-bridge.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
                     "presence/presence.ts"
@@ -122,7 +122,10 @@
                 "component": "checkbox",
                 "framework": 212,
                 "dom": 45,
-                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+                "domModules": [
+                    "form/form-bridge.ts",
+                    "form/visually-hidden.ts"
+                ]
             },
             {
                 "component": "checkbox-group",
@@ -143,7 +146,7 @@
             }
         ],
         "shared": 377,
-        "domTotal": 1448
+        "domTotal": 1479
     },
     "sizes": [
         {
@@ -164,7 +167,7 @@
             "ours": {
                 "entry": "export { Popover } from \"@poc/react\";",
                 "minified": 28975,
-                "gzip": 11207
+                "gzip": 11206
             },
             "baseline": {
                 "entry": "export { Popover } from \"@base-ui/react/popover\";",
@@ -229,7 +232,7 @@
             "ours": {
                 "entry": "export { DatePicker, DateRangePicker } from \"@poc/react\";",
                 "minified": 26792,
-                "gzip": 10500
+                "gzip": 10501
             },
             "baseline": {
                 "entry": "export { DatePicker, DateRangePicker } from \"react-aria-components\";",
@@ -254,8 +257,8 @@
             "component": "tooltip",
             "ours": {
                 "entry": "export { Tooltip } from \"@poc/react\";",
-                "minified": 27189,
-                "gzip": 10623
+                "minified": 27299,
+                "gzip": 10680
             },
             "baseline": {
                 "entry": "export { Tooltip } from \"@base-ui/react/tooltip\";",
@@ -354,13 +357,13 @@
         },
         "svelte": {
             "behaviour": {
-                "passed": 92,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -368,19 +371,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 92,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -388,19 +391,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 92,
+                "passed": 140,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 16,
+                "passed": 24,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -408,7 +411,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 16,
+                "skipped": 24,
                 "expectedFailures": 0
             }
         }
@@ -455,9 +458,9 @@
             "last": "2026-11-21T07:41:06-03:00"
         },
         "tooltip": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:41:06-03:00",
-            "last": "2026-11-21T07:41:06-03:00"
+            "last": "2026-11-21T08:11:23-03:00"
         },
         "checkbox": {
             "commits": 1,

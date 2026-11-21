@@ -10,12 +10,12 @@
 | calendar | 755 | 271 | 26% |
 | date-picker | 265 | 258 | 49% |
 | select | 592 | 404 | 41% |
-| tooltip | 421 | 272 | 39% |
+| tooltip | 410 | 280 | 41% |
 | checkbox | 212 | 45 | 18% |
 | checkbox-group | 108 | 0 | 0% |
 | slider | 503 | 195 | 28% |
 
-Shared framework infrastructure (hooks, utils): 377 lines. All of @poc/dom: 1448 lines.
+Shared framework infrastructure (hooks, utils): 377 lines. All of @poc/dom: 1479 lines.
 
 ### Bundle size (minified + gzip, framework external)
 
@@ -38,19 +38,19 @@ Shared framework infrastructure (hooks, utils): 377 lines. All of @poc/dom: 1448
 
 | project | layer | passed | failed | expected failures | skipped |
 | --- | --- | --- | --- | --- | --- |
-| angular | behaviour | 92 | 0 | 0 | 0 |
-| angular | contract | 16 | 0 | 0 | 0 |
-| angular | visual | 0 | 0 | 0 | 16 |
+| angular | behaviour | 140 | 0 | 0 | 0 |
+| angular | contract | 24 | 0 | 0 | 0 |
+| angular | visual | 0 | 0 | 0 | 24 |
 | baseline | behaviour | 123 | 0 | 17 | 0 |
 | react | behaviour | 140 | 0 | 0 | 0 |
 | react | contract | 24 | 0 | 0 | 0 |
 | react | visual | 0 | 0 | 0 | 24 |
-| solid | behaviour | 92 | 0 | 0 | 0 |
-| solid | contract | 16 | 0 | 0 | 0 |
-| solid | visual | 0 | 0 | 0 | 16 |
-| svelte | behaviour | 92 | 0 | 0 | 0 |
-| svelte | contract | 16 | 0 | 0 | 0 |
-| svelte | visual | 0 | 0 | 0 | 16 |
+| solid | behaviour | 140 | 0 | 0 | 0 |
+| solid | contract | 24 | 0 | 0 | 0 |
+| solid | visual | 0 | 0 | 0 | 24 |
+| svelte | behaviour | 140 | 0 | 0 | 0 |
+| svelte | contract | 24 | 0 | 0 | 0 |
+| svelte | visual | 0 | 0 | 0 | 24 |
 | vue | behaviour | 140 | 0 | 0 | 0 |
 | vue | contract | 24 | 0 | 0 | 0 |
 | vue | visual | 0 | 0 | 0 | 24 |
@@ -67,7 +67,7 @@ Shared framework infrastructure (hooks, utils): 377 lines. All of @poc/dom: 1448
 | calendar | 3 | 2026-11-20T19:47:04-03:00 | 2026-11-20T20:11:50-03:00 |
 | date-picker | 2 | 2026-11-20T19:47:04-03:00 | 2026-11-20T21:09:33-03:00 |
 | select | 1 | 2026-11-21T07:41:06-03:00 | 2026-11-21T07:41:06-03:00 |
-| tooltip | 1 | 2026-11-21T07:41:06-03:00 | 2026-11-21T07:41:06-03:00 |
+| tooltip | 2 | 2026-11-21T07:41:06-03:00 | 2026-11-21T08:11:23-03:00 |
 | checkbox | 1 | 2026-11-21T07:41:06-03:00 | 2026-11-21T07:41:06-03:00 |
 | checkbox-group | 1 | 2026-11-21T07:41:06-03:00 | 2026-11-21T07:41:06-03:00 |
 | slider | 1 | 2026-11-21T07:41:06-03:00 | 2026-11-21T07:41:06-03:00 |

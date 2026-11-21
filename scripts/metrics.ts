@@ -96,6 +96,7 @@ const FRAMEWORKS: Record<
     },
     svelte: {
         fixture: "fixtures/svelte",
+        extras: true,
         external: ["svelte"],
         plugin: { name: "@sveltejs/vite-plugin-svelte", factory: "svelte" },
         ours: (namespace) => `export { ${namespace} } from "@poc/svelte";`,
@@ -111,11 +112,18 @@ const FRAMEWORKS: Record<
                 calendar: 'export { Calendar, RangeCalendar } from "bits-ui";',
                 "date-picker":
                     'export { DatePicker, DateRangePicker } from "bits-ui";',
+                select: 'export { Select } from "bits-ui";',
+                tooltip: 'export { Tooltip } from "bits-ui";',
+                // Bits UI's group is part of its Checkbox namespace (`Checkbox.Group`): measured
+                // with the checkbox, no separate entry
+                checkbox: 'export { Checkbox } from "bits-ui";',
+                slider: 'export { Slider } from "bits-ui";',
             },
         },
     },
     solid: {
         fixture: "fixtures/solid",
+        extras: true,
         external: ["solid-js", "@solidjs/web"],
         plugin: { name: "@solidjs/vite-plugin", factory: "default" },
         ours: (namespace) => `export { ${namespace} } from "@poc/solid";`,
@@ -129,12 +137,17 @@ const FRAMEWORKS: Record<
                 menu: 'export { DropdownMenu } from "@kobalte/core/dropdown-menu";',
                 combobox: 'export { Combobox } from "@kobalte/core/combobox";',
                 tabs: 'export { Tabs } from "@kobalte/core/tabs";',
+                select: 'export { Select } from "@kobalte/core/select";',
+                tooltip: 'export { Tooltip } from "@kobalte/core/tooltip";',
+                checkbox: 'export { Checkbox } from "@kobalte/core/checkbox";',
+                slider: 'export { Slider } from "@kobalte/core/slider";',
             },
         },
     },
     angular: {
         fixture: "fixtures/angular",
         components: "lib/directives",
+        extras: true,
         external: ["@angular/core", "@angular/common", "rxjs"],
         plugin: {
             name: "@analogjs/vite-plugin-angular",
@@ -155,6 +168,9 @@ const FRAMEWORKS: Record<
                 combobox:
                     'export { Combobox, ComboboxPopup, ComboboxWidget } from "@angular/aria/combobox"; export { Listbox, Option } from "@angular/aria/listbox";',
                 tabs: 'export { Tab, TabContent, TabList, TabPanel, Tabs } from "@angular/aria/tabs";',
+                // Angular Aria's select is its combobox in read-only mode over a listbox; the CDK
+                // and Aria have no tooltip, checkbox or slider
+                select: 'export { Combobox, ComboboxPopup, ComboboxWidget } from "@angular/aria/combobox"; export { Listbox, Option } from "@angular/aria/listbox";',
             },
         },
     },

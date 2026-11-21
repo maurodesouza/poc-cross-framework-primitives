@@ -6,9 +6,12 @@ export interface Effort {
     last: string | null;
 }
 
-/** The commits that touched a path (agent runs: a proxy for effort, not human time). */
+/**
+ * The commits that touched a path (agent runs: a proxy for effort, not human time), dated when
+ * they were written (author date): a cherry-pick or rebase keeps it.
+ */
 export function effortOf(root: string, path: string): Effort {
-    const log = execFileSync("git", ["log", "--format=%cI", "--", path], {
+    const log = execFileSync("git", ["log", "--format=%aI", "--", path], {
         cwd: root,
         encoding: "utf8",
     })
