@@ -22,13 +22,12 @@ export function ComboboxMultiple() {
                 onValueChange={setValue}
             >
                 <label htmlFor={id}>Fruits</label>
-                <div className="field">
-                    <FruitChips<Fruit> id={id} />
+                <FruitChips<Fruit> id={id}>
                     <Combobox.Clear aria-label="Clear fruits">×</Combobox.Clear>
                     <Combobox.Trigger aria-label="Show fruits">
                         ▾
                     </Combobox.Trigger>
-                </div>
+                </FruitChips>
                 <Combobox.Status className="sr-only">
                     {value.length === 1
                         ? "1 fruit selected."

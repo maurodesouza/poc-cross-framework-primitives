@@ -259,7 +259,8 @@ the label in lower case): **Apple**, **Banana**, **Blueberry**, **Cherry**, **Gr
 ### `/combobox/basic`
 
 Content: a `<label>` **"Fruit"** for the Input; an InputGroup with the Input, a Clear with
-`aria-label` **"Clear fruit"** (text "×") and a Trigger with `aria-label` **"Show fruits"**;
+`aria-label` **"Clear fruit"** (text "×") and a Trigger with `aria-label` **"Show fruits"** (text
+"▾");
 `items` the fruits (the default filter). The Popup holds an Empty **"No fruit found."** and the
 List. Output: `value: ...`, `input: ...`, `open: ...`, `reason: ...`.
 
@@ -359,7 +360,8 @@ Checks:
 **"Fruits"**: `multiple`, `items` the fruits, `defaultValue` the fruits Apple and Cherry. A
 `<label>` for the Input. Chips hold a Value whose render function renders, for each value, a Chip
 with the fruit's label and a ChipRemove with `aria-label` **"Remove <label>"** (text "×"), then
-the Input. After the Chips, a Clear **"Clear fruits"** and a Trigger **"Show fruits"**. A Status
+the Input; after the Value, still in the Chips, a Clear **"Clear fruits"** (text "×") and a
+Trigger **"Show fruits"** (text "▾"). A Status
 (visually hidden) says **"<n> fruits selected."** (`1 fruit selected.` for one). The Popup holds
 an Empty "No fruit found." and the List; each Item renders the label and an ItemIndicator
 **"✓"**. Output: `value: ...`.
