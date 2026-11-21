@@ -166,12 +166,22 @@ export function ComboboxRoot<Item>(props: ComboboxRootProps<Item>) {
         align: "start",
     }));
 
+    const pendingHighlight: ComboboxContextValue["pendingHighlight"] = {
+        current: null,
+    };
+
     const setOpen = (next: boolean, reason: ChangeReason) => {
         if (!next || reason !== "input-change") {
             setTyped(false);
         }
         root.setOpen(next, reason);
-        if (next || reason === "item-press") {
+        if (next) {
+            return;
+        }
+        // a list reopened during its exit animation starts with no highlight
+        setHighlighted(null);
+        pendingHighlight.current = null;
+        if (reason === "item-press") {
             return;
         }
         // closing without a choice resets the text (spec/combobox.md, "Choosing an item")
@@ -287,7 +297,7 @@ export function ComboboxRoot<Item>(props: ComboboxRootProps<Item>) {
         clearButton,
         setClearButton: (element) => setClearButton(element),
         listId: `${createUniqueId()}-list`,
-        pendingHighlight: { current: null },
+        pendingHighlight,
         placed,
         setPlaced,
         itemCount,

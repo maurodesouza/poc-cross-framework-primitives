@@ -143,8 +143,9 @@ export function ComboboxInput(
                     context.setInputValue(input.value, "input-change");
                     context.setHighlighted(null);
                     context.markTyped();
+                    // typing never highlights: drop what an earlier key asked for
+                    context.pendingHighlight.current = null;
                     if (!context.open()) {
-                        context.pendingHighlight.current = null;
                         context.setOpen(true, "input-change");
                     }
                     // a controlled `inputValue` the consumer kept unchanged: the binding does
