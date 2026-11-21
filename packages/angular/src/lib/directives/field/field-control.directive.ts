@@ -14,6 +14,7 @@ import type {
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
 import { fieldControl, writeFieldAria } from "../../utils/field-control.ts";
+import { injectFlush } from "../../utils/flush.ts";
 import { injectHost } from "../../utils/host-element.ts";
 import { dataValue } from "../../utils/state-attributes.ts";
 
@@ -61,6 +62,7 @@ export class FieldControl {
     readonly disabled = input(false, { transform: booleanAttribute });
 
     private readonly host = injectHost<HTMLInputElement>();
+    private readonly flush = injectFlush();
     private readonly text = controllable<string, ChangeDetails>(
         this.value,
         this.valueChange,
@@ -116,5 +118,11 @@ export class FieldControl {
 
     protected onInput(): void {
         this.text.set(this.host.value, { reason: "none" });
+        // a bound value the consumer kept: render it, then put it back on the input
+        this.flush();
+        const kept = this.current();
+        if (this.host.value !== kept) {
+            this.host.value = kept;
+        }
     }
 }
