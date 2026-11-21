@@ -1,18 +1,25 @@
-import { defineComponent, shallowRef, useId, watch } from "vue";
+import {
+    computed,
+    defineComponent,
+    provide,
+    shallowRef,
+    useId,
+    watch,
+} from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import { useRequiredContext } from "../../composables/use-required-context.ts";
 import { asProp, renderPart } from "../../utils/render-part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
-import { ComboboxKey } from "./combobox-context.ts";
+import { ComboboxItemKey, ComboboxKey } from "./combobox-context.ts";
 
+/** An `option` (spec/combobox.md). */
 export const ComboboxItem = defineComponent({
     name: "ComboboxItem",
     inheritAttrs: false,
     props: {
         ...asProp,
-        value: { type: String, required: true },
-        /** Written into the input when chosen (default: the item's text). */
-        label: { type: String, default: undefined },
+        /** The item: written into the input as `itemToStringLabel(value)` when chosen. */
+        value: { type: null, required: true },
         /** Can be highlighted, never chosen. */
         disabled: { type: Boolean, default: false },
     },
@@ -21,34 +28,30 @@ export const ComboboxItem = defineComponent({
         const element = shallowRef<HTMLElement | null>(null);
         const setElement = elementSetter(element);
         const id = useId();
+        const { items, itemCount } = context;
         watch(
-            () =>
-                [
-                    element.value,
-                    props.value,
-                    props.label,
-                    props.disabled,
-                ] as const,
-            ([node, value, label, disabled], _, onCleanup) => {
+            () => [element.value, props.value, props.disabled] as const,
+            ([node, value, disabled], _, onCleanup) => {
                 if (node === null) {
                     return;
                 }
-                context.items.set(node, {
-                    value,
-                    label: label ?? node.textContent ?? "",
-                    disabled,
-                    id,
-                });
-                context.itemCount.value = context.items.size;
+                items.set(node, { value, disabled, id });
+                itemCount.value = items.size;
                 onCleanup(() => {
-                    context.items.delete(node);
-                    context.itemCount.value = context.items.size;
+                    items.delete(node);
+                    itemCount.value = items.size;
                 });
             },
             { flush: "post", immediate: true },
         );
+        const state = computed(() => ({
+            highlighted: context.highlighted.value === id,
+            selected: context.isSelected(props.value),
+            disabled: props.disabled,
+        }));
+        provide(ComboboxItemKey, state);
         watch(
-            () => context.highlighted.value === props.value,
+            () => state.value.highlighted,
             (highlighted) => {
                 if (highlighted) {
                     element.value?.scrollIntoView?.({ block: "nearest" });
@@ -57,39 +60,28 @@ export const ComboboxItem = defineComponent({
             { flush: "post" },
         );
         return () => {
-            const highlighted = context.highlighted.value === props.value;
-            const selected = context.value.value === props.value;
-            return renderPart(
-                "div",
-                { attrs, slots },
-                props.as,
-                { highlighted, selected, disabled: props.disabled },
-                {
-                    role: "option",
-                    id,
-                    "aria-selected": selected ? "true" : undefined,
-                    "aria-disabled": props.disabled ? "true" : undefined,
-                    "data-combobox-part": "item",
-                    ...stateAttributes({
-                        highlighted,
-                        selected,
-                        disabled: props.disabled,
-                    }),
-                    onPointermove: () => {
-                        if (!highlighted) {
-                            context.highlighted.value = props.value;
-                        }
-                    },
-                    onPointerdown: (event: PointerEvent) =>
-                        event.preventDefault(),
-                    onClick: () => {
-                        if (!props.disabled) {
-                            context.choose(props.value);
-                        }
-                    },
-                    ref: setElement,
+            const { highlighted, selected, disabled } = state.value;
+            return renderPart("div", { attrs, slots }, props.as, state.value, {
+                role: "option",
+                id,
+                "aria-selected": selected ? "true" : undefined,
+                "aria-disabled": disabled ? "true" : undefined,
+                "data-combobox-part": "item",
+                ...stateAttributes({ highlighted, selected, disabled }),
+                onPointermove: () => {
+                    if (!state.value.highlighted) {
+                        context.highlighted.value = id;
+                    }
                 },
-            );
+                // the input keeps DOM focus
+                onPointerdown: (event: PointerEvent) => event.preventDefault(),
+                onClick: () => {
+                    if (!props.disabled) {
+                        context.choose(props.value);
+                    }
+                },
+                ref: setElement,
+            });
         };
     },
 });

@@ -1,5 +1,5 @@
 import { openOverlaySession } from "@poc/dom";
-import { defineComponent, watch } from "vue";
+import { computed, defineComponent, watch } from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import {
     positionerProps,
@@ -10,7 +10,10 @@ import { asProp, renderPart } from "../../utils/render-part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
 import { ComboboxKey } from "./combobox-context.ts";
 
-/** Places the list under the input; the open list is a layer (Escape, outside press). */
+/**
+ * Places the list under the InputGroup (else the Chips, else the Input); the open list is a layer
+ * (Escape, outside press).
+ */
 export const ComboboxPositioner = defineComponent({
     name: "ComboboxPositioner",
     inheritAttrs: false,
@@ -18,10 +21,16 @@ export const ComboboxPositioner = defineComponent({
     setup(props, { attrs, slots }) {
         const context = useRequiredContext(ComboboxKey, "Combobox.Positioner");
         const setPositioner = elementSetter(context.positioner);
+        const anchor = computed(
+            () =>
+                context.inputGroup.value ??
+                context.chips.value ??
+                context.trigger.value,
+        );
         const placed = usePositioner(
             props,
             { side: "bottom", align: "start" },
-            context.trigger,
+            anchor,
             context.positioner,
             null,
         );
@@ -36,7 +45,13 @@ export const ComboboxPositioner = defineComponent({
                 }
                 const session = openOverlaySession(positioner.ownerDocument, {
                     elements: () => [positioner],
-                    ignore: () => [context.trigger.value, context.button.value],
+                    ignore: () => [
+                        context.trigger.value,
+                        context.button.value,
+                        context.inputGroup.value,
+                        context.chips.value,
+                        context.clearButton.value,
+                    ],
                     dismiss: (reason) => context.setOpen(false, reason),
                 });
                 onCleanup(session.end);
