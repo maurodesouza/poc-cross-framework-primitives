@@ -130,3 +130,44 @@ against Kobalte 0.13.14) are in [`data/solid.md`](data/solid.md) once `pnpm metr
 Boundary pressure: none new. The tooltip's hover tracking no longer repeats per framework;
 CheckboxGroup's membership and the slider's number-or-array shape stay component state and API,
 written a third time (React's report, "Boundary pressure (extras)").
+
+## Field (Epic H)
+
+The React Field layer ported to Solid 2.0 (#52), on the `@poc/dom` helpers (`validateField`,
+`validatesOnChange`, `shownAfterChange`, `fieldErrorShown`, `fieldStateAttributes`,
+`fieldDescribedBy`, `onSubmitAttempt`). Lines are `wc -l` at the port; the integration is
+`git diff --stat` against the branch base.
+
+| part | `@poc/solid` | `@poc/react` |
+| --- | --- | --- |
+| `components/field/` (7 files) | 443 | 429 |
+| the control's side (`hooks/create-field-control.ts` / `use-field-control.ts`) | 111 | 119 |
+| Checkbox, Select and Slider integration | +80 / -14 | +68 / -7 |
+
+- **Conformance**: the whole `--project=solid` suite passes (186 passed, the 28 visual tests
+  skipped locally), the Field's 22 behaviour and contract tests among them. With `VISUAL=1`, the
+  Field, Checkbox, Select and Slider screenshots (11) match React's made on the same machine. No
+  test changed for Solid, no snapshot of its own.
+- **API**: `validate={(value) => ...}`, `validationMode="onBlur"`, `name`, `disabled`, `invalid`
+  on `Field.Root`; `value` / `defaultValue` / `onValueChange` on `Field.Control`; `match` on
+  `Field.Error`. A control reads the field with `useContext` (the context is created with `null`,
+  so a control outside a field gets nothing and behaves as before).
+- **The control's side** is `createFieldControl` (`hooks/`, the Solid package's `create*` naming
+  for its internal hooks), returning accessors (`name()`, `disabled()`, `aria()`, `attributes()`)
+  and the focus handlers.
+- **First suite run**: 20 of 22 passed. The two failures were one bug (below); the second run
+  was green.
+
+### Port log (Field)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Checkbox | Solid 2's `createEffect` runs its compute at creation: the binding's value effect read the checkbox's `state` before its `const` was initialised (a TDZ error, so checking the box never revalidated), and `state` itself reads the binding's `disabled`. The checked state is split out (`checkedState`), the binding is created between it and `state` | `@poc/solid` |
+| validation | the field's validity is the DOM's (`ValidityState` of the validated element), readable only after the render wrote the value: the control reports a change in an effect, which writes `shown`. The dev build reports `EFFECT_RELAY_TEAR` (one flush with the new value and the old error, as React's `useEffect` after paint). It is the cost of measuring outside the graph, as Solid's message says, so it is left as is | |
+| Field.Error | rendered only while shown: the shown element is its own component inside `Show`, so its registration in the control's `aria-describedby` (an effect on its ref) is disposed when it hides | `@poc/solid` |
+| Field.Control | React's `onChange` is Solid's `onInput`; a controlled `value` the consumer keeps unchanged gets its text written back after `flush()`, as the Combobox input | `@poc/solid` |
+| Slider | the validated element is the first hidden input: its ref sets a signal (`For` with `keyed={false}` gives the index as a number) | `@poc/solid` |
+
+Boundary pressure: none. Everything framework-free came from `@poc/dom` as it was; the state
+(`dirty`, `touched`, `filled`, `focused`, what is shown), the ids and the registrations are
+component state, written a second time.
