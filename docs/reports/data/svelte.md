@@ -28,6 +28,9 @@ Shared framework infrastructure (hooks, utils): 332 lines. All of @poc/dom: 1111
 
 | project | layer | passed | failed | expected failures | skipped |
 | --- | --- | --- | --- | --- | --- |
+| angular | behaviour | 90 | 0 | 0 | 0 |
+| angular | contract | 16 | 0 | 0 | 0 |
+| angular | visual | 0 | 0 | 0 | 16 |
 | baseline | behaviour | 79 | 0 | 11 | 0 |
 | react | behaviour | 90 | 0 | 0 | 0 |
 | react | contract | 16 | 0 | 0 | 0 |

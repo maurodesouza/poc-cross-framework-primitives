@@ -6,6 +6,8 @@ components, written from scratch. Every later framework is compared to these num
 - Data: [`data/react.json`](data/react.json), tables: [`data/react.md`](data/react.md), from
   `pnpm metrics --framework react` after `pnpm e2e -- --project react --project baseline`
   (2026-11-20).
+- The data files were regenerated in Epic E, after D1 moved code into `@poc/dom`; the tables on
+  this page are as of this report. Current numbers: [`frameworks.md`](frameworks.md).
 - Effort figures come from the commit timestamps of agent runs: a proxy, not human time.
 - The tables below are the end of Epic B. Epic C moved two pure keyboard maps from React to
   `@poc/dom`, so the current numbers ([`data/react.md`](data/react.md),

@@ -20,8 +20,11 @@
     },
     "devDependencies": {
         "@analogjs/vite-plugin-angular": "2.9.7",
+        "@angular/aria": "22.2.7",
         "@angular/build": "22.2.7",
+        "@angular/cdk": "22.2.7",
         "@angular/compiler-cli": "22.2.6",
+        "@angular/forms": "22.2.6",
         "@tailwindcss/vite": "4.3.5",
         "tailwindcss": "4.3.5",
         "typescript": "6.0.3",

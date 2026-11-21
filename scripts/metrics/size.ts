@@ -48,7 +48,7 @@ export async function viteBundleSize(
     code: string,
     resolveDir: string,
     external: readonly string[],
-    plugin: { name: string; factory: string },
+    plugin: { name: string; factory: string; options?: unknown },
 ): Promise<SizeEntry> {
     const require = createRequire(join(resolveDir, "package.json"));
     const load = (name: string) =>
@@ -68,7 +68,7 @@ export async function viteBundleSize(
                     id.endsWith("size-entry") ? entry : null,
                 load: (id: string) => (id === entry ? code : null),
             },
-            framework[plugin.factory](),
+            framework[plugin.factory](plugin.options),
         ],
         build: {
             write: false,

@@ -1,0 +1,338 @@
+{
+    "framework": "angular",
+    "generatedAt": "2026-11-21T01:45:21.975Z",
+    "loc": {
+        "components": [
+            {
+                "component": "dialog",
+                "framework": 270,
+                "dom": 219,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "id/create-id.ts",
+                    "inert/inert-outside.ts",
+                    "overlay/overlay-session.ts",
+                    "presence/presence.ts",
+                    "scroll-lock/lock-scroll.ts"
+                ]
+            },
+            {
+                "component": "popover",
+                "framework": 339,
+                "dom": 386,
+                "domModules": [
+                    "focus/focus-trap.ts",
+                    "focus/tabbable.ts",
+                    "id/create-id.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "menu",
+                "framework": 701,
+                "dom": 461,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "collection/typeahead.ts",
+                    "direction/direction.ts",
+                    "focus/tabbable.ts",
+                    "id/create-id.ts",
+                    "overlay/overlay-session.ts",
+                    "pointer/safe-area.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "combobox",
+                "framework": 525,
+                "dom": 320,
+                "domModules": [
+                    "collection/list-navigation.ts",
+                    "id/create-id.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "tabs",
+                "framework": 374,
+                "dom": 72,
+                "domModules": [
+                    "collection/key-maps.ts",
+                    "direction/direction.ts",
+                    "id/create-id.ts"
+                ]
+            },
+            {
+                "component": "calendar",
+                "framework": 750,
+                "dom": 453,
+                "domModules": [
+                    "date/calendar-keys.ts",
+                    "date/date-math.ts",
+                    "date/locale-data.ts",
+                    "date/month-grid.ts",
+                    "date/plain-date.ts",
+                    "direction/direction.ts",
+                    "id/create-id.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            },
+            {
+                "component": "date-picker",
+                "framework": 327,
+                "dom": 263,
+                "domModules": [
+                    "id/create-id.ts",
+                    "overlay/overlay-session.ts",
+                    "positioning/anchor-floating.ts",
+                    "positioning/placement.ts",
+                    "presence/presence.ts"
+                ]
+            }
+        ],
+        "shared": 500,
+        "domTotal": 1111
+    },
+    "sizes": [
+        {
+            "component": "dialog",
+            "ours": {
+                "entry": "export { DialogBackdrop, DialogClose, DialogDescription, DialogPopup, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from \"@poc/angular\";",
+                "minified": 15599,
+                "gzip": 4385
+            },
+            "baseline": {
+                "entry": "export { Dialog, CdkDialogContainer } from \"@angular/cdk/dialog\";",
+                "minified": 68944,
+                "gzip": 16405
+            }
+        },
+        {
+            "component": "popover",
+            "ours": {
+                "entry": "export { PopoverArrow, PopoverClose, PopoverDescription, PopoverPopup, PopoverPortal, PopoverPositioner, PopoverRoot, PopoverTitle, PopoverTrigger } from \"@poc/angular\";",
+                "minified": 41891,
+                "gzip": 12657
+            },
+            "baseline": {
+                "entry": "export { CdkConnectedOverlay, CdkOverlayOrigin } from \"@angular/cdk/overlay\";",
+                "minified": 61977,
+                "gzip": 14588
+            }
+        },
+        {
+            "component": "menu",
+            "ours": {
+                "entry": "export { MenuGroup, MenuGroupLabel, MenuItem, MenuPopup, MenuPortal, MenuPositioner, MenuRoot, MenuSeparator, MenuSubmenuTrigger, MenuTrigger } from \"@poc/angular\";",
+                "minified": 50557,
+                "gzip": 14754
+            },
+            "baseline": {
+                "entry": "export { Menu, MenuContent, MenuItem, MenuTrigger } from \"@angular/aria/menu\";",
+                "minified": 36929,
+                "gzip": 8202
+            }
+        },
+        {
+            "component": "combobox",
+            "ours": {
+                "entry": "export { ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList, ComboboxPopup, ComboboxPortal, ComboboxPositioner, ComboboxRoot, ComboboxTrigger } from \"@poc/angular\";",
+                "minified": 44627,
+                "gzip": 13176
+            },
+            "baseline": {
+                "entry": "export { Combobox, ComboboxPopup, ComboboxWidget } from \"@angular/aria/combobox\"; export { Listbox, Option } from \"@angular/aria/listbox\";",
+                "minified": 38052,
+                "gzip": 8802
+            }
+        },
+        {
+            "component": "tabs",
+            "ours": {
+                "entry": "export { TabsIndicator, TabsList, TabsPanel, TabsRoot, TabsTab } from \"@poc/angular\";",
+                "minified": 10226,
+                "gzip": 3100
+            },
+            "baseline": {
+                "entry": "export { Tab, TabContent, TabList, TabPanel, Tabs } from \"@angular/aria/tabs\";",
+                "minified": 21299,
+                "gzip": 5667
+            }
+        },
+        {
+            "component": "calendar",
+            "ours": {
+                "entry": "export { CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading, CalendarNextButton, CalendarPrevButton, CalendarRoot, CalendarRow, RangeCalendarRoot } from \"@poc/angular\";",
+                "minified": 22042,
+                "gzip": 5501
+            },
+            "baseline": null
+        },
+        {
+            "component": "date-picker",
+            "ours": {
+                "entry": "export { DatePickerPopup, DatePickerPortal, DatePickerPositioner, DatePickerRoot, DatePickerTrigger, DateRangePickerRoot } from \"@poc/angular\";",
+                "minified": 39625,
+                "gzip": 12097
+            },
+            "baseline": null
+        }
+    ],
+    "conformance": {
+        "baseline": {
+            "behaviour": {
+                "passed": 79,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 11
+            }
+        },
+        "react": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "vue": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "svelte": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "solid": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "angular": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        }
+    },
+    "effort": {
+        "dialog": {
+            "commits": 1,
+            "first": "2026-11-20T22:28:42-03:00",
+            "last": "2026-11-20T22:28:42-03:00"
+        },
+        "popover": {
+            "commits": 1,
+            "first": "2026-11-20T22:29:27-03:00",
+            "last": "2026-11-20T22:29:27-03:00"
+        },
+        "menu": {
+            "commits": 1,
+            "first": "2026-11-20T22:29:27-03:00",
+            "last": "2026-11-20T22:29:27-03:00"
+        },
+        "combobox": {
+            "commits": 1,
+            "first": "2026-11-20T22:42:13-03:00",
+            "last": "2026-11-20T22:42:13-03:00"
+        },
+        "tabs": {
+            "commits": 1,
+            "first": "2026-11-20T22:42:13-03:00",
+            "last": "2026-11-20T22:42:13-03:00"
+        },
+        "calendar": {
+            "commits": 1,
+            "first": "2026-11-20T22:42:13-03:00",
+            "last": "2026-11-20T22:42:13-03:00"
+        },
+        "date-picker": {
+            "commits": 1,
+            "first": "2026-11-20T22:42:13-03:00",
+            "last": "2026-11-20T22:42:13-03:00"
+        }
+    }
+}

@@ -1,29 +1,28 @@
 {
     "framework": "react",
-    "generatedAt": "2026-11-20T23:13:32.068Z",
+    "generatedAt": "2026-11-21T01:45:01.614Z",
     "loc": {
         "components": [
             {
                 "component": "dialog",
-                "framework": 272,
-                "dom": 233,
+                "framework": 278,
+                "dom": 214,
                 "domModules": [
                     "focus/focus-trap.ts",
                     "inert/inert-outside.ts",
-                    "layers/layer-stack.ts",
+                    "overlay/overlay-session.ts",
                     "presence/presence.ts",
                     "scroll-lock/lock-scroll.ts"
                 ]
             },
             {
                 "component": "popover",
-                "framework": 376,
-                "dom": 417,
+                "framework": 368,
+                "dom": 381,
                 "domModules": [
                     "focus/focus-trap.ts",
                     "focus/tabbable.ts",
-                    "layers/focus-outside.ts",
-                    "layers/layer-stack.ts",
+                    "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
                     "presence/presence.ts"
@@ -31,14 +30,14 @@
             },
             {
                 "component": "menu",
-                "framework": 750,
-                "dom": 471,
+                "framework": 743,
+                "dom": 456,
                 "domModules": [
-                    "collection/list-navigation.ts",
+                    "collection/key-maps.ts",
                     "collection/typeahead.ts",
                     "direction/direction.ts",
                     "focus/tabbable.ts",
-                    "layers/layer-stack.ts",
+                    "overlay/overlay-session.ts",
                     "pointer/safe-area.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
@@ -47,11 +46,11 @@
             },
             {
                 "component": "combobox",
-                "framework": 543,
-                "dom": 334,
+                "framework": 542,
+                "dom": 315,
                 "domModules": [
                     "collection/list-navigation.ts",
-                    "layers/layer-stack.ts",
+                    "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
                     "presence/presence.ts"
@@ -59,10 +58,10 @@
             },
             {
                 "component": "tabs",
-                "framework": 366,
-                "dom": 63,
+                "framework": 347,
+                "dom": 67,
                 "domModules": [
-                    "collection/list-navigation.ts",
+                    "collection/key-maps.ts",
                     "direction/direction.ts"
                 ]
             },
@@ -82,11 +81,10 @@
             },
             {
                 "component": "date-picker",
-                "framework": 272,
-                "dom": 294,
+                "framework": 265,
+                "dom": 258,
                 "domModules": [
-                    "layers/focus-outside.ts",
-                    "layers/layer-stack.ts",
+                    "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
                     "presence/presence.ts"
@@ -94,15 +92,15 @@
             }
         ],
         "shared": 372,
-        "domTotal": 973
+        "domTotal": 1111
     },
     "sizes": [
         {
             "component": "dialog",
             "ours": {
                 "entry": "export { Dialog } from \"@poc/react\";",
-                "minified": 8777,
-                "gzip": 3506
+                "minified": 9371,
+                "gzip": 3702
             },
             "baseline": {
                 "entry": "export { Dialog } from \"@base-ui/react/dialog\";",
@@ -114,8 +112,8 @@
             "component": "popover",
             "ours": {
                 "entry": "export { Popover } from \"@poc/react\";",
-                "minified": 28638,
-                "gzip": 11077
+                "minified": 28975,
+                "gzip": 11207
             },
             "baseline": {
                 "entry": "export { Popover } from \"@base-ui/react/popover\";",
@@ -127,8 +125,8 @@
             "component": "menu",
             "ours": {
                 "entry": "export { Menu } from \"@poc/react\";",
-                "minified": 33162,
-                "gzip": 12621
+                "minified": 33917,
+                "gzip": 12913
             },
             "baseline": {
                 "entry": "export { Menu } from \"@base-ui/react/menu\";",
@@ -140,8 +138,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/react\";",
-                "minified": 29199,
-                "gzip": 11364
+                "minified": 29755,
+                "gzip": 11578
             },
             "baseline": {
                 "entry": "export { Combobox } from \"@base-ui/react/combobox\";",
@@ -153,8 +151,8 @@
             "component": "tabs",
             "ours": {
                 "entry": "export { Tabs } from \"@poc/react\";",
-                "minified": 5798,
-                "gzip": 2487
+                "minified": 5872,
+                "gzip": 2521
             },
             "baseline": {
                 "entry": "export { Tabs } from \"@base-ui/react/tabs\";",
@@ -179,8 +177,8 @@
             "component": "date-picker",
             "ours": {
                 "entry": "export { DatePicker, DateRangePicker } from \"@poc/react\";",
-                "minified": 26476,
-                "gzip": 10375
+                "minified": 26792,
+                "gzip": 10501
             },
             "baseline": {
                 "entry": "export { DatePicker, DateRangePicker } from \"react-aria-components\";",
@@ -237,33 +235,93 @@
                 "skipped": 16,
                 "expectedFailures": 0
             }
+        },
+        "svelte": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "solid": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "angular": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
         }
     },
     "effort": {
         "dialog": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T19:37:49-03:00",
-            "last": "2026-11-20T19:37:49-03:00"
+            "last": "2026-11-20T21:09:33-03:00"
         },
         "popover": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T19:37:49-03:00",
-            "last": "2026-11-20T19:37:49-03:00"
+            "last": "2026-11-20T21:09:33-03:00"
         },
         "menu": {
-            "commits": 2,
+            "commits": 3,
             "first": "2026-11-20T19:37:49-03:00",
-            "last": "2026-11-20T19:51:00-03:00"
+            "last": "2026-11-20T21:09:33-03:00"
         },
         "combobox": {
-            "commits": 2,
+            "commits": 3,
             "first": "2026-11-20T19:47:04-03:00",
-            "last": "2026-11-20T20:00:35-03:00"
+            "last": "2026-11-20T21:09:33-03:00"
         },
         "tabs": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T19:47:04-03:00",
-            "last": "2026-11-20T19:47:04-03:00"
+            "last": "2026-11-20T21:09:33-03:00"
         },
         "calendar": {
             "commits": 3,
@@ -271,9 +329,9 @@
             "last": "2026-11-20T20:11:50-03:00"
         },
         "date-picker": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T19:47:04-03:00",
-            "last": "2026-11-20T19:47:04-03:00"
+            "last": "2026-11-20T21:09:33-03:00"
         }
     }
 }
