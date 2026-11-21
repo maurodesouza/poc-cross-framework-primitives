@@ -9,6 +9,12 @@ import { CheckboxControlled } from "../scenarios/checkbox/checkbox-controlled.ts
 import { CheckboxGroupScenario } from "../scenarios/checkbox/checkbox-group.ts";
 import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.ts";
 import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.ts";
+import { ComboboxField } from "../scenarios/combobox/combobox-field.ts";
+import { ComboboxFiltered } from "../scenarios/combobox/combobox-filtered.ts";
+import { ComboboxForm } from "../scenarios/combobox/combobox-form.ts";
+import { ComboboxGroups } from "../scenarios/combobox/combobox-groups.ts";
+import { ComboboxMultiple } from "../scenarios/combobox/combobox-multiple.ts";
+import { ComboboxObjects } from "../scenarios/combobox/combobox-objects.ts";
 import { ComboboxRejectedInput } from "../scenarios/combobox/combobox-rejected-input.ts";
 import { DatePickerBasic } from "../scenarios/date-picker/date-picker-basic.ts";
 import { DatePickerRange } from "../scenarios/date-picker/date-picker-range.ts";
@@ -61,6 +67,12 @@ import { ROUTES } from "./routes.ts";
         ComboboxBasic,
         ComboboxControlled,
         ComboboxRejectedInput,
+        ComboboxFiltered,
+        ComboboxObjects,
+        ComboboxMultiple,
+        ComboboxGroups,
+        ComboboxForm,
+        ComboboxField,
         SettingsTabs,
         SingleCalendar,
         CalendarTwoMonths,
@@ -99,6 +111,12 @@ import { ROUTES } from "./routes.ts";
             @case ("/combobox/basic") { <main class="p-6" scenario-combobox-basic></main> }
             @case ("/combobox/controlled") { <main class="p-6" scenario-combobox-controlled></main> }
             @case ("/combobox/rejected-input") { <main class="p-6" scenario-combobox-rejected-input></main> }
+            @case ("/combobox/filtered") { <main class="p-6" scenario-combobox-filtered></main> }
+            @case ("/combobox/objects") { <main class="p-6" scenario-combobox-objects></main> }
+            @case ("/combobox/multiple") { <main class="p-6" scenario-combobox-multiple></main> }
+            @case ("/combobox/groups") { <main class="p-6" scenario-combobox-groups></main> }
+            @case ("/combobox/form") { <main class="p-6" scenario-combobox-form></main> }
+            @case ("/combobox/field") { <main class="p-6" scenario-combobox-field></main> }
             @case ("/tabs/automatic") { <main class="p-6" scenario-settings-tabs activation="automatic" orientation="horizontal"></main> }
             @case ("/tabs/manual") { <main class="p-6" scenario-settings-tabs activation="manual" orientation="horizontal"></main> }
             @case ("/tabs/vertical") { <main class="p-6" scenario-settings-tabs activation="automatic" orientation="vertical"></main> }
