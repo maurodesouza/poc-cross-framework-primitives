@@ -60,6 +60,7 @@ const RECIPES: Record<string, Record<string, string>> = {
     checkbox: styles.checkbox,
     "checkbox-group": styles.checkboxGroup,
     slider: styles.slider,
+    field: styles.field,
 };
 
 describe("every part of the specs has a recipe", () => {
@@ -74,6 +75,7 @@ describe("every part of the specs has a recipe", () => {
         "tooltip.md",
         "checkbox.md",
         "slider.md",
+        "field.md",
     ]) {
         it(file, () => {
             const parts = specParts(file);
