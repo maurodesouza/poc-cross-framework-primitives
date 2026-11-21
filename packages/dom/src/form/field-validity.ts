@@ -63,7 +63,8 @@ function messagesOf(result: ReturnType<FieldValidate>): string[] {
     if (result === null || result === undefined) {
         return [];
     }
-    return (typeof result === "string" ? [result] : [...result]).filter(
+    // a message appears once, however often `validate` returns it
+    return [...new Set(typeof result === "string" ? [result] : result)].filter(
         (message) => message !== "",
     );
 }
