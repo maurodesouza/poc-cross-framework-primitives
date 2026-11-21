@@ -1,6 +1,6 @@
 {
     "framework": "solid",
-    "generatedAt": "2026-11-21T01:03:52.766Z",
+    "generatedAt": "2026-11-21T01:45:10.738Z",
     "loc": {
         "components": [
             {
@@ -269,6 +269,26 @@
                 "skipped": 16,
                 "expectedFailures": 0
             }
+        },
+        "angular": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
         }
     },
     "effort": {
@@ -288,9 +308,9 @@
             "last": "2026-11-20T21:41:06-03:00"
         },
         "combobox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-20T21:51:17-03:00",
-            "last": "2026-11-20T21:51:17-03:00"
+            "last": "2026-11-20T22:04:03-03:00"
         },
         "tabs": {
             "commits": 1,

@@ -1,0 +1,18 @@
+{
+    // ng-packagr's build: partial compilation (the Angular Package Format). `@poc/dom` stays a
+    // dependency; its sources are part of the program for their types only.
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,
+        "rewriteRelativeImportExtensions": true,
+        "declaration": true,
+        "declarationMap": false,
+        "sourceMap": true,
+        "inlineSources": true,
+        "types": []
+    },
+    "angularCompilerOptions": {
+        "compilationMode": "partial"
+    },
+    "files": ["src/public-api.ts"]
+}

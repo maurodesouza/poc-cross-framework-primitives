@@ -64,7 +64,7 @@ React 19, Vue 3.5, Angular 22 (standalone, signals, zoneless), Svelte 5 (runes),
 | C (#14) | Vue port of the six components, then **the checkpoint report** | done |
 | checkpoint | the maintainer decides from `docs/reports/checkpoint.md`: continue, pivot (for example a Zag-like shared state core) or stop | continue (2026-11-20) |
 | D (#24) | Svelte and Solid (2.0) ports | done |
-| E (#29) | Angular port | planned |
+| E (#29) | Angular port and the five-framework report | done |
 | F, G | the extras in every framework, and the final report | outlined after the checkpoint |
 
 Nothing after Epic C was planned or started before the checkpoint decision.
@@ -113,3 +113,6 @@ are separate, later projects).
   pixel-identical to React. Before them, the overlay lifecycle and the Tabs and Menu key maps
   moved into `@poc/dom` (`openOverlaySession`, `tabsKeyTarget`, `menuKeyTarget`). Reports:
   `docs/reports/svelte.md`, `docs/reports/solid.md`.
+- 2026-11-20: Epic E done. `@poc/angular` (Angular 22, zoneless, a directive per part) passes
+  every layer with no test changed, pixel-identical to React. Reports: `docs/reports/angular.md`
+  and `docs/reports/frameworks.md` (the five frameworks against the five hypotheses).

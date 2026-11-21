@@ -68,7 +68,7 @@ decision for the maintainer, not an implementation detail.
      (`spec/README.md`);
    - sides are logical (`start`/`end`), never `left`/`right`.
 6. **No Fragiola model API.** Primitives use controlled and uncontrolled props
-   (`value`/`defaultValue`/`on<Value>Change` in React, `v-model` in Vue, `model()` in Angular,
+   (`value`/`defaultValue`/`on<Value>Change` in React, `v-model` in Vue, an input with its `*Change` output in Angular,
    `$bindable` in Svelte, props and callbacks in Solid), as the spec's API mapping table says.
 7. **No core + adapters.** The Fragiola rule that every non-rendering piece of logic lives in a
    framework-free core does not apply here, by design (rule 1).
@@ -135,6 +135,10 @@ done, check:
    two text nodes; a template that merges them changes glyph positions in CI's screenshots.
 7. **Never a framework-specific snapshot or test**: fix the DOM, record the finding in the port
    log.
+8. **A key that moves focus renders before the next key**: opening a menu level, closing one, or
+   moving a calendar's focus into another month must reach the DOM within the event (React does;
+   zoneless Angular renders later, so its overlays and grid call `ApplicationRef.tick()`), or a
+   quick second key reaches the old element.
 
 ## Toolchain
 

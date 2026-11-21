@@ -106,6 +106,7 @@ export interface ComponentLoc {
 export function componentLoc(
     root: string,
     framework: string,
+    componentsDir = "components",
 ): { components: ComponentLoc[]; shared: number } {
     const pkg = join(root, "packages", framework, "src");
     const sharedFiles = [
@@ -118,7 +119,7 @@ export function componentLoc(
     ].flatMap((dir) => sourceFiles(join(pkg, dir)));
     const exportsMap = domExports(root);
     const components = COMPONENTS.map((component) => {
-        const files = sourceFiles(join(pkg, "components", component));
+        const files = sourceFiles(join(pkg, componentsDir, component));
         const used = domImports(
             importClosure(files).filter((file) => file.startsWith(pkg)),
         );

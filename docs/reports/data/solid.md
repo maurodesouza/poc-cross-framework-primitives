@@ -28,6 +28,9 @@ Shared framework infrastructure (hooks, utils): 387 lines. All of @poc/dom: 1111
 
 | project | layer | passed | failed | expected failures | skipped |
 | --- | --- | --- | --- | --- | --- |
+| angular | behaviour | 90 | 0 | 0 | 0 |
+| angular | contract | 16 | 0 | 0 | 0 |
+| angular | visual | 0 | 0 | 0 | 16 |
 | baseline | behaviour | 79 | 0 | 11 | 0 |
 | react | behaviour | 90 | 0 | 0 | 0 |
 | react | contract | 16 | 0 | 0 | 0 |
@@ -49,7 +52,7 @@ Shared framework infrastructure (hooks, utils): 387 lines. All of @poc/dom: 1111
 | dialog | 1 | 2026-11-20T21:41:06-03:00 | 2026-11-20T21:41:06-03:00 |
 | popover | 1 | 2026-11-20T21:41:06-03:00 | 2026-11-20T21:41:06-03:00 |
 | menu | 1 | 2026-11-20T21:41:06-03:00 | 2026-11-20T21:41:06-03:00 |
-| combobox | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |
+| combobox | 2 | 2026-11-20T21:51:17-03:00 | 2026-11-20T22:04:03-03:00 |
 | tabs | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |
 | calendar | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |
 | date-picker | 1 | 2026-11-20T21:51:17-03:00 | 2026-11-20T21:51:17-03:00 |

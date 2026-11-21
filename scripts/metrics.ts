@@ -1,7 +1,7 @@
 // `pnpm metrics --framework <name>`: the POC's numbers for one framework (docs/plan.md, "Metrics"),
 // written to docs/reports/data/<name>.json and docs/reports/data/<name>.md (the tables).
 // Run the conformance suite first (`pnpm e2e`): its JSON report feeds the conformance table.
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { conformanceResults } from "./metrics/conformance.ts";
 import { effortOf } from "./metrics/effort.ts";
@@ -21,9 +21,11 @@ const FRAMEWORKS: Record<
     string,
     {
         fixture: string;
+        /** Where the component folders live, under the package's `src/` (default `components`). */
+        components?: string;
         external: string[];
         /** The Vite plugin that compiles the package's source; esbuild bundles it when absent. */
-        plugin?: { name: string; factory: string };
+        plugin?: { name: string; factory: string; options?: unknown };
         ours: (namespace: string) => string;
         baseline?: {
             fixture: string;
@@ -110,7 +112,55 @@ const FRAMEWORKS: Record<
             },
         },
     },
+    angular: {
+        fixture: "fixtures/angular",
+        components: "lib/directives",
+        external: ["@angular/core", "@angular/common", "rxjs"],
+        plugin: {
+            name: "@analogjs/vite-plugin-angular",
+            factory: "default",
+            options: { tsconfig: "tsconfig.app.json" },
+        },
+        ours: (namespace) =>
+            `export { ${angularDirectives(namespace)} } from "@poc/angular";`,
+        // Angular CDK and Angular Aria 22.2 where they have an equivalent: indicative only (the
+        // CDK's Dialog and Overlay are services, Aria's patterns carry no positioning)
+        baseline: {
+            fixture: "fixtures/angular",
+            imports: {
+                dialog: 'export { Dialog, CdkDialogContainer } from "@angular/cdk/dialog";',
+                popover:
+                    'export { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";',
+                menu: 'export { Menu, MenuContent, MenuItem, MenuTrigger } from "@angular/aria/menu";',
+                combobox:
+                    'export { Combobox, ComboboxPopup, ComboboxWidget } from "@angular/aria/combobox"; export { Listbox, Option } from "@angular/aria/listbox";',
+                tabs: 'export { Tab, TabContent, TabList, TabPanel, Tabs } from "@angular/aria/tabs";',
+            },
+        },
+    },
 };
+
+/**
+ * Angular has no namespaces: the directives of a component, read from `@poc/angular`'s entry by
+ * their prefix (`Calendar, RangeCalendar` → every `Calendar*` and `RangeCalendar*` class).
+ */
+function angularDirectives(prefixes: string): string {
+    const entry = readFileSync(
+        join(root, "packages/angular/src/public-api.ts"),
+        "utf8",
+    );
+    const names = [...entry.matchAll(/export\s*\{([^}]*)\}/g)].flatMap(
+        (match) =>
+            (match[1] ?? "")
+                .split(",")
+                .map((name) => name.trim())
+                .filter((name) => name !== "" && !name.startsWith("type ")),
+    );
+    const wanted = prefixes.split(",").map((prefix) => prefix.trim());
+    return names
+        .filter((name) => wanted.some((prefix) => name.startsWith(prefix)))
+        .join(", ");
+}
 
 const NAMESPACES: Record<string, string> = {
     dialog: "Dialog",
@@ -139,7 +189,8 @@ function parseFramework(argv: readonly string[]): string {
 async function main(): Promise<void> {
     const framework = parseFramework(process.argv.slice(2));
     const config = FRAMEWORKS[framework] as (typeof FRAMEWORKS)[string];
-    const loc = componentLoc(root, framework);
+    const components = config.components ?? "components";
+    const loc = componentLoc(root, framework, components);
     const sizes = [];
     for (const component of COMPONENTS) {
         const measure = (code: string, dir: string) =>
@@ -162,7 +213,10 @@ async function main(): Promise<void> {
     const effort = Object.fromEntries(
         COMPONENTS.map((component) => [
             component,
-            effortOf(root, `packages/${framework}/src/components/${component}`),
+            effortOf(
+                root,
+                `packages/${framework}/src/${components}/${component}`,
+            ),
         ]),
     );
     const metrics: Metrics = {

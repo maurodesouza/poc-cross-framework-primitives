@@ -1,0 +1,25 @@
+{
+    // TypeScript 6.0.3, pinned in this app only: the Angular compiler (ngc, the Analog Vite plugin)
+    // supports `typescript >=6.0 <6.1`. The package's sources compile with the app (its entry is
+    // `src/public-api.ts`), so they are part of the program.
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "types": ["vite/client"],
+        "useDefineForClassFields": false
+    },
+    "angularCompilerOptions": {
+        "strictTemplates": true,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictStandalone": true,
+        "typeCheckHostBindings": true,
+        "extendedDiagnostics": {
+            "defaultCategory": "error"
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "../../packages/angular/src/**/*.ts",
+        "vite.config.ts"
+    ]
+}

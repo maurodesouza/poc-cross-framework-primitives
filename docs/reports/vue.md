@@ -6,6 +6,8 @@ same spec, `@poc/dom` and `@poc/styles`, measured against React with the same su
 - Data: [`data/vue.json`](data/vue.json), tables: [`data/vue.md`](data/vue.md), from
   `pnpm metrics --framework vue` (2026-11-20). The comparison with React is in
   [`checkpoint.md`](checkpoint.md).
+- The data files were regenerated in Epic E, after D1 moved code into `@poc/dom`; the tables on
+  this page are as of this report. Current numbers: [`frameworks.md`](frameworks.md).
 
 ## Conformance
 

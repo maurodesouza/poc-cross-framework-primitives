@@ -9,3 +9,16 @@ packages:
 # Dependencies allowed to run install scripts (pnpm refuses an ignored build script in CI).
 allowBuilds:
   esbuild: true
+  # the Angular tools' native helpers: their prebuilt binaries come as optional dependencies, so
+  # their install scripts (node-gyp fallbacks) never need to run (as in Dockable)
+  "@parcel/watcher": false
+  lmdb: false
+  msgpackr-extract: false
+
+# @analogjs/vite-plugin-angular imports `typescript` without declaring it: as a peer, it gets the
+# TypeScript of the Angular fixture that installs it (6.0.3, which the Angular compiler supports),
+# not the root's TypeScript 7 (as in Dockable)
+packageExtensions:
+  "@analogjs/vite-plugin-angular":
+    peerDependencies:
+      typescript: "*"

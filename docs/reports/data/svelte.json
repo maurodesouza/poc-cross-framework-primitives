@@ -1,6 +1,6 @@
 {
     "framework": "svelte",
-    "generatedAt": "2026-11-21T01:03:51.972Z",
+    "generatedAt": "2026-11-21T01:45:09.940Z",
     "loc": {
         "components": [
             {
@@ -257,6 +257,26 @@
             }
         },
         "solid": {
+            "behaviour": {
+                "passed": 90,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "contract": {
+                "passed": 16,
+                "failed": 0,
+                "skipped": 0,
+                "expectedFailures": 0
+            },
+            "visual": {
+                "passed": 0,
+                "failed": 0,
+                "skipped": 16,
+                "expectedFailures": 0
+            }
+        },
+        "angular": {
             "behaviour": {
                 "passed": 90,
                 "failed": 0,

@@ -51,6 +51,13 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         port: 5350,
         layers: ["behaviour", "contract", "visual"],
     },
+    // @poc/angular (Epic E): directives on the consumer's own elements
+    {
+        name: "angular",
+        fixture: "fixture-angular",
+        port: 5360,
+        layers: ["behaviour", "contract", "visual"],
+    },
 ];
 
 /** The project names given with `--project` on the command line, if any. */
