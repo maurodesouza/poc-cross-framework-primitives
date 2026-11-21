@@ -11,6 +11,7 @@ import {
     watch,
 } from "vue";
 import { useControllable } from "../../composables/use-controllable.ts";
+import { useFieldControl } from "../../composables/use-field-control.ts";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import type { ChangeDetails } from "../../utils/change-details.ts";
 import { asProp, renderPart } from "../../utils/render-part.ts";
@@ -55,6 +56,13 @@ export const CheckboxRoot = defineComponent({
         const button = shallowRef<HTMLElement | null>(null);
         const setButton = elementSetter(button);
         const input = shallowRef<HTMLInputElement | null>(null);
+        const field = useFieldControl({
+            id: () => id.value,
+            labelable: true,
+            value: () => state.value.checked,
+            filled: () => state.value.checked,
+            input: () => input.value,
+        });
         const inGroup = computed(
             () => group !== null && (props.parent || props.value !== undefined),
         );
@@ -76,7 +84,10 @@ export const CheckboxRoot = defineComponent({
             return {
                 checked,
                 indeterminate,
-                disabled: props.disabled || (group?.disabled() ?? false),
+                disabled:
+                    props.disabled ||
+                    (group?.disabled() ?? false) ||
+                    field.disabled(),
                 required: props.required,
             };
         });
@@ -161,12 +172,16 @@ export const CheckboxRoot = defineComponent({
                           : "false",
                     "aria-required": current.required ? "true" : undefined,
                     "aria-controls": controls,
+                    ...field.aria(),
                     "data-checkbox-part": "root",
+                    ...field.attributes(),
                     ...stateAttributes({
                         ...checkedAttributes(current),
                         required: current.required,
                     }),
                     onClick: toggle,
+                    onFocus: field.onFocus,
+                    onBlur: field.onBlur,
                     onKeydown: (event: KeyboardEvent) => {
                         // APG: Space toggles, Enter does not (a button would click on Enter)
                         if (event.key === "Enter") {
@@ -182,7 +197,9 @@ export const CheckboxRoot = defineComponent({
                     type: "checkbox",
                     "aria-hidden": "true",
                     tabindex: -1,
-                    name: props.parent ? undefined : props.name,
+                    name: props.parent
+                        ? undefined
+                        : (field.name() ?? props.name),
                     value: props.value ?? "on",
                     checked:
                         current.checked && !(props.parent && inGroup.value),

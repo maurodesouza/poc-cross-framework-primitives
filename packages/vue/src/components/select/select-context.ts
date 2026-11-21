@@ -1,5 +1,6 @@
 import type { Align, Side } from "@poc/dom";
 import type { ComputedRef, InjectionKey, Ref } from "vue";
+import type { FieldControlBinding } from "../../composables/use-field-control.ts";
 import type { OverlayRoot } from "../../composables/use-overlay-root.ts";
 import type { ChangeReason } from "../../utils/change-details.ts";
 
@@ -11,6 +12,8 @@ export interface SelectItemData {
 }
 
 export interface SelectContext extends OverlayRoot {
+    /** The enclosing field's binding, for the trigger (spec/field.md). */
+    field: FieldControlBinding;
     items: () => readonly SelectItemData[];
     value: ComputedRef<string | null>;
     disabled: () => boolean;

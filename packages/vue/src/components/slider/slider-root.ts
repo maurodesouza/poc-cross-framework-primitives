@@ -9,6 +9,7 @@ import {
     shallowRef,
 } from "vue";
 import { useControllable } from "../../composables/use-controllable.ts";
+import { useFieldControl } from "../../composables/use-field-control.ts";
 import type { ChangeDetails } from "../../utils/change-details.ts";
 import { asProp, renderPart } from "../../utils/render-part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
@@ -75,10 +76,20 @@ export const SliderRoot = defineComponent({
             },
         );
         const values = computed(() => state.value.value);
+        const firstInput = shallowRef<HTMLInputElement | null>(null);
+        const field = useFieldControl({
+            id: () => undefined,
+            labelable: false,
+            value: () => output(values.value),
+            // a slider always has a value
+            filled: () => true,
+            input: () => firstInput.value,
+        });
         const dragging = ref(false);
         const activeIndex = ref(-1);
         const thumbs = shallowRef<readonly HTMLElement[]>([]);
         const context = {
+            field,
             values,
             min: () => props.min,
             max: () => props.max,
@@ -86,7 +97,7 @@ export const SliderRoot = defineComponent({
             largeStep: () => props.largeStep,
             minStepsBetweenValues: () => props.minStepsBetweenValues,
             orientation: () => props.orientation,
-            disabled: () => props.disabled,
+            disabled: () => props.disabled || field.disabled(),
             dragging,
             activeIndex,
             setThumb(
@@ -137,7 +148,9 @@ export const SliderRoot = defineComponent({
                 current,
                 {
                     role: "group",
+                    "aria-labelledby": field.aria()["aria-labelledby"],
                     "data-slider-part": "root",
+                    ...field.attributes(),
                     ...stateAttributes({
                         orientation: current.orientation,
                         disabled: current.disabled,
@@ -147,10 +160,17 @@ export const SliderRoot = defineComponent({
                 () => [
                     slots.default?.({ state: current }),
                     // one hidden input per value, in order
-                    values.value.map((entry: number) =>
+                    values.value.map((entry: number, index: number) =>
                         h("input", {
+                            ref:
+                                index === 0
+                                    ? (element: unknown) => {
+                                          firstInput.value =
+                                              element as HTMLInputElement | null;
+                                      }
+                                    : undefined,
                             type: "hidden",
-                            name: props.name,
+                            name: field.name() ?? props.name,
                             value: entry,
                             "data-slider-part": "input",
                         }),

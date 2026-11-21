@@ -17,6 +17,7 @@ import {
     watch,
 } from "vue";
 import { useControllable } from "../../composables/use-controllable.ts";
+import { useFieldControl } from "../../composables/use-field-control.ts";
 import {
     overlayRootEmits,
     overlayRootProps,
@@ -60,14 +61,24 @@ export const SelectRoot = defineComponent({
             },
         );
         const value = computed(() => state.value.value);
+        const input = shallowRef<HTMLInputElement | null>(null);
+        const field = useFieldControl({
+            id: () => root.triggerId,
+            labelable: true,
+            value: () => value.value,
+            filled: () => value.value !== null,
+            input: () => input.value,
+        });
+        const disabled = () => props.disabled || field.disabled();
         const highlighted = ref<string | null>(null);
         const baseId = useId();
         const listId = `${baseId}-list`;
         provide(SelectKey, {
             ...root,
+            field,
             items: () => props.items,
             value,
-            disabled: () => props.disabled,
+            disabled,
             required: () => props.required,
             highlighted,
             openOn(entry, reason) {
@@ -93,7 +104,6 @@ export const SelectRoot = defineComponent({
             }),
         });
 
-        const input = shallowRef<HTMLInputElement | null>(null);
         watch(
             input,
             (element, _, onCleanup) => {
@@ -121,10 +131,10 @@ export const SelectRoot = defineComponent({
                     },
                     "aria-hidden": "true",
                     tabindex: -1,
-                    name: props.name,
+                    name: field.name() ?? props.name,
                     value: value.value ?? "",
                     required: props.required,
-                    disabled: props.disabled,
+                    disabled: disabled(),
                     style: VISUALLY_HIDDEN_INPUT_STYLE,
                     "data-select-part": "input",
                 }),
