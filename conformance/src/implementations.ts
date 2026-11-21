@@ -52,8 +52,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-svelte",
         port: 5340,
         layers: ["behaviour", "contract", "visual"],
-        // the Field layer (Epic H): spec/field.md
-        pending: ["field"],
     },
     // @poc/solid (Epic D): Solid 2.0
     {
