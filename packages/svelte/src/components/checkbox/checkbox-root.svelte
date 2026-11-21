@@ -8,6 +8,7 @@ import { HIDDEN_INPUT_STYLE } from "../../utils/hidden-input-style.ts";
 import { mergeProps } from "../../utils/merge-props.ts";
 import type { PartProps } from "../../utils/part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
+import { useFieldControl } from "../../utils/use-field-control.svelte.ts";
 import { CheckboxGroupContext } from "../checkbox-group/checkbox-group-context.svelte.ts";
 import {
     CheckboxContext,
@@ -76,8 +77,17 @@ const checked = $derived(
 const indeterminate = $derived(
     inGroup && parent ? groupChecked > 0 && !checked : indeterminateProp,
 );
-const disabled = $derived(disabledProp || (group?.disabled ?? false));
 const inputChecked = $derived(checked && !(parent && inGroup));
+const field = useFieldControl({
+    id: () => id,
+    labelable: true,
+    value: () => checked,
+    filled: () => checked,
+    input: () => input,
+});
+const disabled = $derived(
+    disabledProp || (group?.disabled ?? false) || field.disabled,
+);
 
 $effect(() => {
     if (group === undefined || parent || value === undefined) {
@@ -167,12 +177,16 @@ const partProps = $derived(
                   : "false",
             "aria-required": required ? "true" : undefined,
             "aria-controls": controls,
+            ...field.aria,
             "data-checkbox-part": "root",
+            ...field.attributes,
             ...stateAttributes({
                 ...checkedAttributes(partState),
                 required,
             }),
             onclick: toggle,
+            onfocus: field.onfocus,
+            onblur: field.onblur,
             onkeydown: (event: KeyboardEvent) => {
                 // APG: Space toggles, Enter does not (a button would click on Enter)
                 if (event.key === "Enter") {
@@ -186,4 +200,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state: partState })}{:else}<button {...partProps}>{@render children?.()}</button>{/if}<input bind:this={input} type="checkbox" aria-hidden="true" tabindex={-1} name={parent ? undefined : name} value={value ?? "on"} checked={inputChecked} {required} {disabled} style={HIDDEN_INPUT_STYLE} data-checkbox-part="input" />
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<button {...partProps}>{@render children?.()}</button>{/if}<input bind:this={input} type="checkbox" aria-hidden="true" tabindex={-1} name={parent ? undefined : (field.name ?? name)} value={value ?? "on"} checked={inputChecked} {required} {disabled} style={HIDDEN_INPUT_STYLE} data-checkbox-part="input" />

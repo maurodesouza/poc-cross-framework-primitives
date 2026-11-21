@@ -144,7 +144,9 @@ const partProps = $derived(
                     ? context.itemId(context.highlighted)
                     : undefined,
             "aria-required": context.required ? "true" : undefined,
+            ...context.field.aria,
             "data-select-part": "trigger",
+            ...context.field.attributes,
             ...stateAttributes({
                 open: context.open,
                 disabled: context.disabled,
@@ -161,6 +163,8 @@ const partProps = $derived(
                 }
             },
             onkeydown,
+            onfocus: context.field.onfocus,
+            onblur: context.field.onblur,
             ...ref,
         },
         rest,

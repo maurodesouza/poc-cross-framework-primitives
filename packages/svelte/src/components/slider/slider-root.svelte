@@ -4,6 +4,7 @@ import type { ChangeDetails } from "../../utils/change-details.ts";
 import { mergeProps } from "../../utils/merge-props.ts";
 import type { PartProps } from "../../utils/part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
+import { useFieldControl } from "../../utils/use-field-control.svelte.ts";
 import {
     SliderContext,
     SliderState,
@@ -28,7 +29,7 @@ let {
     largeStep = 10,
     minStepsBetweenValues = 0,
     orientation = "horizontal",
-    disabled = false,
+    disabled: disabledProp = false,
     name,
     ...rest
 }: PartProps<{
@@ -54,6 +55,19 @@ let {
     name?: string;
 } = $props();
 
+// the hidden inputs, one per value: the first is the field's (never validated: `type="hidden"`)
+const inputs = $state<(HTMLInputElement | null)[]>([]);
+// its options are read once the slider below exists (in effects and handlers)
+const field = useFieldControl({
+    id: () => undefined,
+    labelable: false,
+    value: () => slider.output(slider.values),
+    // a slider always has a value
+    filled: () => true,
+    input: () => inputs[0] ?? null,
+});
+const disabled = $derived(disabledProp || field.disabled);
+
 const slider = new SliderState(
     {
         read: () => value,
@@ -72,6 +86,7 @@ const slider = new SliderState(
         orientation,
         disabled,
     }),
+    field,
 );
 SliderContext.provide(slider);
 
@@ -80,7 +95,9 @@ const partProps = $derived(
     mergeProps(
         {
             role: "group",
+            "aria-labelledby": field.aria["aria-labelledby"],
             "data-slider-part": "root",
+            ...field.attributes,
             ...stateAttributes(partState),
         },
         rest,
@@ -88,4 +105,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state: partState })}{#each slider.values as entry, index (index)}<input type="hidden" {name} value={entry} data-slider-part="input" />{/each}{:else}<div {...partProps}>{@render children?.()}{#each slider.values as entry, index (index)}<input type="hidden" {name} value={entry} data-slider-part="input" />{/each}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{#each slider.values as entry, index (index)}<input bind:this={inputs[index]} type="hidden" name={field.name ?? name} value={entry} data-slider-part="input" />{/each}{:else}<div {...partProps}>{@render children?.()}{#each slider.values as entry, index (index)}<input bind:this={inputs[index]} type="hidden" name={field.name ?? name} value={entry} data-slider-part="input" />{/each}</div>{/if}
