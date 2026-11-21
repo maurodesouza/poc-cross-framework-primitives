@@ -4,7 +4,8 @@ The second port: `@poc/svelte`, the six mandatory components written from scratc
 (runes) on the same spec, `@poc/dom` and `@poc/styles`, measured with the same suite.
 
 - Data: [`data/svelte.json`](data/svelte.json), tables: [`data/svelte.md`](data/svelte.md), from
-  `pnpm metrics --framework svelte` (2026-11-20).
+  `pnpm metrics --framework svelte` (2026-11-20). The visual layer only runs in CI or with
+  `VISUAL=1`, so the local data records it as skipped; its result above comes from those runs.
 
 ## Conformance
 
@@ -12,7 +13,7 @@ The second port: `@poc/svelte`, the six mandatory components written from scratc
 | --- | --- | --- | --- |
 | behaviour | 90 | 0 | the 11 tests the baseline fails included |
 | contract | 16 | 0 | |
-| visual | 16 / 16 | 0 | pixel-identical to React's screenshots on the same machine; in CI against the golden set |
+| visual | 16 / 16 | 0 | pixel-identical to React's screenshots on the same machine (`VISUAL=1`, 2026-11-20); in CI against the golden set, on the Epic D pull request |
 
 No conformance test was changed for Svelte.
 

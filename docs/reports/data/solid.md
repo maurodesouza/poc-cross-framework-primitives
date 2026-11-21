@@ -5,12 +5,12 @@
 | dialog | 269 | 214 | 44% |
 | popover | 342 | 381 | 53% |
 | menu | 687 | 456 | 40% |
-| combobox | 537 | 315 | 37% |
+| combobox | 539 | 315 | 37% |
 | tabs | 357 | 67 | 16% |
 | calendar | 757 | 448 | 37% |
 | date-picker | 254 | 258 | 50% |
 
-Shared framework infrastructure (hooks, utils): 385 lines. All of @poc/dom: 1111 lines.
+Shared framework infrastructure (hooks, utils): 387 lines. All of @poc/dom: 1111 lines.
 
 ### Bundle size (minified + gzip, framework external)
 

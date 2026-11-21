@@ -5,7 +5,8 @@ The third port: `@poc/solid`, the six mandatory components written from scratch 
 seven-day rule) on the same spec, `@poc/dom` and `@poc/styles`, measured with the same suite.
 
 - Data: [`data/solid.json`](data/solid.json), tables: [`data/solid.md`](data/solid.md), from
-  `pnpm metrics --framework solid` (2026-11-20).
+  `pnpm metrics --framework solid` (2026-11-20). The visual layer only runs in CI or with
+  `VISUAL=1`, so the local data records it as skipped; its result above comes from those runs.
 
 ## Conformance
 
@@ -13,10 +14,10 @@ seven-day rule) on the same spec, `@poc/dom` and `@poc/styles`, measured with th
 | --- | --- | --- | --- |
 | behaviour | 90 | 0 | the 11 tests the baseline fails included |
 | contract | 16 | 0 | |
-| visual | 16 / 16 | 0 | pixel-identical to React's screenshots on the same machine; in CI against the golden set |
+| visual | 16 / 16 | 0 | pixel-identical to React's screenshots on the same machine (`VISUAL=1`, 2026-11-20); in CI against the golden set, on the Epic D pull request |
 
-No conformance test was changed for Solid. The dev build's diagnostics are silent on every
-scenario.
+No conformance test was changed for Solid. Opening the 19 scenarios in the dev build by hand,
+Solid's development diagnostics stayed silent (a manual observation, not recorded data).
 
 ## Lines of code
 
@@ -25,12 +26,16 @@ scenario.
 | dialog | 278 | 273 | 272 | 269 | 214 |
 | popover | 368 | 353 | 360 | 342 | 381 |
 | menu | 743 | 778 | 717 | 687 | 456 |
-| combobox | 542 | 589 | 557 | 537 | 315 |
+| combobox | 542 | 589 | 557 | 539 | 315 |
 | tabs | 347 | 396 | 366 | 357 | 67 |
 | calendar | 755 | 792 | 710 | 757 | 448 |
 | date-picker | 265 | 293 | 283 | 254 | 258 |
-| **components** | **3298** | **3474** | **3265** | **3203** | |
-| shared infrastructure | 372 | 419 | 332 | 385 | |
+| **components** | **3298** | **3474** | **3265** | **3205** | |
+| shared infrastructure | 372 | 419 | 332 | 387 | |
+
+Solid's calendar counts 448 `@poc/dom` lines where the others count 271: it imports the date
+picker's context (to know when it sits in a closing picker), and the metric follows that import
+into the positioning modules the calendar itself never runs.
 
 Solid's shared infrastructure: `renderPart` (the `render` prop, `class` / `style` as a value or a
 function of the state), `mergeProps`, state attributes, and the `create*` primitives (controllable
@@ -62,7 +67,9 @@ numbers compare with Svelte's, not exactly with the React and Vue tables (esbuil
 | presence | `data-starting-style` set in an effect came one pass late: focusing the popup styled it first and the enter animation ran backwards (sub-pixel screenshot diffs); it now derives from `open` in the same pass | `@poc/solid` |
 | effect order | Solid runs effects parent first (React runs a child's layout effects first): the Combobox list waits for every option to register before highlighting, and a calendar inside a closing picker takes no pending focus | `@poc/solid` |
 | attributes | `aria-*={false}` removes the attribute instead of writing `"false"`; ARIA values are passed as strings | `@poc/solid` |
-| calendar | seeding the focused date once, as React's `useState`, needs `untrack` | `@poc/solid` |
+| uncontrolled state | `createSignal(() => initial())` is a derived signal in Solid 2: it reset when a `default*` prop changed; every seed reads `initial` once through `untrack`, as React's `useState` (found in review) | `@poc/solid` |
+| Combobox | a controlled `inputValue` the consumer keeps unchanged does not re-run the binding, so the typed text stayed; the input puts the accepted text back after `flush()` (found in review) | `@poc/solid` |
+| element refs | Solid refs are never called with `null`: the root keeps a closed popup's detached element until the next one registers. Effects guard on `open`, and the new element registers before they run, so it is left as is | |
 | API mapping | `open={open()}`, ref callbacks, focus targets as a getter (`initialFocus={() => el}`) | `spec/README.md` (Solid column) |
 | portal | Solid's `Portal` adds two empty text nodes and the components add comment markers; no element, and the screenshots match | |
 

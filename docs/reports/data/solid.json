@@ -1,6 +1,6 @@
 {
     "framework": "solid",
-    "generatedAt": "2026-11-21T00:54:00.931Z",
+    "generatedAt": "2026-11-21T01:03:52.766Z",
     "loc": {
         "components": [
             {
@@ -46,7 +46,7 @@
             },
             {
                 "component": "combobox",
-                "framework": 537,
+                "framework": 539,
                 "dom": 315,
                 "domModules": [
                     "collection/list-navigation.ts",
@@ -93,7 +93,7 @@
                 ]
             }
         ],
-        "shared": 385,
+        "shared": 387,
         "domTotal": 1111
     },
     "sizes": [
@@ -101,8 +101,8 @@
             "component": "dialog",
             "ours": {
                 "entry": "export { Dialog } from \"@poc/solid\";",
-                "minified": 12739,
-                "gzip": 4197
+                "minified": 12734,
+                "gzip": 4199
             },
             "baseline": {
                 "entry": "export { Dialog } from \"@kobalte/core/dialog\";",
@@ -114,7 +114,7 @@
             "component": "popover",
             "ours": {
                 "entry": "export { Popover } from \"@poc/solid\";",
-                "minified": 38504,
+                "minified": 38499,
                 "gzip": 12390
             },
             "baseline": {
@@ -127,8 +127,8 @@
             "component": "menu",
             "ours": {
                 "entry": "export { Menu } from \"@poc/solid\";",
-                "minified": 45252,
-                "gzip": 14292
+                "minified": 45247,
+                "gzip": 14294
             },
             "baseline": {
                 "entry": "export { DropdownMenu } from \"@kobalte/core/dropdown-menu\";",
@@ -140,8 +140,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/solid\";",
-                "minified": 40083,
-                "gzip": 12780
+                "minified": 40171,
+                "gzip": 12812
             },
             "baseline": {
                 "entry": "export { Combobox } from \"@kobalte/core/combobox\";",
@@ -153,8 +153,8 @@
             "component": "tabs",
             "ours": {
                 "entry": "export { Tabs } from \"@poc/solid\";",
-                "minified": 8270,
-                "gzip": 2963
+                "minified": 8265,
+                "gzip": 2962
             },
             "baseline": {
                 "entry": "export { Tabs } from \"@kobalte/core/tabs\";",
@@ -166,7 +166,7 @@
             "component": "calendar",
             "ours": {
                 "entry": "export { Calendar, RangeCalendar } from \"@poc/solid\";",
-                "minified": 15409,
+                "minified": 15404,
                 "gzip": 5106
             },
             "baseline": null
@@ -175,8 +175,8 @@
             "component": "date-picker",
             "ours": {
                 "entry": "export { DatePicker, DateRangePicker } from \"@poc/solid\";",
-                "minified": 35995,
-                "gzip": 11669
+                "minified": 35990,
+                "gzip": 11671
             },
             "baseline": null
         }
