@@ -17,6 +17,9 @@ import DialogControlled from "../scenarios/dialog/dialog-controlled.vue";
 import DialogInitialFocus from "../scenarios/dialog/dialog-initial-focus.vue";
 import DialogNestedPopover from "../scenarios/dialog/dialog-nested-popover.vue";
 import DialogRejectedClose from "../scenarios/dialog/dialog-rejected-close.vue";
+import FieldBasic from "../scenarios/field/field-basic.vue";
+import FieldControls from "../scenarios/field/field-controls.vue";
+import FieldValidation from "../scenarios/field/field-validation.vue";
 import MenuBasic from "../scenarios/menu/menu-basic.vue";
 import MenuGroups from "../scenarios/menu/menu-groups.vue";
 import MenuSubmenu from "../scenarios/menu/menu-submenu.vue";
@@ -77,4 +80,7 @@ export const routes: Record<string, Component> = {
     "/slider/vertical": SliderVertical,
     "/slider/rtl": SliderBasic,
     "/slider/controlled": SliderControlled,
+    "/field/basic": FieldBasic,
+    "/field/validation": FieldValidation,
+    "/field/controls": FieldControls,
 };
