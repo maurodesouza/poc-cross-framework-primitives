@@ -38,6 +38,8 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-react",
         port: 5320,
         layers: ["behaviour", "contract", "visual"],
+        // the Field layer (Epic H): spec/field.md
+        pending: ["field"],
     },
     // @poc/vue (Epic C): the first port; it compares against React's golden screenshots.
     {
@@ -45,6 +47,8 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-vue",
         port: 5330,
         layers: ["behaviour", "contract", "visual"],
+        // the Field layer (Epic H): spec/field.md
+        pending: ["field"],
     },
     // @poc/svelte (Epic D)
     {
@@ -52,6 +56,8 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-svelte",
         port: 5340,
         layers: ["behaviour", "contract", "visual"],
+        // the Field layer (Epic H): spec/field.md
+        pending: ["field"],
     },
     // @poc/solid (Epic D): Solid 2.0
     {
@@ -59,6 +65,8 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-solid",
         port: 5350,
         layers: ["behaviour", "contract", "visual"],
+        // the Field layer (Epic H): spec/field.md
+        pending: ["field"],
     },
     // @poc/angular (Epic E): directives on the consumer's own elements
     {
@@ -66,6 +74,8 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
         fixture: "fixture-angular",
         port: 5360,
         layers: ["behaviour", "contract", "visual"],
+        // the Field layer (Epic H): spec/field.md
+        pending: ["field"],
     },
 ];
 
