@@ -57,7 +57,7 @@ Base UI's `Collection`, `Row`, `Arrow`, `Backdrop`, `Icon` and `Label` parts, `i
 | Separator | `div` | `separator` | between groups |
 | Item | `div` | `item` | an `option` |
 | ItemIndicator | `span` | `item-indicator` | inside an Item, rendered only while it is selected |
-| (hidden inputs) | `input` | `hidden-input` | rendered by the Root: what the form submits and validates |
+| (hidden input) | `input` | `hidden-input` | rendered by the Root, one or more: what the form submits and validates |
 
 The hidden inputs' part value is `hidden-input`, not the `input` of the other form controls
 (spec/README.md, "Forms"): `input` is the Input's.
