@@ -50,6 +50,9 @@ Add it to `IMPLEMENTATIONS` in `src/implementations.ts`:
 - `fixture` is the fixture's package name; it must have `build` and `preview` scripts and render
   every scenario of the specs at `/<component>/<scenario>`, reading `?locale=` and `?dir=`.
 - Pick a free port (the baseline uses 5310).
+- `pending` lists the spec components it has not ported yet (the extras, until Epic G for Svelte,
+  Solid and Angular): their test folders are ignored for it, its fixture must not serve their
+  scenarios, and the playground shows them as not available (`tests/playground-manifest.test.ts`).
 
 ## Golden screenshots
 
@@ -80,3 +83,6 @@ Animations are disabled, the caret hidden and the pointer parked at the top-left
 | `axe.ts` | `expectNoAxeViolations` |
 | `contract.ts` | `part(page, component, name)`, `expectNoFalseStates` |
 | `deviation.ts` | `baselineDeviation(reason)` |
+| `form.ts` | `expectSubmitted(page, "name=value&...")`: the `FormData` a form scenario printed |
+| `pointer.ts` | `pointAlong`, `pressAlong`, `dragFrom`: whole-pixel presses and stepped drags along a box |
+| `slider.ts` | `sliderState`, `expectSliderValue`: a `slider`'s accessible value and bounds |

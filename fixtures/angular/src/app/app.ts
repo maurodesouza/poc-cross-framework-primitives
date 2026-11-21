@@ -6,12 +6,14 @@ import { CalendarTwoMonths } from "../scenarios/calendar/calendar-two-months.ts"
 import { SingleCalendar } from "../scenarios/calendar/single-calendar.ts";
 import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.ts";
 import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.ts";
+import { ComboboxRejectedInput } from "../scenarios/combobox/combobox-rejected-input.ts";
 import { DatePickerBasic } from "../scenarios/date-picker/date-picker-basic.ts";
 import { DatePickerRange } from "../scenarios/date-picker/date-picker-range.ts";
 import { DialogBasic } from "../scenarios/dialog/dialog-basic.ts";
 import { DialogControlled } from "../scenarios/dialog/dialog-controlled.ts";
 import { DialogInitialFocus } from "../scenarios/dialog/dialog-initial-focus.ts";
 import { DialogNestedPopover } from "../scenarios/dialog/dialog-nested-popover.ts";
+import { DialogRejectedClose } from "../scenarios/dialog/dialog-rejected-close.ts";
 import { MenuBasic } from "../scenarios/menu/menu-basic.ts";
 import { MenuGroups } from "../scenarios/menu/menu-groups.ts";
 import { MenuSubmenu } from "../scenarios/menu/menu-submenu.ts";
@@ -34,6 +36,7 @@ import { ROUTES } from "./routes.ts";
         DialogInitialFocus,
         DialogNestedPopover,
         DialogControlled,
+        DialogRejectedClose,
         PopoverBasic,
         PopoverPlacement,
         PopoverRtl,
@@ -43,6 +46,7 @@ import { ROUTES } from "./routes.ts";
         MenuGroups,
         ComboboxBasic,
         ComboboxControlled,
+        ComboboxRejectedInput,
         SettingsTabs,
         SingleCalendar,
         CalendarTwoMonths,
@@ -56,6 +60,7 @@ import { ROUTES } from "./routes.ts";
             @case ("/dialog/initial-focus") { <main class="p-6" scenario-dialog-initial-focus></main> }
             @case ("/dialog/nested-popover") { <main class="p-6" scenario-dialog-nested-popover></main> }
             @case ("/dialog/controlled") { <main class="p-6" scenario-dialog-controlled></main> }
+            @case ("/dialog/rejected-close") { <main class="p-6" scenario-dialog-rejected-close></main> }
             @case ("/popover/basic") { <main class="p-6" scenario-popover-basic></main> }
             @case ("/popover/placement") { <main class="p-6" scenario-popover-placement></main> }
             @case ("/popover/rtl") { <main class="p-6" scenario-popover-rtl></main> }
@@ -65,6 +70,7 @@ import { ROUTES } from "./routes.ts";
             @case ("/menu/groups") { <main class="p-6" scenario-menu-groups></main> }
             @case ("/combobox/basic") { <main class="p-6" scenario-combobox-basic></main> }
             @case ("/combobox/controlled") { <main class="p-6" scenario-combobox-controlled></main> }
+            @case ("/combobox/rejected-input") { <main class="p-6" scenario-combobox-rejected-input></main> }
             @case ("/tabs/automatic") { <main class="p-6" scenario-settings-tabs activation="automatic" orientation="horizontal"></main> }
             @case ("/tabs/manual") { <main class="p-6" scenario-settings-tabs activation="manual" orientation="horizontal"></main> }
             @case ("/tabs/vertical") { <main class="p-6" scenario-settings-tabs activation="automatic" orientation="vertical"></main> }

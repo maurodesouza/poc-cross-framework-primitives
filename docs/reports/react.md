@@ -130,3 +130,63 @@ checklist, on `fixtures/react` (`pnpm --filter fixture-react dev`):
 Every component folder was written in one commit by one agent run (Dialog, Popover and Menu in
 the first, the other four in the second), about 10 minutes apart. The ports in Epic C will be
 measured the same way, from their commits.
+
+## Extras (Epic F)
+
+Select, Tooltip, Checkbox and CheckboxGroup, and Slider, specified in Epic F (#35) and built in
+#36. Current numbers: [`data/react.md`](data/react.md).
+
+| component | framework package | @poc/dom used | bundle (gzip) | Base UI 1.9 |
+| --- | --- | --- | --- | --- |
+| select | 592 | 404 | 11.8 kB | 44.5 kB |
+| tooltip | 421 | 272 | 10.4 kB | 33.3 kB |
+| checkbox | 212 | 45 | 1.9 kB | 8.1 kB |
+| checkbox-group | 108 | 0 | 1.1 kB | 4.2 kB |
+| slider | 503 | 195 | 3.4 kB | 14.4 kB |
+
+- **Conformance**: React passes the extras' behaviour (48), contract (8) and visual (8) tests,
+  and the six earlier components as before (behaviour 140, contract 24 in all). The golden
+  screenshots of the extras come from CI run 44895515549, made with React alone registered for
+  them. The baseline passes the extras' behaviour layer apart from 6 recorded deviations.
+- **New in `@poc/dom`** (337 lines, each tested with Vitest, framework-free): `startDrag` (a
+  captured pointer drag), `isInHoverBridge`, `createHoverIntent` and `createDelayGroup`
+  (`hover/`), the range math and `sliderKeyTarget` (`range/`), `bridgeForm` and the hidden
+  input's style (`form/`). Select reuses `createTypeahead` and `menuKeyTarget` (without
+  wrapping): no new listbox code.
+- **Part hooks: none.** Every part of the extras reads its root's context (and Select's
+  ItemIndicator its item's); no extra needed a lower layer to be expressed in React, so none was
+  added (maintainer: "if necessary").
+
+### Port log (React)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Slider | `onValueCommit` after a key read the value before React re-rendered; the change now returns the new values and the commit takes them | `@poc/react` |
+| Checkbox | a `button` clicks on Enter: Enter is prevented, Space toggles (APG) | `@poc/react` |
+| hidden inputs | a form reset happens after the `reset` event, and React does not re-render when the state already equals the default: `bridgeForm` reports the reset once the browser is done, and the component writes the default back onto its input | `@poc/dom`, `@poc/react` |
+| Tooltip | focus opens only on `:focus-visible` (a click focuses the button too); a tap is ignored by `pointerType` | `@poc/react` |
+
+### Boundary pressure (extras)
+
+1. **The tooltip's hover tracking** (a document `pointermove` while a hover-opened tooltip is
+   open, closing once the pointer leaves the trigger, the popup and the gap) is about 25 lines,
+   written in each framework. It is a session like `openOverlaySession`: a candidate to move into
+   `@poc/dom` before Epic G ports it three more times. It stayed out here because it decides when
+   to close, with the framework's open state at hand.
+2. **The delay group** (`createDelayGroup`) went into `@poc/dom` because it holds no member's open
+   state: only the open member's close callback and the time of the last close. Each tooltip
+   keeps its own `open` and reports to it.
+3. **CheckboxGroup's membership** (a child's checked state from the array, the parent's
+   checked/mixed state, check-all) is component state: it stays in the framework packages, about
+   40 lines each.
+4. **The slider's value shape** (a number or an array, decided by `defaultValue`) is API, not
+   math: it stays in the framework; the math (`moveThumb`, `thumbBounds`, `nearestThumb`) does
+   not.
+
+### Baseline deviations (extras)
+
+Base UI 1.9 against the specs (each marked with `baselineDeviation`): Select moves DOM focus into
+the list (the APG keeps it on the combobox), Tab closes without choosing, an outside press reports
+`cancel-open`, and a form reset is ignored; Checkbox ignores a form reset; the Tooltip trigger gets
+no `aria-describedby`. Fixture settings, not deviations: `alignItemWithTrigger={false}`,
+`role="tooltip"` and `aria-hidden` on the Checkbox Indicator given by the fixture.

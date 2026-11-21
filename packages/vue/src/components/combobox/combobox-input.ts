@@ -1,5 +1,5 @@
 import { stepThroughNone } from "@poc/dom";
-import { defineComponent } from "vue";
+import { defineComponent, nextTick } from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import { useRequiredContext } from "../../composables/use-required-context.ts";
 import { asProp, renderPart } from "../../utils/render-part.ts";
@@ -104,10 +104,16 @@ export const ComboboxInput = defineComponent({
                     "data-combobox-part": "input",
                     ...stateAttributes({ open, disabled }),
                     onInput: (event: Event) => {
-                        context.setInputValue(
-                            (event.target as HTMLInputElement).value,
-                            "input-change",
-                        );
+                        const element = event.target as HTMLInputElement;
+                        context.setInputValue(element.value, "input-change");
+                        // a controlled inputValue the consumer kept does not re-render the
+                        // input: re-assert it once the consumer's update has rendered
+                        // (spec/README.md, "A controlled value the consumer rejects")
+                        void nextTick().then(() => {
+                            if (element.value !== context.inputValue.value) {
+                                element.value = context.inputValue.value;
+                            }
+                        });
                         context.highlighted.value = null;
                         if (!context.open.value) {
                             context.pendingHighlight.current = null;

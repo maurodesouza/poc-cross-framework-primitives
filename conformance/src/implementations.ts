@@ -11,10 +11,19 @@ export interface Implementation {
     fixture: string;
     port: number;
     layers: readonly Layer[];
+    /**
+     * Spec components this implementation has not ported yet: their tests do not run for it
+     * (`playwright.config.ts` ignores their folders), its fixture does not serve their scenarios,
+     * and the playground shows them as not available (`tests/playground-manifest.test.ts`).
+     */
+    pending?: readonly string[];
 }
 
+/** The extras (Epic F: the yardstick, React and Vue; Epic G: Svelte, Solid and Angular). */
+export const EXTRAS = ["select", "tooltip", "checkbox", "slider"] as const;
+
 export const IMPLEMENTATIONS: readonly Implementation[] = [
-    // Base UI 1.9 (Dialog, Popover, Menu, Combobox, Tabs) and React Aria Components (the
+    // Base UI 1.9 (Dialog, Popover, Menu, Combobox, Tabs and the extras) and React Aria Components (the
     // calendar family): the yardstick. Its own state attributes differ from the spec, so it runs
     // the behaviour layer only.
     {
@@ -41,6 +50,7 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "svelte",
         fixture: "fixture-svelte",
+        pending: EXTRAS,
         port: 5340,
         layers: ["behaviour", "contract", "visual"],
     },
@@ -48,6 +58,7 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "solid",
         fixture: "fixture-solid",
+        pending: EXTRAS,
         port: 5350,
         layers: ["behaviour", "contract", "visual"],
     },
@@ -55,10 +66,19 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "angular",
         fixture: "fixture-angular",
+        pending: EXTRAS,
         port: 5360,
         layers: ["behaviour", "contract", "visual"],
     },
 ];
+
+/** Whether `implementation` has ported the spec component `component`. */
+export function hasComponent(
+    implementation: Implementation,
+    component: string,
+): boolean {
+    return !(implementation.pending ?? []).includes(component);
+}
 
 /** The project names given with `--project` on the command line, if any. */
 export function selectedProjects(argv: readonly string[]): string[] {

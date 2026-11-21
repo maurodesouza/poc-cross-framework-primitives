@@ -147,6 +147,16 @@ The fixture holds `value` and `inputValue` in its own state, starting at `value:
 Checks: the input shows "Mango" on load; ArrowDown opens the list highlighting "Mango"; after
 Escape, "Reset" empties the input and the next ArrowDown highlights "Apple".
 
+### `/combobox/rejected-input`
+
+The fixture holds `value`, `inputValue` and `open` in its own state, all empty, and keeps an
+`inputValue` only when it has no digit: a value with a digit is refused (the state stays as it
+was). Output: `value: ...`, `input: ...`, `open: ...`.
+
+Checks (spec/README.md, "A controlled value the consumer rejects"): type `b`: the input shows `b`,
+options "Banana" and "Blueberry"; type `1`: the input still shows `b` (not `b1`), output
+`input: b`, the options unchanged; type `l`: the input shows `bl`, only "Blueberry".
+
 ## Baseline deviations
 
 Measured against Base UI 1.9 (`Combobox` with `filteredItems`, so the fixture filters).

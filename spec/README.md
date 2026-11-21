@@ -12,6 +12,10 @@ starts here (with its reason), then the tests, then the implementations (AGENTS.
 | [combobox.md](combobox.md) | Combobox |
 | [tabs.md](tabs.md) | Tabs |
 | [calendar.md](calendar.md) | Calendar, RangeCalendar, DatePicker, DateRangePicker |
+| [select.md](select.md) | Select (an extra, Epic F) |
+| [tooltip.md](tooltip.md) | Tooltip, with its delay group (an extra) |
+| [checkbox.md](checkbox.md) | Checkbox, CheckboxGroup (an extra) |
+| [slider.md](slider.md) | Slider, with one or more thumbs (an extra) |
 
 Primary source: the WAI-ARIA Authoring Practices (APG) patterns in
 `~/organizations/fragiola/references/wai-aria-practices/content/patterns/`. Behaviour was compared
@@ -74,6 +78,12 @@ The vocabulary is shared by every component:
 | `data-range-preview` | a cell inside the range being chosen (between the start and the hovered or focused date) |
 | `data-empty` | a combobox list with no item |
 | `data-nested` | a submenu's positioner and popup |
+| `data-checked`, `data-unchecked`, `data-indeterminate` | a checkbox's state (exactly one is present) |
+| `data-required` | a required form control |
+| `data-placeholder` | a Select showing its placeholder |
+| `data-instant` | a tooltip that opened with no delay |
+| `data-dragging` | a slider while a pointer drags a thumb |
+| `data-index` | a slider thumb's value index (a value) |
 
 ### No text, and the one exception
 
@@ -98,6 +108,11 @@ shared:
 | `item-press` | a menu or combobox item was chosen |
 | `list-navigation` | the keyboard opened a menu or combobox |
 | `input-change` | typing opened or changed a combobox |
+| `trigger-hover` | the pointer entered or left a tooltip's trigger (or its popup) |
+| `trigger-focus` | keyboard focus entered or left a tooltip's trigger |
+| `keyboard` | a key changed a slider's value |
+| `track-press` | a press on a slider's control moved a thumb |
+| `drag` | a pointer drag moved a slider's thumb |
 | `none` | anything else (a programmatic change) |
 
 ### Normalized API names
@@ -114,6 +129,25 @@ shared:
 
 Controlled and uncontrolled: when `value` (or `open`) is given, the component is controlled and
 only reports changes; otherwise it keeps its own state, seeded by `defaultValue`.
+
+**A controlled value the consumer rejects stays the consumer's value.** A controlled component
+reports a change and then shows whatever the consumer gives back. When the consumer keeps the
+value unchanged (an `inputValue` that refuses some characters, an `open` that stays `true`), the
+component shows the consumer's value, not the user's input: the input's text goes back to the
+kept value within the same event, and a kept `open` leaves the overlay open and working (focus
+inside, the outside inert). Frameworks that write a native element before the consumer answers
+(an `<input>`'s text) must re-assert the kept value after the consumer's update has rendered.
+Scenarios: [`/combobox/rejected-input`](combobox.md#comboboxrejected-input) and
+[`/dialog/rejected-close`](dialog.md#dialogrejected-close).
+
+### Forms
+
+The form controls (Select, Checkbox, Slider) take `name` and render a **hidden input** that
+carries their value, so a native `<form>` submits them (`FormData`), resets them (`reset` returns
+an uncontrolled control to its default) and, where `required` applies, validates them as the
+native control would. A hidden input is never in the accessibility tree nor in the tab order
+(`aria-hidden="true"`, `tabindex="-1"`, or `type="hidden"`): users meet the primitive's own role
+only. Each hidden input carries the component's part attribute with the value `input`.
 
 ## API mapping by framework
 

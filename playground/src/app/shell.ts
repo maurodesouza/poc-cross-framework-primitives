@@ -7,8 +7,12 @@ import {
     readState,
     writeState,
 } from "../kit/url-state.ts";
-import { componentsOf, type Scenario } from "../scenarios/scenarios.ts";
-import { createFrame, type Frame } from "./frame.ts";
+import {
+    componentsOf,
+    isAvailable,
+    type Scenario,
+} from "../scenarios/scenarios.ts";
+import { createFrame, createUnavailableFrame, type Frame } from "./frame.ts";
 
 /** Locales offered by the locale control (any BCP 47 tag can be typed). */
 const LOCALES = ["en-US", "de-DE", "he-IL", "fr-FR", "ja-JP", "ar-EG"];
@@ -227,14 +231,23 @@ export function mountShell(
                       (implementation) => implementation.name === state.impl,
                   )
                 : implementations;
+        // room for the overlays (Dialog, Menu, DatePicker) inside each frame
+        const size =
+            state.view === "single" ? "h-full min-h-[640px]" : "h-[640px]";
         frames = shown.map((implementation) => {
+            if (!isAvailable(implementation, scenario)) {
+                return createUnavailableFrame(
+                    implementation,
+                    scenario.component,
+                    size,
+                );
+            }
             const origin = originOf(implementation);
             return createFrame(
                 implementation,
                 origin,
                 frameUrl(origin, scenario, state),
-                // room for the overlays (Dialog, Menu, DatePicker) inside each frame
-                state.view === "single" ? "h-full min-h-[640px]" : "h-[640px]",
+                size,
             );
         });
         stage.replaceChildren(

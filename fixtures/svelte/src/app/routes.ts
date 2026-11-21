@@ -6,12 +6,14 @@ import CalendarTwoMonths from "../scenarios/calendar/calendar-two-months.svelte"
 import CalendarUnavailable from "../scenarios/calendar/calendar-unavailable.svelte";
 import ComboboxBasic from "../scenarios/combobox/combobox-basic.svelte";
 import ComboboxControlled from "../scenarios/combobox/combobox-controlled.svelte";
+import ComboboxRejectedInput from "../scenarios/combobox/combobox-rejected-input.svelte";
 import DatePickerBasic from "../scenarios/date-picker/date-picker-basic.svelte";
 import DatePickerRange from "../scenarios/date-picker/date-picker-range.svelte";
 import DialogBasic from "../scenarios/dialog/dialog-basic.svelte";
 import DialogControlled from "../scenarios/dialog/dialog-controlled.svelte";
 import DialogInitialFocus from "../scenarios/dialog/dialog-initial-focus.svelte";
 import DialogNestedPopover from "../scenarios/dialog/dialog-nested-popover.svelte";
+import DialogRejectedClose from "../scenarios/dialog/dialog-rejected-close.svelte";
 import MenuBasic from "../scenarios/menu/menu-basic.svelte";
 import MenuGroups from "../scenarios/menu/menu-groups.svelte";
 import MenuSubmenu from "../scenarios/menu/menu-submenu.svelte";
@@ -30,6 +32,7 @@ export const routes: Record<string, Component<any>> = {
     "/dialog/initial-focus": DialogInitialFocus,
     "/dialog/nested-popover": DialogNestedPopover,
     "/dialog/controlled": DialogControlled,
+    "/dialog/rejected-close": DialogRejectedClose,
     "/popover/basic": PopoverBasic,
     "/popover/placement": PopoverPlacement,
     "/popover/rtl": PopoverRtl,
@@ -39,6 +42,7 @@ export const routes: Record<string, Component<any>> = {
     "/menu/groups": MenuGroups,
     "/combobox/basic": ComboboxBasic,
     "/combobox/controlled": ComboboxControlled,
+    "/combobox/rejected-input": ComboboxRejectedInput,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,

@@ -150,6 +150,18 @@ Checks: the external button opens the dialog; Close sets `open: false` with
 `reason: close-press`; focus goes back to the external button (the element focused before
 opening).
 
+### `/dialog/rejected-close`
+
+As `/dialog/controlled` (an external button **"Open dialog"**, no Trigger), with a Backdrop, a
+Title **"Locked"** and a Close **"Close"**, but the fixture keeps `open: true` once opened: it
+records each change's reason and ignores a change to `false`. Output: `open: ...`, `reason: ...`.
+
+Checks (spec/README.md, "A controlled value the consumer rejects"): open it, focus is on "Close";
+Escape reports `reason: escape-key` and the dialog stays open with focus on "Close"; a click
+outside reports `reason: outside-press` and the dialog stays open; "Close" reports
+`reason: close-press`, `open: true` and the dialog stays open; Escape still works afterwards (no
+broken layer) and the outside stays inert.
+
 ## Baseline deviations
 
 Measured against Base UI 1.9 (`fixtures/baseline-react`). Each one is marked on its test with

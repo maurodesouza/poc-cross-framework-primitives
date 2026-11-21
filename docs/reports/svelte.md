@@ -64,6 +64,7 @@ date picker includes a segmented date field and `@internationalized/date`.
 | roots | seeding uncontrolled state from a prop read it once and warned (`state_referenced_locally`); the seed reads through `untrack` on purpose | `@poc/svelte` |
 | fixture | Svelte keeps the whitespace between tags as text nodes, which shifted the visual layer; the fixture's markup is glued as JSX renders it, and text runs use `{#each}` to make the same text nodes | `fixtures/svelte` |
 | everything else | Dialog, Popover, Menu (submenus, safe area), Tabs, Combobox, the calendar family and the pickers passed once these were fixed | |
+| rejected controlled value (Epic F, #34) | with a function binding that refuses a value (`bind:inputValue={() => input, (next) => ...}`) no state changes, so the input kept the user's text. `Combobox.Input` re-asserts the kept value right after the write: a bound value reads synchronously, no tick needed. A kept `open: true` already worked (`/dialog/rejected-close`) | `@poc/svelte` |
 
 Nothing changed in a spec or in `@poc/dom` during the port itself (D1 was planned before it).
 

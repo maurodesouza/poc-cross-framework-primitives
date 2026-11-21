@@ -6,12 +6,14 @@ import { CalendarTwoMonths } from "../scenarios/calendar/calendar-two-months.tsx
 import { CalendarUnavailable } from "../scenarios/calendar/calendar-unavailable.tsx";
 import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.tsx";
 import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.tsx";
+import { ComboboxRejectedInput } from "../scenarios/combobox/combobox-rejected-input.tsx";
 import { DatePickerBasic } from "../scenarios/date-picker/date-picker-basic.tsx";
 import { DatePickerRange } from "../scenarios/date-picker/date-picker-range.tsx";
 import { DialogBasic } from "../scenarios/dialog/dialog-basic.tsx";
 import { DialogControlled } from "../scenarios/dialog/dialog-controlled.tsx";
 import { DialogInitialFocus } from "../scenarios/dialog/dialog-initial-focus.tsx";
 import { DialogNestedPopover } from "../scenarios/dialog/dialog-nested-popover.tsx";
+import { DialogRejectedClose } from "../scenarios/dialog/dialog-rejected-close.tsx";
 import { MenuBasic } from "../scenarios/menu/menu-basic.tsx";
 import { MenuGroups } from "../scenarios/menu/menu-groups.tsx";
 import { MenuSubmenu } from "../scenarios/menu/menu-submenu.tsx";
@@ -29,6 +31,7 @@ export const routes: Record<string, Component<{ locale: string }>> = {
     "/dialog/initial-focus": DialogInitialFocus,
     "/dialog/nested-popover": DialogNestedPopover,
     "/dialog/controlled": DialogControlled,
+    "/dialog/rejected-close": DialogRejectedClose,
     "/popover/basic": PopoverBasic,
     "/popover/placement": PopoverPlacement,
     "/popover/rtl": PopoverRtl,
@@ -38,6 +41,7 @@ export const routes: Record<string, Component<{ locale: string }>> = {
     "/menu/groups": MenuGroups,
     "/combobox/basic": ComboboxBasic,
     "/combobox/controlled": ComboboxControlled,
+    "/combobox/rejected-input": ComboboxRejectedInput,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,

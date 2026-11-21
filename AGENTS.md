@@ -13,7 +13,7 @@ The plan, the phases and the metrics are in [`docs/plan.md`](docs/plan.md). The 
 | workspace | name | contains | depends on |
 | --- | --- | --- | --- |
 | `spec/` | (docs) | the source of truth: one spec per component (anatomy, API, states, keyboard, focus, scenarios) | |
-| `packages/dom` | `@poc/dom` | framework-free DOM behaviours and pure math (positioning, layers, focus, scroll lock, inert, collection navigation, typeahead, presence, ids, direction, dates) | `@floating-ui/dom` only |
+| `packages/dom` | `@poc/dom` | framework-free DOM behaviours and pure math (positioning, layers, focus, scroll lock, inert, collection navigation, typeahead, presence, pointer drags, hover intent and delay groups, range math, form bridges, ids, direction, dates) | `@floating-ui/dom` only |
 | `packages/styles` | `@poc/styles` | the Tailwind v4 theme (palette roles) and one class recipe per component part, keyed on `data-*` | none |
 | `packages/<framework>` | `@poc/<framework>` | the primitives, written for that framework | `@poc/dom`; peer the framework |
 | `fixtures/<implementation>` | private | one app per implementation (and `baseline-react` on Base UI / React Aria), rendering every spec scenario at `/<component>/<scenario>` | the implementation, `@poc/styles` |
@@ -100,7 +100,7 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
 
   | package | folders |
   | --- | --- |
-  | `dom` | one folder per responsibility: `positioning/`, `overlay/`, `layers/`, `focus/`, `scroll-lock/`, `inert/`, `collection/`, `presence/`, `pointer/`, `id/`, `direction/`, `date/` |
+  | `dom` | one folder per responsibility: `positioning/`, `overlay/`, `layers/`, `focus/`, `scroll-lock/`, `inert/`, `collection/`, `presence/`, `pointer/`, `hover/`, `range/`, `form/`, `id/`, `direction/`, `date/` |
   | `styles` | `recipes/`, `theme/` |
   | `react`, `solid` | `components/<component>/`, `hooks/`, `utils/` |
   | `vue` | `components/<component>/`, `composables/`, `utils/` |

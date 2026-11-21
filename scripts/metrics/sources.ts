@@ -11,7 +11,18 @@ export const COMPONENTS = [
     "calendar",
     "date-picker",
 ] as const;
-export type Component = (typeof COMPONENTS)[number];
+
+/** The extras (Epic F: React and Vue; Epic G: the others), one folder each. */
+export const EXTRA_COMPONENTS = [
+    "select",
+    "tooltip",
+    "checkbox",
+    "checkbox-group",
+    "slider",
+] as const;
+export type Component =
+    | (typeof COMPONENTS)[number]
+    | (typeof EXTRA_COMPONENTS)[number];
 
 const SOURCE = /\.(ts|tsx|vue|svelte)$/;
 
@@ -107,6 +118,7 @@ export function componentLoc(
     root: string,
     framework: string,
     componentsDir = "components",
+    measured: readonly Component[] = COMPONENTS,
 ): { components: ComponentLoc[]; shared: number } {
     const pkg = join(root, "packages", framework, "src");
     const sharedFiles = [
@@ -118,7 +130,7 @@ export function componentLoc(
         "lib/inject",
     ].flatMap((dir) => sourceFiles(join(pkg, dir)));
     const exportsMap = domExports(root);
-    const components = COMPONENTS.map((component) => {
+    const components = measured.map((component) => {
         const files = sourceFiles(join(pkg, componentsDir, component));
         const used = domImports(
             importClosure(files).filter((file) => file.startsWith(pkg)),

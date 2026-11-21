@@ -30,6 +30,10 @@ export default defineConfig({
     projects: IMPLEMENTATIONS.map((implementation) => ({
         name: implementation.name,
         testMatch: implementation.layers.map((layer) => `**/${layer}.test.ts`),
+        // a component it has not ported yet (conformance/src/implementations.ts, `pending`)
+        testIgnore: (implementation.pending ?? []).map(
+            (component) => `**/${component}/**`,
+        ),
         use: {
             ...devices["Desktop Chrome"],
             baseURL: `http://localhost:${implementation.port}`,

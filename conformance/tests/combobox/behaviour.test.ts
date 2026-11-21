@@ -196,3 +196,21 @@ test("combobox / controlled: starts on Mango, Reset clears it", async ({
     await page.keyboard.press("ArrowDown");
     await expectActive(page, "Apple");
 });
+
+test("combobox / rejected-input: an input value the consumer refuses is not shown", async ({
+    page,
+}) => {
+    await openScenario(page, "/combobox/rejected-input");
+    await input(page).click();
+    await page.keyboard.type("b");
+    await expect(input(page)).toHaveValue("b");
+    await expect(page.getByRole("option")).toHaveText(["Banana", "Blueberry"]);
+    await page.keyboard.type("1");
+    await expect(input(page)).toHaveValue("b");
+    await expectOutput(page, "input", "b");
+    await expect(page.getByRole("option")).toHaveText(["Banana", "Blueberry"]);
+    await page.keyboard.type("l");
+    await expect(input(page)).toHaveValue("bl");
+    await expectOutput(page, "input", "bl");
+    await expect(page.getByRole("option")).toHaveText(["Blueberry"]);
+});

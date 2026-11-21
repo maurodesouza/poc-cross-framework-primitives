@@ -102,10 +102,14 @@ const partProps = $derived(
                 disabled: context.disabled(),
             }),
             oninput: (event: Event) => {
-                context.setInputValue(
-                    (event.target as HTMLInputElement).value,
-                    "input-change",
-                );
+                const element = event.target as HTMLInputElement;
+                context.setInputValue(element.value, "input-change");
+                // a bound inputValue the consumer kept changes no state, so the input is not
+                // updated: re-assert it (spec/README.md, "A controlled value the consumer
+                // rejects")
+                if (element.value !== context.inputValue) {
+                    element.value = context.inputValue;
+                }
                 context.highlighted = null;
                 if (!context.open) {
                     context.pendingHighlight.current = null;
