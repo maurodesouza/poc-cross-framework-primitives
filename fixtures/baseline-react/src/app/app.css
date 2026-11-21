@@ -66,3 +66,70 @@ main {
     display: flex;
     gap: 16px;
 }
+.checkbox {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #555;
+    align-items: center;
+    justify-content: center;
+}
+.field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+.select-trigger {
+    min-width: 160px;
+    text-align: start;
+}
+.slider-control {
+    position: relative;
+    width: 200px;
+    height: 24px;
+    touch-action: none;
+}
+.slider-control[data-orientation="vertical"] {
+    width: 24px;
+    height: 200px;
+}
+.slider-track {
+    position: absolute;
+    inset: 10px 0;
+    background: #ddd;
+}
+.slider-control[data-orientation="vertical"] .slider-track {
+    inset: 0 10px;
+}
+.slider-indicator {
+    background: #555;
+}
+.slider-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #222;
+}
+.tooltip {
+    padding: 4px 8px;
+    background: #222;
+    color: white;
+}
+.toolbar {
+    display: flex;
+    gap: 8px;
+}
+.far {
+    margin-top: 120px;
+}
+.select-popup {
+    min-width: var(--anchor-width);
+    background: white;
+    border: 1px solid #ccc;
+}
