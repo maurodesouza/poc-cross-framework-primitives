@@ -63,7 +63,8 @@ export const SelectRoot = defineComponent({
         const value = computed(() => state.value.value);
         const input = shallowRef<HTMLInputElement | null>(null);
         const field = useFieldControl({
-            id: () => root.triggerId,
+            // the trigger's rendered id: the consumer's, else the generated one
+            id: () => root.trigger.value?.id || root.triggerId,
             labelable: true,
             value: () => value.value,
             filled: () => value.value !== null,

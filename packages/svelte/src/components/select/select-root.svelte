@@ -41,7 +41,8 @@ let {
 let input = $state<HTMLInputElement | null>(null);
 // its options are read once the select below exists (in effects and handlers)
 const field = useFieldControl({
-    id: () => select.triggerId,
+    // the trigger's rendered id: the consumer's, else the generated one
+    id: () => select.trigger?.id || select.triggerId,
     labelable: true,
     value: () => select.value,
     filled: () => select.value !== null,

@@ -47,7 +47,8 @@ export function SelectRoot(props: SelectRootProps) {
     const [input, setInput] = createSignal<HTMLInputElement | null>(null);
     const baseId = createUniqueId();
     const field = createFieldControl({
-        id: () => root.triggerId,
+        // the trigger's rendered id: the consumer's, else the generated one
+        id: () => root.trigger()?.id || root.triggerId,
         labelable: true,
         value,
         filled: () => value() !== null,

@@ -55,7 +55,8 @@ export function SelectRoot({
     );
     const input = useRef<HTMLInputElement>(null);
     const field = useFieldControl({
-        id: root.triggerId,
+        // the trigger's rendered id: the consumer's, else the generated one
+        id: root.trigger?.id || root.triggerId,
         labelable: true,
         value,
         filled: value !== null,
