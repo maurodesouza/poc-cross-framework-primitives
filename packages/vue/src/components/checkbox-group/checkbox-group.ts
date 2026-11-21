@@ -60,7 +60,9 @@ export const CheckboxGroup = defineComponent({
                 state.set(
                     checked
                         ? order([
-                              ...current.filter((item: string) => item !== entry),
+                              ...current.filter(
+                                  (item: string) => item !== entry,
+                              ),
                               entry,
                           ])
                         : current.filter((item: string) => item !== entry),
