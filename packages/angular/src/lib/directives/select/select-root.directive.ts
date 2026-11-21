@@ -19,6 +19,7 @@ import type {
     ValueChangeEvent,
 } from "../../utils/change-details.ts";
 import { controllable } from "../../utils/controllable.ts";
+import { fieldControl } from "../../utils/field-control.ts";
 import {
     createHiddenInput,
     setInputAttribute,
@@ -72,6 +73,14 @@ export class SelectRoot {
     readonly required = input(false, { transform: booleanAttribute });
     readonly disabled = input(false, { transform: booleanAttribute });
 
+    /** The trigger's id, once it has one: the field's label points at it. */
+    readonly triggerElementId = signal<string | undefined>(undefined);
+    private readonly hidden = createHiddenInput(
+        inject(ElementRef).nativeElement,
+        {
+            "data-select-part": "input",
+        },
+    );
     readonly overlay = createOverlayRoot(
         this,
         (event) => this.openChangeDetails.emit(event),
@@ -84,24 +93,38 @@ export class SelectRoot {
         (value, details) => this.valueChangeDetails.emit({ value, details }),
     );
     readonly selected = this.selection.value;
+    /** The enclosing field's binding, for the trigger (spec/field.md). */
+    readonly field = fieldControl({
+        id: this.triggerElementId,
+        labelable: true,
+        value: this.selected,
+        filled: computed(() => this.selected() !== null),
+        input: () => this.hidden,
+    });
+    /** Its own `disabled`, or the field's. */
+    readonly isDisabled = computed(
+        () => this.disabled() || this.field.disabled(),
+    );
     readonly highlighted = signal<string | null>(null);
     readonly listId = `${createId("poc-select")}-list`;
     readonly placed = placementSignal({ side: "bottom", align: "start" });
     readonly state = computed<SelectState>(() => ({
         open: this.overlay.open(),
-        disabled: this.disabled(),
+        disabled: this.isDisabled(),
         value: this.selected(),
     }));
 
     constructor() {
-        const hidden = createHiddenInput(inject(ElementRef).nativeElement, {
-            "data-select-part": "input",
-        });
+        const hidden = this.hidden;
         effect(() => {
             hidden.value = this.selected() ?? "";
-            setInputAttribute(hidden, "name", this.name() ?? null);
+            setInputAttribute(
+                hidden,
+                "name",
+                this.field.name() ?? this.name() ?? null,
+            );
             hidden.required = this.required();
-            hidden.disabled = this.disabled();
+            hidden.disabled = this.isDisabled();
         });
         let stop: (() => void) | null = null;
         afterNextRender(() => {

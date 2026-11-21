@@ -14,6 +14,7 @@ import {
 } from "@poc/dom";
 import { injectFlush } from "../../utils/flush.ts";
 import { injectHost } from "../../utils/host-element.ts";
+import { ownAttribute } from "../../utils/own-attribute.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
 import { SliderRoot } from "./slider-root.directive.ts";
 
@@ -39,16 +40,21 @@ export interface SliderThumbState {
         "[attr.aria-valuetext]": "valueText()",
         "[attr.aria-orientation]": "state().orientation",
         "[attr.aria-disabled]": "state().disabled ? 'true' : null",
+        "[attr.aria-labelledby]": "labelledBy()",
+        "[attr.aria-describedby]": "ownDescribedBy ?? root.field.describedBy()",
+        "[attr.aria-invalid]": "root.field.ariaInvalid()",
         "[attr.data-orientation]": "data().orientation",
         "[attr.data-index]": "data().index",
         "[attr.data-disabled]": "data().disabled",
         "[attr.data-dragging]": "data().dragging",
         "[style]": "style()",
         "(keydown)": "onKeyDown($event)",
+        "(focus)": "root.field.focused()",
+        "(blur)": "root.field.blurred()",
     },
 })
 export class SliderThumb {
-    private readonly root = inject(SliderRoot);
+    protected readonly root = inject(SliderRoot);
     /** Its value's index (default: its order among the thumbs). */
     readonly index = input<number | undefined>(undefined);
     /** The text for `aria-valuetext`. */
@@ -58,6 +64,15 @@ export class SliderThumb {
     readonly disabled = input(false, { transform: booleanAttribute });
     private readonly host = injectHost();
     private readonly flush = injectFlush();
+    private readonly ownLabel = ownAttribute("aria-label");
+    private readonly ownLabelledBy = ownAttribute("aria-labelledby");
+    protected readonly ownDescribedBy = ownAttribute("aria-describedby");
+    /** The field's label names a thumb that has no name of its own. */
+    protected readonly labelledBy = computed(() =>
+        this.ownLabel !== null || this.ownLabelledBy !== null
+            ? this.ownLabelledBy
+            : this.root.field.labelledBy(),
+    );
     private readonly position = computed(
         () =>
             this.index() ?? Math.max(this.root.thumbs().indexOf(this.host), 0),
@@ -69,7 +84,7 @@ export class SliderThumb {
             value: root.values()[index] ?? root.min(),
             index,
             orientation: root.orientation(),
-            disabled: this.disabled() || root.disabled(),
+            disabled: this.disabled() || root.isDisabled(),
             dragging: root.dragging() && root.activeIndex() === index,
         };
     });
