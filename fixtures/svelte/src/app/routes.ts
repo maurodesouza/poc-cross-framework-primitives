@@ -7,9 +7,6 @@ import CalendarUnavailable from "../scenarios/calendar/calendar-unavailable.svel
 import CheckboxBasic from "../scenarios/checkbox/checkbox-basic.svelte";
 import CheckboxControlled from "../scenarios/checkbox/checkbox-controlled.svelte";
 import CheckboxGroupScenario from "../scenarios/checkbox/checkbox-group.svelte";
-import ComboboxBasic from "../scenarios/combobox/combobox-basic.svelte";
-import ComboboxControlled from "../scenarios/combobox/combobox-controlled.svelte";
-import ComboboxRejectedInput from "../scenarios/combobox/combobox-rejected-input.svelte";
 import DatePickerBasic from "../scenarios/date-picker/date-picker-basic.svelte";
 import DatePickerRange from "../scenarios/date-picker/date-picker-range.svelte";
 import DialogBasic from "../scenarios/dialog/dialog-basic.svelte";
@@ -54,9 +51,6 @@ export const routes: Record<string, Component<any>> = {
     "/menu/basic": MenuBasic,
     "/menu/submenu": MenuSubmenu,
     "/menu/groups": MenuGroups,
-    "/combobox/basic": ComboboxBasic,
-    "/combobox/controlled": ComboboxControlled,
-    "/combobox/rejected-input": ComboboxRejectedInput,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,

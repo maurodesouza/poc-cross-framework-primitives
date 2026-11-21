@@ -7,9 +7,6 @@ import { CalendarUnavailable } from "../scenarios/calendar/calendar-unavailable.
 import { CheckboxBasic } from "../scenarios/checkbox/checkbox-basic.tsx";
 import { CheckboxControlled } from "../scenarios/checkbox/checkbox-controlled.tsx";
 import { CheckboxGroupScenario } from "../scenarios/checkbox/checkbox-group.tsx";
-import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.tsx";
-import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.tsx";
-import { ComboboxRejectedInput } from "../scenarios/combobox/combobox-rejected-input.tsx";
 import { DatePickerBasic } from "../scenarios/date-picker/date-picker-basic.tsx";
 import { DatePickerRange } from "../scenarios/date-picker/date-picker-range.tsx";
 import { DialogBasic } from "../scenarios/dialog/dialog-basic.tsx";
@@ -53,9 +50,6 @@ export const routes: Record<string, ComponentType<{ locale: string }>> = {
     "/menu/basic": MenuBasic,
     "/menu/submenu": MenuSubmenu,
     "/menu/groups": MenuGroups,
-    "/combobox/basic": ComboboxBasic,
-    "/combobox/controlled": ComboboxControlled,
-    "/combobox/rejected-input": ComboboxRejectedInput,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,
