@@ -15,8 +15,12 @@ export const FRUITS: readonly Fruit[] = [
     { value: "orange", label: "Orange", disabled: true },
 ];
 
-/** The scenarios' filter: a case-insensitive "contains" on the label. */
-export function filterFruits(query: string): Fruit[] {
-    const needle = query.trim().toLowerCase();
-    return FRUITS.filter((fruit) => fruit.label.toLowerCase().includes(needle));
+/** How the output prints a value: its `value`, joined with `,`; `none` for nothing. */
+export function printValues(
+    value: { value: string } | readonly { value: string }[] | null,
+): string {
+    const list = value === null ? [] : Array.isArray(value) ? value : [value];
+    return list.length === 0
+        ? "none"
+        : list.map((entry: { value: string }) => entry.value).join(",");
 }
