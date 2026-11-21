@@ -21,8 +21,13 @@ export interface SliderContextValue {
     ) => readonly number[];
     /** Reports the values (default: the current ones) as committed. */
     commit: (values?: readonly number[]) => void;
-    /** The next thumb's default `index`: the thumbs' creation order. */
+    /**
+     * A thumb's default `index`: the lowest one no mounted thumb holds, so thumbs created in
+     * document order take 0, 1, ... and a thumb that remounts takes its index back.
+     */
     nextThumb: () => number;
+    /** A thumb unmounted: its default index is free again. */
+    releaseThumb: (index: number) => void;
     /** Each thumb's element by its index, for focusing the moved one (not reactive). */
     thumbElements: (HTMLElement | undefined)[];
     startDragging: (index: number) => void;

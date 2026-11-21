@@ -78,8 +78,8 @@ export function SliderRoot(props: SliderRootProps) {
         () => toArray(props.defaultValue ?? min()),
         (next, details) => props.onValueChange?.(output(next), details),
     );
-    // thumbs are created in document order (each takes the next index when it has none)
-    let created = 0;
+    // thumbs are created in document order (each takes the lowest free index when it has none)
+    const taken: boolean[] = [];
     const [dragging, setDragging] = createSignal(false);
     const [activeIndex, setActiveIndex] = createSignal(-1);
 
@@ -111,7 +111,17 @@ export function SliderRoot(props: SliderRootProps) {
             props.onValueCommit?.(output(values ?? current()), {
                 reason: "none",
             }),
-        nextThumb: () => created++,
+        nextThumb: () => {
+            let index = taken.indexOf(false);
+            if (index === -1) {
+                index = taken.length;
+            }
+            taken[index] = true;
+            return index;
+        },
+        releaseThumb: (index) => {
+            taken[index] = false;
+        },
         thumbElements: [],
         startDragging: (index) => {
             setActiveIndex(index);

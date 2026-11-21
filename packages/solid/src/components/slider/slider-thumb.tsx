@@ -4,7 +4,7 @@ import {
     thumbBounds,
     valueToPercent,
 } from "@poc/dom";
-import { createEffect, createSignal, useContext } from "solid-js";
+import { createEffect, createSignal, onCleanup, useContext } from "solid-js";
 import { type PartProps, renderPart } from "../../utils/part.tsx";
 import { stateAttributes } from "../../utils/state-attributes.ts";
 import { SliderContext } from "./slider-context.ts";
@@ -18,7 +18,7 @@ export interface SliderThumbState {
 }
 
 export interface SliderThumbProps extends PartProps<SliderThumbState> {
-    /** Its value's index (default: the thumbs' creation order, which is their order). */
+    /** Its value's index (default: its order among the mounted thumbs, as created). */
     index?: number;
     /** The text for `aria-valuetext`. */
     getAriaValueText?: (value: number, index: number) => string;
@@ -29,6 +29,7 @@ export interface SliderThumbProps extends PartProps<SliderThumbState> {
 export function SliderThumb(props: SliderThumbProps) {
     const context = useContext(SliderContext);
     const order = context.nextThumb();
+    onCleanup(() => context.releaseThumb(order));
     const index = () => props.index ?? order;
     const [element, setElement] = createSignal<HTMLElement | null>(null);
     createEffect(
