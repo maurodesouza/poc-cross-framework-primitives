@@ -46,7 +46,7 @@ a decision.
 
 ### What the numbers say
 
-- **Lines.** Ten components are 4934–5336 lines in every framework
+- **Lines.** Ten components are 4946–5336 lines in every framework
   ([frameworks.md §3](frameworks.md#3-sustainable-porting-yes-and-cheaper-once-the-model-is-mapped)).
   The logic has the same size everywhere. On top of that come 1479 lines of `@poc/dom`, written
   once, and 344–569 lines of framework infrastructure per package.

@@ -10,7 +10,7 @@
 | calendar | 756 | 453 | 37% |
 | date-picker | 333 | 263 | 44% |
 | select | 582 | 409 | 41% |
-| tooltip | 362 | 285 | 44% |
+| tooltip | 380 | 285 | 43% |
 | checkbox | 264 | 50 | 16% |
 | checkbox-group | 83 | 0 | 0% |
 | slider | 425 | 195 | 31% |

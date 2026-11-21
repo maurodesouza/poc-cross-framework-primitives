@@ -1,6 +1,6 @@
 {
     "framework": "svelte",
-    "generatedAt": "2026-11-21T11:46:33.128Z",
+    "generatedAt": "2026-11-21T12:00:41.980Z",
     "loc": {
         "components": [
             {
@@ -289,8 +289,8 @@
             "component": "slider",
             "ours": {
                 "entry": "export { Slider } from \"@poc/svelte\";",
-                "minified": 14678,
-                "gzip": 4428
+                "minified": 14945,
+                "gzip": 4454
             },
             "baseline": {
                 "entry": "export { Slider } from \"bits-ui\";",

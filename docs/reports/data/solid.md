@@ -13,7 +13,7 @@
 | tooltip | 375 | 280 | 43% |
 | checkbox | 229 | 45 | 16% |
 | checkbox-group | 105 | 0 | 0% |
-| slider | 454 | 195 | 30% |
+| slider | 466 | 195 | 30% |
 
 Shared framework infrastructure (hooks, utils): 400 lines. All of @poc/dom: 1479 lines.
 

@@ -77,8 +77,8 @@ Agent minutes from commit timestamps: a proxy, not human time.
 | relative to React | 1.0 | 0.6 | 0.7 | 1.6 | 1.9 |
 | the extras (Epics F, G) | ~16 | ~6 | ~7 (+3 dev-mode check) | ~14 | ~10 |
 | relative to React | 1.0 | 0.4 | 0.4 | 0.9 | 0.6 |
-| component lines, all ten | 5123 | 5336 | 5101 | 4934 | 5007 |
-| of which the extras | 1825 | 1859 | 1824 | 1729 | 1716 |
+| component lines, all ten | 5123 | 5336 | 5101 | 4946 | 5025 |
+| of which the extras | 1825 | 1859 | 1824 | 1741 | 1734 |
 | shared infrastructure lines | 377 | 424 | 344 | 400 | 569 |
 
 - **React's extras include designing them**: `@poc/dom`'s new modules, the `@poc/styles` recipes
@@ -105,11 +105,11 @@ remains".
 **What a port still pays for** is the framework's runtime model, as in Epic E. It is now paid
 once per framework, in the checklist, instead of once per component.
 
-- **Lines barely move** (4934–5336 for ten components). The component logic has the same size
+- **Lines barely move** (4946–5336 for ten components). The component logic has the same size
   everywhere, and the hard parts are written once in `@poc/dom` (1479 lines, up from 1111 with
   the extras' modules).
 - **The `@poc/dom` share per component is the same in every framework**, since all five import
-  the same modules. For example, Select is about 40%, Tooltip 41–44% and Slider 30% (the
+  the same modules. For example, Select is about 40%, Tooltip 41–43% and Slider 30% (the
   data files' "share in @poc/dom").
 
 ## 4. Bounded duplication: yes, with the residue now known

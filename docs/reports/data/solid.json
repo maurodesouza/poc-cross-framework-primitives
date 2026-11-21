@@ -1,6 +1,6 @@
 {
     "framework": "solid",
-    "generatedAt": "2026-11-21T11:46:34.444Z",
+    "generatedAt": "2026-11-21T12:00:43.314Z",
     "loc": {
         "components": [
             {
@@ -134,7 +134,7 @@
             },
             {
                 "component": "slider",
-                "framework": 454,
+                "framework": 466,
                 "dom": 195,
                 "domModules": [
                     "direction/direction.ts",
@@ -283,8 +283,8 @@
             "component": "slider",
             "ours": {
                 "entry": "export { Slider } from \"@poc/solid\";",
-                "minified": 10913,
-                "gzip": 3851
+                "minified": 11072,
+                "gzip": 3902
             },
             "baseline": {
                 "entry": "export { Slider } from \"@kobalte/core/slider\";",

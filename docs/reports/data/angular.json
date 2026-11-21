@@ -1,6 +1,6 @@
 {
     "framework": "angular",
-    "generatedAt": "2026-11-21T11:46:54.061Z",
+    "generatedAt": "2026-11-21T12:01:03.521Z",
     "loc": {
         "components": [
             {
@@ -117,7 +117,7 @@
             },
             {
                 "component": "tooltip",
-                "framework": 362,
+                "framework": 380,
                 "dom": 285,
                 "domModules": [
                     "hover/delay-group.ts",
@@ -261,8 +261,8 @@
             "component": "tooltip",
             "ours": {
                 "entry": "export { TooltipArrow, TooltipPopup, TooltipPortal, TooltipPositioner, TooltipProvider, TooltipRoot, TooltipTrigger } from \"@poc/angular\";",
-                "minified": 39861,
-                "gzip": 12178
+                "minified": 40073,
+                "gzip": 12226
             },
             "baseline": null
         },
