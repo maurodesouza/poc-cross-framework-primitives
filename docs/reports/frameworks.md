@@ -193,9 +193,16 @@ PR #46's two CI runs, then passed on retry.
   before then was overridden.
 - **Fix:** the test now waits for the highlighted option (`data-highlighted`) after the
   typeahead, on open and after Home. That is an extra assertion for every implementation, not a
-  weaker one for the baseline.
+  weaker one for the baseline. The Epic G pull request's first CI run showed the same race in two
+  more baseline Select tests ("ArrowDown opens it, Enter chooses", "reopened, the selected option
+  is highlighted"), which now wait the same way.
+- **The same run flaked Angular's Select axe check once**: color contrast on a half-faded list.
+  Zoneless Angular drops `data-starting-style` a frame or two after the popup is visible, so the
+  enter transition had not started when the axe helper looked for running animations. The helper
+  now waits two frames, then for every animation, until none is left, for every implementation.
 - **Verification:**
-  - the fixed test passed `--repeat-each 20` on baseline, React and Vue;
+  - the fixed test passed `--repeat-each 20` on baseline, React and Vue, and the whole Select
+    behaviour file passed `--repeat-each 20` on all six projects (1680 runs);
   - the old test never failed locally (400 runs on 48 workers, and 80 runs at 25× CPU
     throttling), so CI is where the fix is confirmed.
 
