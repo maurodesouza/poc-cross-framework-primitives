@@ -103,7 +103,8 @@ export const ComboboxRoot = defineComponent({
     setup(props, { emit, slots }) {
         const root = useOverlayRoot(props, emit);
         const multiple = () => props.multiple;
-        const defaultValue: unknown =
+        // read at reset time too: the form reset takes the current default (as React does)
+        const defaultValue = (): unknown =>
             props.defaultValue ?? (props.multiple ? NONE : null);
         const label = (item: unknown) =>
             itemLabel(item, props.itemToStringLabel);
@@ -111,7 +112,7 @@ export const ComboboxRoot = defineComponent({
             itemFormValue(item, props.itemToStringValue);
         const valueState = useControllable<unknown, ChangeDetails>(
             () => props.value,
-            defaultValue,
+            defaultValue(),
             (next, details) => {
                 emit("update:value", next);
                 emit("valueChange", next, details);
@@ -128,7 +129,7 @@ export const ComboboxRoot = defineComponent({
         const inputState = useControllable<string, ChangeDetails>(
             () => props.inputValue,
             props.defaultInputValue ??
-                (props.multiple ? "" : label(props.value ?? defaultValue)),
+                (props.multiple ? "" : label(props.value ?? defaultValue())),
             (next, details) => {
                 emit("update:inputValue", next);
                 emit("inputValueChange", next, details);
@@ -156,11 +157,14 @@ export const ComboboxRoot = defineComponent({
             if (!next || reason !== "input-change") {
                 typed.value = false;
             }
-            if (!next) {
-                pendingHighlight.current = null;
-            }
             root.setOpen(next, reason);
-            if (next || reason === "item-press") {
+            if (next) {
+                return;
+            }
+            // a list reopened during its exit animation starts with no highlight
+            highlighted.value = null;
+            pendingHighlight.current = null;
+            if (reason === "item-press") {
                 return;
             }
             // closing without a choice resets the text (spec/combobox.md, "Choosing an item")
@@ -271,9 +275,10 @@ export const ComboboxRoot = defineComponent({
                 onCleanup(
                     bridgeForm(element, {
                         reset: () => {
-                            valueState.set(defaultValue, { reason: "none" });
+                            const initial = defaultValue();
+                            valueState.set(initial, { reason: "none" });
                             inputState.set(
-                                props.multiple ? "" : label(defaultValue),
+                                props.multiple ? "" : label(initial),
                                 { reason: "none" },
                             );
                             // the browser reset the elements: write the state back once rendered
@@ -319,9 +324,10 @@ export const ComboboxRoot = defineComponent({
                     "data-combobox-part": "hidden-input",
                 }),
                 ...(isMultiple && fieldName !== undefined
-                    ? values.value.map((item) =>
+                    ? values.value.map((item, index) =>
                           h("input", {
-                              key: formValue(item),
+                              // two values may share a form value
+                              key: index,
                               type: "hidden",
                               name: fieldName,
                               value: formValue(item),

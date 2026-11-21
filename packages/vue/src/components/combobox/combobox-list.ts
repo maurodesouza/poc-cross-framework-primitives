@@ -18,7 +18,14 @@ export const ComboboxList = defineComponent({
         const context = useRequiredContext(ComboboxKey, "Combobox.List");
         const setList = elementSetter(context.list);
         watch(
-            () => [context.list.value, context.itemCount.value] as const,
+            // runs when the list opens (a list reopened while it closes keeps its element), or its
+            // items change
+            () =>
+                [
+                    context.list.value,
+                    context.itemCount.value,
+                    context.open.value,
+                ] as const,
             ([list]) => {
                 const pending = context.pendingHighlight.current;
                 if (list === null || pending === null) {

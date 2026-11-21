@@ -138,6 +138,14 @@ export const ComboboxInput = defineComponent({
             const open = context.open.value;
             const disabled = context.disabled();
             const highlighted = context.highlighted.value;
+            // a rendered option's id only, never a stale one (the item count tracks the options)
+            void context.itemCount.value;
+            const active =
+                highlighted === null
+                    ? undefined
+                    : orderedItems(context).find(
+                          (item) => item.id === highlighted,
+                      );
             const { field } = context;
             return renderPart(
                 "input",
@@ -155,7 +163,7 @@ export const ComboboxInput = defineComponent({
                     "aria-expanded": open ? "true" : "false",
                     "aria-controls": context.listId,
                     "aria-activedescendant":
-                        open && highlighted !== null ? highlighted : undefined,
+                        open && active ? active.id : undefined,
                     ...field.aria(),
                     "data-combobox-part": "input",
                     ...field.attributes(),

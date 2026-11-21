@@ -183,6 +183,10 @@ List, Group, GroupLabel, Separator, Item, ItemIndicator), on the same `@poc/dom`
 | form reset | the browser resets the visible Input and the hidden input after the Root's state, and Vue does not re-patch a value that did not change in the state: after the reset, the Root writes the text and the form value back once rendered (`nextTick`) | `@poc/vue` (from the start) |
 | any-type props | `PropType<unknown>` on `value` and `defaultValue` made vue-tsc type the fixtures' `v-model:value` as `undefined`; `type: null` (any type) fixes it | `@poc/vue` |
 | fixture | text nodes as JSX makes them: an item's label glued to its ItemIndicator, a chip's label to its ChipRemove, each button's text on one line; the shared items and `printValues` are React's files as they are | `fixtures/vue` (from the start) |
+| close and reopen (review) | a list reopened during its 150 ms exit animation kept its stale highlight: the close dropped only the pending one, and the List's watcher did not re-run for the same element and item count. Every close sets the highlight to `null` (the Root's `setOpen`), and the watcher also watches `open`, so ArrowDown applies "first" again (as React's 29169bd) | `@poc/vue` |
+| Input (review) | `aria-activedescendant` took the highlighted id as is: it is set only when that id belongs to a rendered option (`orderedItems(...).find(...)`, as React does), never a stale one | `@poc/vue` |
+| hidden inputs (review) | the `multiple` form entries were keyed by form value: two values that share one gave duplicate keys. They are keyed by index (as React) | `@poc/vue` |
+| form reset (review) | `defaultValue` was read once at setup: the reset takes the current `defaultValue`, as React does | `@poc/vue` |
 
 A finding outside Vue: `pnpm test` fails one test on the Epic branch,
 `packages/styles/tests/spec-coverage.test.ts` › `combobox.md`: the spec's `hidden-input` part has
