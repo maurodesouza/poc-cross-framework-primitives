@@ -17,6 +17,9 @@ import { DialogControlled } from "../scenarios/dialog/dialog-controlled.tsx";
 import { DialogInitialFocus } from "../scenarios/dialog/dialog-initial-focus.tsx";
 import { DialogNestedPopover } from "../scenarios/dialog/dialog-nested-popover.tsx";
 import { DialogRejectedClose } from "../scenarios/dialog/dialog-rejected-close.tsx";
+import { FieldBasic } from "../scenarios/field/field-basic.tsx";
+import { FieldControls } from "../scenarios/field/field-controls.tsx";
+import { FieldValidation } from "../scenarios/field/field-validation.tsx";
 import { MenuBasic } from "../scenarios/menu/menu-basic.tsx";
 import { MenuGroups } from "../scenarios/menu/menu-groups.tsx";
 import { MenuSubmenu } from "../scenarios/menu/menu-submenu.tsx";
@@ -77,4 +80,7 @@ export const routes: Record<string, Component<{ locale: string }>> = {
     "/slider/vertical": SliderVertical,
     "/slider/rtl": SliderBasic,
     "/slider/controlled": SliderControlled,
+    "/field/basic": FieldBasic,
+    "/field/validation": FieldValidation,
+    "/field/controls": FieldControls,
 };
