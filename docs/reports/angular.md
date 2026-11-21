@@ -195,3 +195,57 @@ Zoneless timing (checklist item 8) needed nothing new: a submission attempt, a b
 render in the next task, which the suite's polling assertions meet, and the slider's key and the
 select's choice already flush. In dev mode (`vite`), the three scenarios log no error or warning
 while submitted, typed into, toggled, chosen and moved by a key.
+
+## Combobox parity (Epic I)
+
+The new Combobox (Fragiola UI parity, #60) ported to Angular: every part of the spec as a
+directive on the consumer's own element (Root, InputGroup, Input, Trigger, Clear, Chips, Chip,
+ChipRemove, Status, Portal, Positioner, Popup, Empty, List, Group, GroupLabel, Separator, Item,
+ItemIndicator; no Value, see "API"), on the same `@poc/dom` helpers as React (`filterItems`,
+`containsFilter`, `queryIsLabel`, `itemLabel`, `itemFormValue`, `includesItem`, `toggleItem`,
+`chipKeyTarget`, `chipArrows`, `stepThroughNone`, `openOverlaySession`, `bridgeForm`). The old
+Angular Combobox was rewritten, not extended.
+
+| part | `@poc/angular` (lines) | `@poc/react` (lines) |
+| --- | --- | --- |
+| `lib/directives/combobox/` (19 directives) and `lib/inject/inject-combobox.ts` | 1380 | 1382 (`components/combobox/`, 22 files) |
+| of which the Root | 473 | 408 |
+| `lib/utils/conditional-view.ts` (new: the structural Clear and ItemIndicator) | 65 | |
+| fixture (`scenarios/combobox/`: nine scenarios, the shared template pieces, the parts list, the items) | 645 in 13 files | 734 (with `kit/ui/combobox.tsx`) |
+
+- **Conformance**: `--project=angular` 214 passed, 31 skipped (the visual layer, local), 0
+  failed, the 42 Combobox behaviour and contract tests included, all green on the first run;
+  the Combobox tests again with `--repeat-each=5`: 210 passed. The visual layer matched React's
+  screenshots made on this machine, 5 of 5, on the first run. A DOM dump of the nine routes,
+  closed and open, against React's fixture is identical once Angular's directive attributes
+  (`comboboxinput=""`) and class order are set aside: text nodes, the hidden inputs' places and
+  the portal's content included. No test, snapshot or spec changed.
+- **API**: `<ng-container comboboxRoot #combobox="comboboxRoot" [items]="fruits" [(value)]="value"
+  [(inputValue)]="text" [(open)]="open">`, with `(valueChangeDetails)`,
+  `(inputValueChangeDetails)` and `(openChangeDetails)` for the details; `filter`,
+  `isItemEqualToValue`, `itemToStringLabel` and `itemToStringValue` are function inputs, and a
+  value is any type (`ComboboxItemValue`). The List's render function is `@for` over its
+  `entries()` signal, read through `exportAs`:
+  `<div comboboxList #list="comboboxList">@for (fruit of list.entries(); track fruit.value) {...}`;
+  without `items`, the consumer's own `@for` is the List's content, as before. There is no Value
+  directive: the Root's `value()` is the current value, bound or its own (the `value` input is
+  `boundValue`, aliased `value`, so that `value()` can be the state), and the consumer renders
+  the chips with `@for (item of combobox.value(); ...)`; `inputValue()` likewise. Clear and
+  ItemIndicator are structural (`<button *comboboxClear>`, `<span *comboboxItemIndicator>`, `="true"`
+  to keep it mounted), the Portal as before (`*comboboxPortal`). The four new change reasons
+  (`input-press`, `input-clear`, `clear-press`, `chip-remove-press`) are in the Angular
+  `ChangeReason`.
+- **Boundary pressure on `@poc/dom`: none.** The port writes the combobox's state, its lifecycle
+  and the Angular API only.
+
+### Port log (Combobox parity)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Empty | React renders `empty ? children : null` in an element that always exists (a live region); an attribute directive cannot drop its own content. The Empty keeps its child nodes in a fragment while the list is not empty and puts them back when it is (`afterRenderEffect`), so Angular's bindings inside stay live and the element is empty, as React's | `@poc/angular` (from the start) |
+| Clear | a part rendered only while there is a value is structural: `*comboboxClear` renders its template through `conditionalView`, writes `type`, `tabindex`, `disabled` and the part attribute on the element, listens to its press, and registers it as the Clear button (the list's outside press ignores it) | `@poc/angular` (from the start) |
+| Value | `value` as a two-way input and `value()` as the current state need two members: the input is `boundValue` with the alias `value`, and `value` is the controllable state; the same for `inputValue` | `@poc/angular` |
+| hidden inputs | the Root sits on an `<ng-container>`, whose comment follows its children: the visually hidden input goes right after it (`createHiddenInput`, as the Select's), and with `multiple` and a `name` one `type="hidden"` input per value after that one, rewritten after each render. A form reset writes the text and the form value back after rendering the defaults, since the browser resets the elements after the state and a state that did not change is not written again | `@poc/angular` (from the start) |
+| the pending highlight | the Vue port's lesson: the List's `afterRenderEffect` consumes "first" / "last" / "selected" only once every rendered `option` has registered, and re-runs on each registration | `@poc/angular` (from the start) |
+| zoneless timing (rule 8) | a highlight move, a chip removal (its focus target is a chip of the new list), a choice that keeps a `multiple` list open, and Clear render at once (`injectFlush`), besides the open and close the overlay root already flushes | `@poc/angular` (from the start) |
+| fixture | React's `FruitCombobox`, `FruitPopup` and `FruitChips` are components; an Angular component would add its host element, and the Root's hidden input must follow the Root's children at the scenario's level. They are template strings (and one function returning one) spliced into each scenario's `template`: ngc evaluates them statically and type-checks the result. Text nodes as JSX makes them: an item's label glued to its ItemIndicator, a chip's label to its ChipRemove, each button's text on one line; the items and `printValues` are React's files as they are | `fixtures/angular` (from the start) |
