@@ -1,9 +1,13 @@
-import { computed, Directive, inject } from "@angular/core";
-import { stepThroughNone } from "@poc/dom";
+import { afterNextRender, computed, Directive, inject } from "@angular/core";
+import { chipArrows, getDirection, stepThroughNone } from "@poc/dom";
+import { writeFieldAria } from "../../utils/field-control.ts";
 import { injectFlush } from "../../utils/flush.ts";
 import { registerHost } from "../../utils/host-element.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
-import { ComboboxRoot } from "./combobox-root.directive.ts";
+import {
+    ComboboxRoot,
+    type PendingHighlight,
+} from "./combobox-root.directive.ts";
 
 /**
  * The `combobox`: `<input comboboxInput>`. It keeps DOM focus while the list is open; the
@@ -19,63 +23,89 @@ import { ComboboxRoot } from "./combobox-root.directive.ts";
         "aria-autocomplete": "list",
         "data-combobox-part": "input",
         "[attr.disabled]": "data().disabled",
-        "[value]": "root.typed()",
+        "[value]": "root.inputValue()",
         "[attr.aria-expanded]": "String(state().open)",
         "[attr.aria-controls]": "root.listId",
         "[attr.aria-activedescendant]": "activeId()",
+        "[attr.data-invalid]": "root.field.data().invalid",
+        "[attr.data-valid]": "root.field.data().valid",
+        "[attr.data-dirty]": "root.field.data().dirty",
+        "[attr.data-touched]": "root.field.data().touched",
+        "[attr.data-filled]": "root.field.data().filled",
+        "[attr.data-focused]": "root.field.data().focused",
         "[attr.data-open]": "data().open",
         "[attr.data-disabled]": "data().disabled",
         "(input)": "onInput()",
+        "(click)": "root.openOnPress()",
         "(keydown)": "onKeyDown($event)",
+        "(focus)": "root.field.focused()",
+        "(blur)": "root.field.blurred()",
     },
 })
 export class ComboboxInput {
     protected readonly root = inject(ComboboxRoot);
     readonly state = computed(() => ({
         open: this.root.overlay.open(),
-        disabled: this.root.disabled(),
+        disabled: this.root.isDisabled(),
     }));
     protected readonly data = computed(() => dataValues(this.state()));
-    protected readonly activeId = computed(() => {
+    /** The highlighted item, while the list is open and the item is rendered. */
+    private readonly active = computed(() => {
         this.root.itemCount();
         const highlighted = this.root.highlighted();
         if (!this.state().open || highlighted === null) {
-            return null;
+            return undefined;
         }
-        return (
-            this.root.orderedItems().find((item) => item.value === highlighted)
-                ?.id ?? null
-        );
+        return this.root.orderedItems().find((item) => item.id === highlighted);
     });
+    protected readonly activeId = computed(() => this.active()?.id ?? null);
     protected readonly String = String;
     private readonly input = registerHost<HTMLInputElement>(
         this.root.overlay.trigger,
     );
     private readonly flush = injectFlush();
 
+    constructor() {
+        const { field } = this.root;
+        const host = this.input;
+        writeFieldAria(field, host, {
+            "aria-labelledby": field.labelledBy,
+            "aria-describedby": field.describedBy,
+            "aria-invalid": field.ariaInvalid,
+        });
+        // the consumer's own id wins (the label's `for` points at it)
+        afterNextRender(() => {
+            if (host.id === "") {
+                host.id = this.root.overlay.triggerId;
+            }
+            this.root.inputElementId.set(host.id);
+        });
+    }
+
     protected onInput(): void {
         const root = this.root;
         root.setInputValue(this.input.value, "input-change");
         root.highlighted.set(null);
+        root.markTyped();
         if (!root.overlay.open()) {
-            root.pendingHighlight = null;
-            root.overlay.setOpen(true, "input-change");
+            root.pendingHighlight.set(null);
+            root.setOpen(true, "input-change");
         }
         // a bound `inputValue` the consumer kept unchanged does not re-run the binding: put the
         // accepted text back (React re-asserts a controlled value too)
         this.flush();
-        if (this.input.value !== root.typed()) {
-            this.input.value = root.typed();
+        if (this.input.value !== root.inputValue()) {
+            this.input.value = root.inputValue();
         }
     }
 
     protected onKeyDown(event: KeyboardEvent): void {
         const root = this.root;
+        const input = this.input;
         const open = root.overlay.open();
-        const highlighted = root.highlighted();
-        const openWith = (highlight: "first" | "last" | null) => {
-            root.pendingHighlight = highlight;
-            root.overlay.setOpen(true, "list-navigation");
+        const openWith = (highlight: PendingHighlight) => {
+            root.pendingHighlight.set(highlight);
+            root.setOpen(true, "list-navigation");
         };
         switch (event.key) {
             case "ArrowDown":
@@ -85,7 +115,7 @@ export class ComboboxInput {
                     if (event.key === "ArrowDown" && !open) {
                         openWith(null);
                     } else if (event.key === "ArrowUp" && open) {
-                        root.overlay.setOpen(false, "list-navigation");
+                        root.setOpen(false, "list-navigation");
                     }
                     return;
                 }
@@ -97,11 +127,11 @@ export class ComboboxInput {
                 // near end
                 const items = root.orderedItems();
                 const index = items.findIndex(
-                    (item) => item.value === highlighted,
+                    (item) => item.id === root.highlighted(),
                 );
                 const delta = event.key === "ArrowDown" ? 1 : -1;
-                root.highlighted.set(
-                    items[stepThroughNone(items.length, index, delta)]?.value ??
+                root.highlight(
+                    items[stepThroughNone(items.length, index, delta)]?.id ??
                         null,
                 );
                 return;
@@ -109,8 +139,9 @@ export class ComboboxInput {
             case "Enter":
                 if (open) {
                     event.preventDefault();
-                    if (highlighted !== null) {
-                        root.choose(highlighted);
+                    const active = this.active();
+                    if (active !== undefined && !active.disabled) {
+                        root.choose(active.value);
                     }
                 }
                 return;
@@ -118,18 +149,40 @@ export class ComboboxInput {
                 // the open list's layer takes Escape first; here the list is closed
                 if (
                     !open &&
-                    (root.typed() !== "" || root.selected() !== null)
+                    (root.inputValue() !== "" || root.values().length > 0)
                 ) {
                     event.preventDefault();
-                    root.clear();
+                    root.clear("escape-key");
                 }
                 return;
             case "Tab":
                 if (open) {
-                    root.overlay.setOpen(false, "focus-out");
+                    root.setOpen(false, "focus-out");
                 }
                 return;
-            default:
+            case "Backspace":
+                if (
+                    root.multiple() &&
+                    input.value === "" &&
+                    root.values().length > 0
+                ) {
+                    root.removeAt(root.values().length - 1, "none");
+                }
+                return;
+            default: {
+                const chips = root.chipElements();
+                if (
+                    root.multiple() &&
+                    event.key ===
+                        chipArrows(getDirection(input) === "rtl").previous &&
+                    input.selectionStart === 0 &&
+                    input.selectionEnd === 0 &&
+                    chips.length > 0
+                ) {
+                    event.preventDefault();
+                    chips.at(-1)?.focus();
+                }
+            }
         }
     }
 }

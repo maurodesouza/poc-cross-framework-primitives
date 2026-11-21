@@ -24,7 +24,7 @@ export class ComboboxTrigger {
     protected readonly root = inject(ComboboxRoot);
     readonly state = computed(() => ({
         open: this.root.overlay.open(),
-        disabled: this.root.disabled(),
+        disabled: this.root.isDisabled(),
     }));
     protected readonly data = computed(() => dataValues(this.state()));
     protected readonly String = String;
@@ -35,8 +35,8 @@ export class ComboboxTrigger {
 
     protected onClick(): void {
         const root = this.root;
-        root.pendingHighlight = null;
-        root.overlay.setOpen(!root.overlay.open(), "trigger-press");
+        root.pendingHighlight.set(null);
+        root.setOpen(!root.overlay.open(), "trigger-press");
         root.overlay.trigger()?.focus();
     }
 }

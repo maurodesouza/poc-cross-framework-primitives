@@ -12,7 +12,10 @@ import {
 import { createId } from "@poc/dom";
 import { injectHost } from "../../utils/host-element.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
-import { ComboboxRoot } from "./combobox-root.directive.ts";
+import {
+    type ComboboxItemValue,
+    ComboboxRoot,
+} from "./combobox-root.directive.ts";
 
 export interface ComboboxItemState {
     highlighted: boolean;
@@ -20,7 +23,10 @@ export interface ComboboxItemState {
     disabled: boolean;
 }
 
-/** An option: `<div comboboxItem value="apple">`. A disabled item can be highlighted, never chosen. */
+/**
+ * An `option`: `<div comboboxItem [value]="fruit">`. When chosen, the input's text becomes
+ * `itemToStringLabel(value)`. A disabled item can be highlighted, never chosen.
+ */
 @Directive({
     selector: "[comboboxItem]",
     exportAs: "comboboxItem",
@@ -40,14 +46,12 @@ export interface ComboboxItemState {
 })
 export class ComboboxItem {
     private readonly root = inject(ComboboxRoot);
-    readonly value = input.required<string>();
-    /** Written into the input when chosen (default: the item's text). */
-    readonly label = input<string | undefined>(undefined);
+    readonly value = input.required<ComboboxItemValue>();
     readonly disabled = input(false, { transform: booleanAttribute });
     protected readonly id = createId("poc-combobox-item");
     readonly state = computed<ComboboxItemState>(() => ({
-        highlighted: this.root.highlighted() === this.value(),
-        selected: this.root.selected() === this.value(),
+        highlighted: this.root.highlighted() === this.id,
+        selected: this.root.isSelected(this.value()),
         disabled: this.disabled(),
     }));
     protected readonly data = computed(() => dataValues(this.state()));
@@ -63,7 +67,6 @@ export class ComboboxItem {
                 unregister?.();
                 unregister = root.registerItem(host, {
                     value,
-                    label: () => this.label() ?? host.textContent ?? "",
                     disabled,
                     id: this.id,
                 });
@@ -79,7 +82,7 @@ export class ComboboxItem {
 
     protected onPointerMove(): void {
         if (!this.state().highlighted) {
-            this.root.highlighted.set(this.value());
+            this.root.highlighted.set(this.id);
         }
     }
 

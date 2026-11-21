@@ -7,9 +7,17 @@ import {
 } from "@angular/core";
 import { registerHost } from "../../utils/host-element.ts";
 import { dataValues } from "../../utils/state-attributes.ts";
-import { ComboboxRoot } from "./combobox-root.directive.ts";
+import {
+    type ComboboxItemValue,
+    ComboboxRoot,
+} from "./combobox-root.directive.ts";
 
-/** The `listbox`: `<div comboboxList>`. Applies the highlight the keyboard asked for once its items render. */
+/**
+ * The `listbox`: `<div comboboxList #list="comboboxList">`. With the Root's `items`, its
+ * `entries()` are the matching items, or groups with their matching items: the consumer renders
+ * them with `@for (entry of list.entries(); ...)` (the List's render function in Angular).
+ * Applies the highlight the keyboard asked for once its items render.
+ */
 @Directive({
     selector: "[comboboxList]",
     exportAs: "comboboxList",
@@ -17,12 +25,17 @@ import { ComboboxRoot } from "./combobox-root.directive.ts";
         role: "listbox",
         "data-combobox-part": "list",
         "[attr.id]": "root.listId",
+        "[attr.aria-multiselectable]": "root.multiple() ? 'true' : null",
         "[attr.data-empty]": "data().empty",
     },
 })
 export class ComboboxList {
     protected readonly root = inject(ComboboxRoot);
-    readonly state = computed(() => ({ empty: this.root.itemCount() === 0 }));
+    /** The matching entries (with the Root's `items`). */
+    readonly entries = computed<readonly ComboboxItemValue[]>(() =>
+        this.root.entries(),
+    );
+    readonly state = computed(() => ({ empty: this.root.empty() }));
     protected readonly data = computed(() => dataValues(this.state()));
 
     constructor() {
@@ -30,20 +43,25 @@ export class ComboboxList {
         registerHost(root.list);
         afterRenderEffect(() => {
             const list = root.list();
+            const pending = root.pendingHighlight();
             root.itemCount();
+            if (list === null || pending === null) {
+                return;
+            }
             untracked(() => {
-                const pending = root.pendingHighlight;
-                if (list === null || pending === null) {
+                // the rendered options register after the list: wait for every one of them
+                if (!root.itemsRegistered()) {
                     return;
                 }
-                root.pendingHighlight = null;
+                root.pendingHighlight.set(null);
                 const items = root.orderedItems();
-                const selected = items.find(
-                    (item) => item.value === root.selected(),
-                );
+                const selected = root.multiple()
+                    ? undefined
+                    : items.find((item) => root.isSelected(item.value));
+                const edge = pending === "first" ? items[0] : items.at(-1);
                 const target =
-                    selected ?? (pending === "first" ? items[0] : items.at(-1));
-                root.highlighted.set(target?.value ?? null);
+                    selected ?? (pending === "selected" ? undefined : edge);
+                root.highlighted.set(target?.id ?? null);
             });
         });
     }
