@@ -67,9 +67,9 @@ let {
     children?: Snippet;
 } = $props();
 
-const initialValue: unknown = untrack(
-    () => defaultValue ?? (multiple ? [] : null),
-);
+// read at reset time too: the form reset takes the current default (as React does)
+const currentDefault = (): unknown => defaultValue ?? (multiple ? [] : null);
+const initialValue: unknown = untrack(currentDefault);
 let hidden = $state<HTMLInputElement | null>(null);
 // its options are read once the state below exists (in effects and handlers)
 const field = useFieldControl({
@@ -137,9 +137,10 @@ $effect(() => {
     }
     return bridgeForm(element, {
         reset: () => {
-            combobox.setValue(initialValue, "none");
+            const initial = untrack(currentDefault);
+            combobox.setValue(initial, "none");
             combobox.setInputValue(
-                combobox.multiple ? "" : combobox.label(initialValue),
+                combobox.multiple ? "" : combobox.label(initial),
                 "none",
             );
             // the browser reset the inputs to their own defaults: write the state back (an
@@ -160,4 +161,4 @@ $effect(() => {
 const fieldName = $derived(field.name ?? name);
 </script>
 
-{@render children?.()}<input bind:this={hidden} aria-hidden="true" tabindex={-1} name={multiple ? undefined : fieldName} value={multiple ? "" : combobox.formValue(combobox.value)} required={multiple ? required && combobox.values.length === 0 : required} {disabled} style={HIDDEN_INPUT_STYLE} data-combobox-part="hidden-input" />{#if multiple && fieldName !== undefined}{#each combobox.values as item (combobox.formValue(item))}<input type="hidden" name={fieldName} value={combobox.formValue(item)} {disabled} data-combobox-part="hidden-input" />{/each}{/if}
+{@render children?.()}<input bind:this={hidden} aria-hidden="true" tabindex={-1} name={multiple ? undefined : fieldName} value={multiple ? "" : combobox.formValue(combobox.value)} required={multiple ? required && combobox.values.length === 0 : required} {disabled} style={HIDDEN_INPUT_STYLE} data-combobox-part="hidden-input" />{#if multiple && fieldName !== undefined}{#each combobox.values as item, index (index)}<input type="hidden" name={fieldName} value={combobox.formValue(item)} {disabled} data-combobox-part="hidden-input" />{/each}{/if}

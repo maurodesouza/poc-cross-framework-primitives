@@ -30,7 +30,10 @@ const renderItems = $derived(children as Snippet | undefined);
 
 $effect(() => {
     const list = context.list;
+    // runs when the list opens (a list reopened while it closes keeps its element), or its
+    // items change
     context.itemsVersion;
+    context.open;
     untrack(() => {
         const pending = context.pendingHighlight.current;
         if (list === null || pending === null) {

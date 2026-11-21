@@ -225,3 +225,6 @@ Svelte's own (it exists only because of `$state` proxies) and stays in `@poc/sve
 | List | `Omit<PartProps, "children">` kept only the index signature, so `child` lost its type | `@poc/svelte`: the List's props `Pick` the part props it keeps |
 | Group | `$props.id()` inside a template literal does not compile | `@poc/svelte`: the id first, then the label id from it |
 | fixture | no `kit/ui` in the Svelte fixture: classes inline, React's `FruitPopup` its own `fruit-popup.svelte` (one component per file), the route imports sorted by Biome | `fixtures/svelte` |
+| close and reopen (review) | a list reopened during its 150 ms exit animation kept its stale highlight: the close dropped only the pending one, and the List's effect did not re-run for the same element and items. Every close sets the highlight to `null` (`ComboboxState.setOpen`), and the effect also reads `open`, so ArrowDown applies "first" again (as React's 29169bd) | `@poc/svelte` |
+| hidden inputs (review) | the `multiple` form entries' `{#each ... (formValue)}` throws on two values that share a form value (`each_key_duplicate`): keyed by index (as React) | `@poc/svelte` |
+| form reset (review) | `defaultValue` was read once at setup: the reset takes the current `defaultValue`, as React does | `@poc/svelte` |

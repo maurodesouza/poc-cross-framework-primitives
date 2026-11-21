@@ -273,11 +273,14 @@ export class ComboboxState extends OverlayRoot {
         if (!next || reason !== "input-change") {
             this.typed = false;
         }
-        if (!next) {
-            this.pendingHighlight.current = null;
-        }
         super.setOpen(next, reason);
-        if (next || reason === "item-press") {
+        if (next) {
+            return;
+        }
+        // a list reopened during its exit animation starts with no highlight
+        this.highlighted = null;
+        this.pendingHighlight.current = null;
+        if (reason === "item-press") {
             return;
         }
         // closing without a choice resets the text (spec/combobox.md, "Choosing an item")
