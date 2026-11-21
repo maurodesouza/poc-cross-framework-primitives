@@ -9,7 +9,9 @@ import { type Metrics, renderTables } from "./metrics/report.ts";
 import { bundleSize, viteBundleSize } from "./metrics/size.ts";
 import {
     COMPONENTS,
+    type Component,
     componentLoc,
+    EXTRA_COMPONENTS,
     locOf,
     sourceFiles,
 } from "./metrics/sources.ts";
@@ -23,6 +25,8 @@ const FRAMEWORKS: Record<
         fixture: string;
         /** Where the component folders live, under the package's `src/` (default `components`). */
         components?: string;
+        /** It has ported the extras (Select, Tooltip, Checkbox, CheckboxGroup, Slider). */
+        extras?: boolean;
         external: string[];
         /** The Vite plugin that compiles the package's source; esbuild bundles it when absent. */
         plugin?: { name: string; factory: string; options?: unknown };
@@ -35,6 +39,7 @@ const FRAMEWORKS: Record<
 > = {
     react: {
         fixture: "fixtures/react",
+        extras: true,
         external: ["react", "react-dom", "react/jsx-runtime"],
         ours: (namespace) => `export { ${namespace} } from "@poc/react";`,
         baseline: {
@@ -49,11 +54,18 @@ const FRAMEWORKS: Record<
                     'export { Calendar, RangeCalendar } from "react-aria-components";',
                 "date-picker":
                     'export { DatePicker, DateRangePicker } from "react-aria-components";',
+                select: 'export { Select } from "@base-ui/react/select";',
+                tooltip: 'export { Tooltip } from "@base-ui/react/tooltip";',
+                checkbox: 'export { Checkbox } from "@base-ui/react/checkbox";',
+                "checkbox-group":
+                    'export { CheckboxGroup } from "@base-ui/react/checkbox-group";',
+                slider: 'export { Slider } from "@base-ui/react/slider";',
             },
         },
     },
     vue: {
         fixture: "fixtures/vue",
+        extras: true,
         external: ["vue"],
         ours: (namespace) => `export { ${namespace} } from "@poc/vue";`,
         // Reka UI, with the parts closest to each spec's scope (resolved from the repository root)
@@ -71,6 +83,14 @@ const FRAMEWORKS: Record<
                     'export { CalendarRoot, CalendarHeader, CalendarHeading, CalendarPrev, CalendarNext, CalendarGrid, CalendarGridHead, CalendarGridBody, CalendarGridRow, CalendarHeadCell, CalendarCell, CalendarCellTrigger, RangeCalendarRoot, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarPrev, RangeCalendarNext, RangeCalendarGrid, RangeCalendarGridHead, RangeCalendarGridBody, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarCell, RangeCalendarCellTrigger } from "reka-ui";',
                 "date-picker":
                     'export { DatePickerRoot, DatePickerTrigger, DatePickerContent, DatePickerCalendar, DateRangePickerRoot, DateRangePickerTrigger, DateRangePickerContent, DateRangePickerCalendar } from "reka-ui";',
+                select: 'export { SelectRoot, SelectTrigger, SelectValue, SelectPortal, SelectContent, SelectViewport, SelectItem, SelectItemText, SelectItemIndicator } from "reka-ui";',
+                tooltip:
+                    'export { TooltipProvider, TooltipRoot, TooltipTrigger, TooltipPortal, TooltipContent, TooltipArrow } from "reka-ui";',
+                checkbox:
+                    'export { CheckboxRoot, CheckboxIndicator } from "reka-ui";',
+                "checkbox-group":
+                    'export { CheckboxGroupRoot } from "reka-ui";',
+                slider: 'export { SliderRoot, SliderTrack, SliderRange, SliderThumb } from "reka-ui";',
             },
         },
     },
@@ -170,6 +190,11 @@ const NAMESPACES: Record<string, string> = {
     tabs: "Tabs",
     calendar: "Calendar, RangeCalendar",
     "date-picker": "DatePicker, DateRangePicker",
+    select: "Select",
+    tooltip: "Tooltip",
+    checkbox: "Checkbox",
+    "checkbox-group": "CheckboxGroup",
+    slider: "Slider",
 };
 
 function parseFramework(argv: readonly string[]): string {
@@ -190,9 +215,12 @@ async function main(): Promise<void> {
     const framework = parseFramework(process.argv.slice(2));
     const config = FRAMEWORKS[framework] as (typeof FRAMEWORKS)[string];
     const components = config.components ?? "components";
-    const loc = componentLoc(root, framework, components);
+    const measured: readonly Component[] = config.extras
+        ? [...COMPONENTS, ...EXTRA_COMPONENTS]
+        : COMPONENTS;
+    const loc = componentLoc(root, framework, components, measured);
     const sizes = [];
-    for (const component of COMPONENTS) {
+    for (const component of measured) {
         const measure = (code: string, dir: string) =>
             config.plugin
                 ? viteBundleSize(code, dir, config.external, config.plugin)
@@ -211,7 +239,7 @@ async function main(): Promise<void> {
         sizes.push({ component, ours, baseline });
     }
     const effort = Object.fromEntries(
-        COMPONENTS.map((component) => [
+        measured.map((component) => [
             component,
             effortOf(
                 root,
