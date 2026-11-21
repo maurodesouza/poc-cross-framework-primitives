@@ -87,3 +87,66 @@ About 34 minutes from the Epic's worktree to the last component, the most of the
 Vue ~11, Svelte ~13, Solid ~29), and the spike is inside it. The two first issues were committed
 together, so the split between Dialog and Popover/Menu is not measured. Commit timestamps of agent
 runs: a proxy for effort, not human time.
+
+## Extras (Epic G)
+
+Select, Tooltip, Checkbox, CheckboxGroup and Slider ported to Angular (#41), on the `@poc/dom`
+modules of Epic F (`createTypeahead` and `menuKeyTarget`, `createHoverIntent`,
+`createDelayGroup`, `trackHoverBridge`, `startDrag`, the range math and `sliderKeyTarget`,
+`bridgeForm`, the hidden input's style). The numbers of `pnpm metrics` (lines, the `@poc/dom`
+share, sizes against Angular CDK / Aria) are in [`data/angular.md`](data/angular.md), regenerated
+with the five frameworks in #42. Raw file lines of the directives:
+
+| component | `@poc/angular` (lines) |
+| --- | --- |
+| select | 665 |
+| tooltip | 427 |
+| checkbox | 294 |
+| checkbox-group | 101 |
+| slider | 472 |
+
+plus `lib/utils/hidden-input.ts` (51 lines), shared by Select and Checkbox.
+
+- **Conformance**: `pnpm e2e --project angular` passes behaviour and contract for all ten
+  components (164 passed, the visual layer skipped locally), with no test changed and no snapshot
+  of its own. The visual layer matched React pixel for pixel on the same machine: React's
+  screenshots written to a scratch folder (`VISUAL=1`), then Angular compared against them, 24 of
+  24, the 8 extras' included. CI compares against the golden set.
+- **API**: inputs with their `*Change` outputs, never `model()`: `[(value)]` (Select,
+  CheckboxGroup, Slider), `[(checked)]` (Checkbox), `[(open)]` (Select, Tooltip), with
+  `(valueChangeDetails)`, `(checkedChangeDetails)`, `(openChangeDetails)` and Slider's
+  `(valueCommit)`. Roots without an element of their own (`selectRoot`, `tooltipRoot`,
+  `tooltipProvider`) sit on `<ng-container>`; the parts that render only in some states are
+  structural (`*selectPortal`, `*tooltipPortal`, `*selectItemIndicator`, `*checkboxIndicator`),
+  and an indicator reads its state through the root (`#box="checkboxRoot"`).
+- **Forms: hidden inputs, no `ControlValueAccessor`.** A follow-up for a production version:
+  Angular forms (`formControlName`, `ngModel`) need a CVA on the roots, which is out of this POC's
+  scope (the native `<form>` path is what the suite checks).
+- **Part hooks: none.** As in React and Vue, every part injects its root (or its item, or its
+  checkbox); no extra needed a new `inject*` function.
+- **Effort**: about 10 minutes of agent time from the worktree to the suite green (08:11:54 to
+  08:21, 2026-11-21): the directives in 6 minutes, the fixture in 2, and no failing test to fix.
+  Epic E's seven components took about 34 minutes, the spike included. The port checklist
+  (AGENTS.md, "Porting a framework") was applied up front: `injectFlush` on key- and drag-driven
+  renders, fixture text against its tags, consumer ids kept, structural parts for elements that
+  come and go.
+
+### Port log (extras)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| hidden inputs | a root on `<ng-container>` has no element to render its input in, and a part on the consumer's own `<button>` cannot add a sibling from a template: the directive creates the input itself (`createHiddenInput`), right after its anchor (the container's comment, or the checkbox's button, so the label's text stays after it as in React), and removes it on destroy. The Slider's `type="hidden"` inputs are appended to its root | `@poc/angular` (`lib/utils/hidden-input.ts`) |
+| a form reset (late) | `bridgeForm` reports the reset after the browser reset the controls; a state that did not change does not re-run the input's effect, so the reset writes the state back onto the input (`value`, `checked`) itself, for a CheckboxGroup child too | `@poc/angular` |
+| the delay group | closing the previous member renders at once (`setOpen` flushes), which an effect must not do (`ApplicationRef.tick()` during change detection): a tooltip joins its group in `show()`, an event, and an effect only reports its close | `@poc/angular` |
+| zoneless timing | the select's highlight, a slider key and every drag move render within their event (`injectFlush`), so a quick second key or the next pointer move meets the rendered state (checklist item 8; the Epic's "slider pointer capture" risk did not fail) | `@poc/angular` (from the start) |
+| ids | the consumer's `id` wins (the label's `for` points at the Select trigger): triggers and checkboxes take a generated id only when they have none, after the first render, and the list's `aria-labelledby` reads the trigger's id at render | `@poc/angular` |
+| `*indicator` alone | a structural directive's input is `""` when written bare, which `booleanAttribute` reads as `true`: the indicators' `keepMounted` takes only `true` | `@poc/angular` |
+| fixture | template references named after a signal shadow it (`#terms` hid `terms.set`): the references are `termsBox`, ... | `fixtures/angular` |
+
+No `@poc/dom` change was needed: the hover tracking moved there before this port
+(`trackHoverBridge`), and Angular used it as React and Vue do. The rest of the boundary pressure is
+React's: CheckboxGroup's membership and the slider's value shape stay component state, written a
+fourth time.
+
+In dev mode (`vite`), the twelve extras' scenarios log no error or warning while opened, chosen,
+toggled, moved by a key, hovered and reset.
