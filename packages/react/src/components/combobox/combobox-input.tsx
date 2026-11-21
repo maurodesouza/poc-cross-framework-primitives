@@ -129,8 +129,8 @@ export function ComboboxInput(
                 context.setInputValue(event.target.value, "input-change");
                 context.setHighlighted(null);
                 context.markTyped();
+                context.pendingHighlight.current = null;
                 if (!open) {
-                    context.pendingHighlight.current = null;
                     context.setOpen(true, "input-change");
                 }
             },

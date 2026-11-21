@@ -14,9 +14,9 @@ export interface ComboboxListProps
 /** The `listbox`. Applies the highlight the keyboard asked for once its items render. */
 export function ComboboxList({ children, ...props }: ComboboxListProps) {
     const context = useRequiredContext(ComboboxContext, "Combobox.List");
-    const { list, pendingHighlight, setHighlighted, itemCount } = context;
+    const { list, pendingHighlight, setHighlighted, itemCount, open } = context;
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: runs when the list or its items change
+    // biome-ignore lint/correctness/useExhaustiveDependencies: runs when the list opens, or its items change
     useLayoutEffect(() => {
         const pending = pendingHighlight.current;
         if (list === null || pending === null) {
@@ -30,7 +30,7 @@ export function ComboboxList({ children, ...props }: ComboboxListProps) {
         const edge = pending === "first" ? items[0] : items.at(-1);
         const target = selected ?? (pending === "selected" ? undefined : edge);
         setHighlighted(target?.id ?? null);
-    }, [list, itemCount]);
+    }, [list, itemCount, open]);
 
     const empty = context.hasItems
         ? context.entries.length === 0

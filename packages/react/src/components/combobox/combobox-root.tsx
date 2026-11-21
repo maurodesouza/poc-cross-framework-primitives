@@ -188,7 +188,13 @@ export function ComboboxRoot<Item>(props: ComboboxRootProps<Item>) {
                 setTyped(false);
             }
             setOpenState(next, reason);
-            if (next || reason === "item-press") {
+            if (next) {
+                return;
+            }
+            // a list reopened during its exit animation starts with no highlight
+            setHighlighted(null);
+            pendingHighlight.current = null;
+            if (reason === "item-press") {
                 return;
             }
             // closing without a choice resets the text (spec/combobox.md, "Choosing an item")
@@ -392,9 +398,10 @@ export function ComboboxRoot<Item>(props: ComboboxRootProps<Item>) {
                 data-combobox-part="hidden-input"
             />
             {multiple && fieldName !== undefined
-                ? values.map((item) => (
+                ? values.map((item, index) => (
                       <input
-                          key={formValue(item)}
+                          // biome-ignore lint/suspicious/noArrayIndexKey: two values may share a form value
+                          key={index}
                           type="hidden"
                           name={fieldName}
                           value={formValue(item)}

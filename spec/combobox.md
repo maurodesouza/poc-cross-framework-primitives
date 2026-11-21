@@ -128,7 +128,8 @@ the consumer match the anchor's width.
 
 **Closing the list without a choice** (Escape, an outside press, Tab, the Trigger, Alt+ArrowUp)
 resets the input's text: to the selected item's label in single mode, to `""` with `multiple`.
-The reason is `input-clear` when the text becomes empty, else `none`.
+The reason is `input-clear` when the text becomes empty, else `none`. Every close also drops the highlight:
+a list reopened while its exit animation still runs starts as a fresh open.
 
 ## State attributes and ARIA
 
@@ -277,21 +278,23 @@ Checks:
 6. With "Banana" chosen and the list closed, ArrowDown opens the list on "Banana" (the selected
    item, highlighted, with `aria-selected="true"`) with every option shown. Escape closes it;
    Escape again (closed) clears the input and the value: `input: ` empty, `value: none`.
-7. Type `an`: options "Banana", "Mango", "Orange"; "Orange" has `aria-disabled="true"`.
+7. A click on the input, ArrowDown ×2 ("Banana"), Escape and, at once (the list still closing),
+   ArrowDown: "Apple" is highlighted, not the stale "Banana".
+8. Type `an`: options "Banana", "Mango", "Orange"; "Orange" has `aria-disabled="true"`.
    ArrowDown ×3 highlights "Orange"; Enter does nothing (no value, the list stays open);
    ArrowDown returns to the input.
-8. Type `xyz`: the list shows "No fruit found." and no option.
-9. **Escape resets the text.** Type `che` and press Escape: the list closes and the input is
+9. Type `xyz`: the list shows "No fruit found." and no option.
+10. **Escape resets the text.** Type `che` and press Escape: the list closes and the input is
    empty (no value). Choose "Cherry", type `x` (the input shows "Cherryx"), press Escape: the
    input shows "Cherry" again, `value: cherry`.
-10. Click "Show fruits": the list opens, focus stays on the input; click "Cherry": `value:
+11. Click "Show fruits": the list opens, focus stays on the input; click "Cherry": `value:
     cherry`, `input: Cherry`.
-11. **Clear.** No "Clear fruit" button while nothing is chosen. After choosing "Cherry", a click
+12. **Clear.** No "Clear fruit" button while nothing is chosen. After choosing "Cherry", a click
     on "Clear fruit" empties the input, gives `value: none`, keeps focus on the input, and the
     button is gone.
-12. Type `a`, then click outside (the page's corner): the list closes with
+13. Type `a`, then click outside (the page's corner): the list closes with
     `reason: outside-press` and the input is empty again.
-13. Axe finds no violation while open.
+14. Axe finds no violation while open.
 
 ### `/combobox/controlled`
 

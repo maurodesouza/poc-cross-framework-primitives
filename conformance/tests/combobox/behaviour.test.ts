@@ -132,6 +132,20 @@ test.describe("combobox / basic", () => {
         await expectOutput(page, "value", "none");
     });
 
+    test("a list reopened while it closes starts with no stale highlight", async ({
+        page,
+    }) => {
+        await combobox(page).click();
+        await expect(options(page)).toHaveCount(7);
+        await page.keyboard.press("ArrowDown");
+        await page.keyboard.press("ArrowDown");
+        await expectActive(page, "Banana");
+        // the exit animation keeps the list mounted: reopen at once
+        await page.keyboard.press("Escape");
+        await page.keyboard.press("ArrowDown");
+        await expectActive(page, "Apple");
+    });
+
     test("a disabled item can be highlighted but not chosen", async ({
         page,
     }) => {
