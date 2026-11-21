@@ -37,7 +37,9 @@ usePositioner(
     () => context.trigger,
     () => context.positioner,
     () => null,
-    (placed) => (context.placed = placed),
+    (placed) => {
+        context.placed = placed;
+    },
 );
 const partState = $derived({ open: context.open, ...context.placed });
 const partProps = $derived(

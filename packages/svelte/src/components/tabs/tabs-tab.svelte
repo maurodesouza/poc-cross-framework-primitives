@@ -1,4 +1,5 @@
 <script lang="ts">
+import { untrack } from "svelte";
 import { elementRef } from "../../utils/element-ref.ts";
 import { mergeProps } from "../../utils/merge-props.ts";
 import type { PartProps } from "../../utils/part.ts";
@@ -25,7 +26,11 @@ $effect(() => {
         return undefined;
     }
     context.tabs.set(node, { value, disabled });
-    context.version += 1;
+    // a write only: reading `version` here would re-run every tab's registration on each bump
+    // (effect_update_depth_exceeded in dev, issue #44)
+    untrack(() => {
+        context.version += 1;
+    });
     return () => {
         context.tabs.delete(node);
     };
