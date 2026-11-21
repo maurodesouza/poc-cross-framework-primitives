@@ -1,8 +1,15 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { IMPLEMENTATIONS } from "../conformance/src/implementations.ts";
-import { SCENARIOS } from "../playground/src/scenarios/scenarios.ts";
+import {
+    IMPLEMENTATIONS,
+    type Implementation,
+} from "../conformance/src/implementations.ts";
+import {
+    isAvailable,
+    SCENARIOS,
+    type Scenario,
+} from "../playground/src/scenarios/scenarios.ts";
 
 const root = join(import.meta.dirname, "..");
 
@@ -13,23 +20,46 @@ function routesOf(source: string): string[] {
     );
 }
 
-/** What differs between the manifest and each fixture's routes, as messages. */
+/**
+ * What differs between the manifest and each fixture's routes, as messages. A fixture serves
+ * exactly the manifest's scenarios available in its implementation: none of a pending component
+ * (it would be untested), every other one.
+ */
 function mismatches(
-    manifest: readonly string[],
+    scenarios: readonly Scenario[],
     fixtures: Record<string, readonly string[]>,
+    implementations: readonly Implementation[] = IMPLEMENTATIONS,
 ): string[] {
     const problems: string[] = [];
     for (const [fixture, routes] of Object.entries(fixtures)) {
+        const implementation = implementations.find(
+            (entry) => entry.fixture === fixture,
+        );
         for (const route of routes) {
-            if (!manifest.includes(route)) {
+            const entry = scenarios.find(
+                (candidate) => candidate.path === route,
+            );
+            if (entry === undefined) {
                 problems.push(
                     `${fixture} serves ${route}, the manifest lacks it`,
                 );
+            } else if (
+                implementation !== undefined &&
+                !isAvailable(implementation, entry)
+            ) {
+                problems.push(
+                    `${fixture} serves ${route}, but ${entry.component} is pending there`,
+                );
             }
         }
-        for (const route of manifest) {
-            if (!routes.includes(route)) {
-                problems.push(`the manifest has ${route}, ${fixture} lacks it`);
+        for (const entry of scenarios) {
+            const expected =
+                implementation === undefined ||
+                isAvailable(implementation, entry);
+            if (expected && !routes.includes(entry.path)) {
+                problems.push(
+                    `the manifest has ${entry.path}, ${fixture} lacks it`,
+                );
             }
         }
     }
@@ -75,7 +105,7 @@ describe("the playground's scenario manifest", () => {
     it("matches every fixture's routes", () => {
         const fixtures = fixtureRoutes();
         expect(Object.keys(fixtures)).toHaveLength(IMPLEMENTATIONS.length);
-        expect(mismatches(manifest, fixtures)).toEqual([]);
+        expect(mismatches(SCENARIOS, fixtures)).toEqual([]);
     });
 
     it("has each route once, at /<component>/<scenario>", () => {
@@ -103,9 +133,45 @@ export const routes = { "/dialog/basic": X, "/date-picker/range": Y };`),
             ...fixtures,
             "fixture-vue": [...(fixtures["fixture-vue"] ?? []), "/dialog/new"],
         };
-        expect(mismatches(manifest, added)).toEqual([
+        expect(mismatches(SCENARIOS, added)).toEqual([
             "fixture-vue serves /dialog/new, the manifest lacks it",
         ]);
+    });
+
+    it("marks a pending component's scenarios unavailable, and only there", () => {
+        const fixtures = fixtureRoutes();
+        const real = IMPLEMENTATIONS.find((entry) => entry.name === "vue");
+        expect(real).toBeDefined();
+        // Vue with Tabs pending too, besides what it really has pending
+        const implementation: Implementation = {
+            ...(real as Implementation),
+            pending: [...(real?.pending ?? []), "tabs"],
+        };
+        const others = IMPLEMENTATIONS.filter((entry) => entry.name !== "vue");
+        const vue = fixtures["fixture-vue"] ?? [];
+        // serving a pending component's scenario is an error
+        expect(
+            mismatches(SCENARIOS, { "fixture-vue": vue }, [
+                ...others,
+                implementation,
+            ]),
+        ).toEqual([
+            "fixture-vue serves /tabs/automatic, but tabs is pending there",
+            "fixture-vue serves /tabs/manual, but tabs is pending there",
+            "fixture-vue serves /tabs/vertical, but tabs is pending there",
+        ]);
+        // not serving it is what the manifest expects
+        expect(
+            mismatches(
+                SCENARIOS,
+                {
+                    "fixture-vue": vue.filter(
+                        (route) => !route.startsWith("/tabs/"),
+                    ),
+                },
+                [...others, implementation],
+            ),
+        ).toEqual([]);
     });
 
     it("fails when a fixture drops a route", () => {
@@ -116,7 +182,7 @@ export const routes = { "/dialog/basic": X, "/date-picker/range": Y };`),
                 (route) => route !== "/menu/groups",
             ),
         };
-        expect(mismatches(manifest, dropped)).toEqual([
+        expect(mismatches(SCENARIOS, dropped)).toEqual([
             "the manifest has /menu/groups, fixture-solid lacks it",
         ]);
     });

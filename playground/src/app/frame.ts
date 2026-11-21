@@ -13,6 +13,51 @@ export interface Frame {
 
 type Status = "probing" | "running" | "stopped";
 
+/** The frame of an implementation that has not ported the scenario's component yet. */
+export function createUnavailableFrame(
+    implementation: Implementation,
+    component: string,
+    className: string,
+): Frame {
+    const root = element(
+        "section",
+        {
+            class: `flex flex-col overflow-hidden rounded-lg border border-dashed border-palette-line ${className}`,
+            "data-implementation": implementation.name,
+            "data-status": "unavailable",
+        },
+        element(
+            "header",
+            {
+                class: "flex items-center gap-2 border-b border-palette-line bg-palette-soft px-3 py-1.5",
+            },
+            element(
+                "h2",
+                { class: "text-sm font-semibold" },
+                implementation.name,
+            ),
+        ),
+        element(
+            "div",
+            {
+                class: "flex flex-1 flex-col items-center justify-center gap-1 p-6 text-center",
+                "data-testid": "unavailable",
+            },
+            element(
+                "p",
+                { class: "font-semibold" },
+                `${component} is not available in ${implementation.name} yet`,
+            ),
+            element(
+                "p",
+                { class: "text-xs text-palette-accent/85" },
+                "Not ported yet (pending in conformance/src/implementations.ts).",
+            ),
+        ),
+    );
+    return { element: root, dispose() {} };
+}
+
 /**
  * One implementation's scenario: a header (its name, reload, open in a new tab) over an iframe
  * while its dev server answers, or a "not running" state while it does not. The probe keeps

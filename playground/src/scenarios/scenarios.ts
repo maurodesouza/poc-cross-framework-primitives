@@ -1,3 +1,8 @@
+import {
+    hasComponent,
+    type Implementation,
+} from "../../../conformance/src/implementations.ts";
+
 /** A scenario's query parameters (spec/README.md, "Scenarios and fixtures"). */
 export interface ScenarioQuery {
     locale?: string;
@@ -52,7 +57,30 @@ export const SCENARIOS: readonly Scenario[] = [
     scenario("/calendar/range"),
     scenario("/date-picker/basic"),
     scenario("/date-picker/range"),
+    scenario("/select/basic"),
+    scenario("/select/controlled"),
+    scenario("/tooltip/basic"),
+    scenario("/tooltip/group"),
+    scenario("/checkbox/basic"),
+    scenario("/checkbox/group"),
+    scenario("/checkbox/controlled"),
+    scenario("/slider/basic"),
+    scenario("/slider/range"),
+    scenario("/slider/vertical"),
+    scenario("/slider/rtl", { dir: "rtl" }),
+    scenario("/slider/controlled"),
 ];
+
+/**
+ * Whether `implementation` serves `scenario`: not while its component is pending there (an extra
+ * a framework has not ported yet, `pending` in conformance/src/implementations.ts).
+ */
+export function isAvailable(
+    implementation: Implementation,
+    scenario: Scenario,
+): boolean {
+    return hasComponent(implementation, scenario.component);
+}
 
 /** The components, in the manifest's order. */
 export function componentsOf(scenarios: readonly Scenario[]): string[] {
