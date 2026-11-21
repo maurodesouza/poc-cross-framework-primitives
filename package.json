@@ -16,7 +16,8 @@
         "test": "vitest run",
         "build": "pnpm -r --if-present build",
         "e2e": "pnpm --filter conformance --if-present e2e",
-        "metrics": "node scripts/metrics.ts"
+        "metrics": "node scripts/metrics.ts",
+        "playground": "node scripts/playground.ts"
     },
     "devDependencies": {
         "@biomejs/biome": "2.6.7",
