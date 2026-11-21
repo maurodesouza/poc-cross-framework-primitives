@@ -88,4 +88,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state: partState })}{:else}<div {...partProps}>{@render children?.()}{#each slider.values as entry, index (index)}<input type="hidden" {name} value={entry} data-slider-part="input" />{/each}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{#each slider.values as entry, index (index)}<input type="hidden" {name} value={entry} data-slider-part="input" />{/each}{:else}<div {...partProps}>{@render children?.()}{#each slider.values as entry, index (index)}<input type="hidden" {name} value={entry} data-slider-part="input" />{/each}</div>{/if}
