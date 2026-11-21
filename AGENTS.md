@@ -99,7 +99,7 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
 
   | package | folders |
   | --- | --- |
-  | `dom` | one folder per responsibility: `positioning/`, `layers/`, `focus/`, `scroll-lock/`, `inert/`, `collection/`, `presence/`, `pointer/`, `id/`, `direction/`, `date/` |
+  | `dom` | one folder per responsibility: `positioning/`, `overlay/`, `layers/`, `focus/`, `scroll-lock/`, `inert/`, `collection/`, `presence/`, `pointer/`, `id/`, `direction/`, `date/` |
   | `styles` | `recipes/`, `theme/` |
   | `react`, `solid` | `components/<component>/`, `hooks/`, `utils/` |
   | `vue` | `components/<component>/`, `composables/`, `utils/` |
@@ -114,6 +114,28 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
 - Internal helpers follow the `utils-implementation` conventions; the public API of `@poc/dom` is
   one tree-shakeable export per file.
 
+## Porting a framework
+
+From the Vue port (`docs/reports/vue.md`) and the checkpoint. Before a framework's package is
+done, check:
+
+1. **Logic first in `@poc/dom`**: the overlay session (`openOverlaySession`: layer, focus-out,
+   focus return by reason), the key maps (`calendarKeyTarget`, `tabsKeyTarget`, `menuKeyTarget`,
+   `submenuKeys`, `stepThroughNone`), positioning, focus, presence. A port writes state,
+   lifecycle and the framework's API only.
+2. **Focus targets** (`initialFocus`, `finalFocus`): where a framework's templates unwrap refs at
+   render time, also take a getter, read when the focus moves.
+3. **Element refs through wrappers**: a styled wrapper must keep a ref to the part's element
+   (Vue: a stateful component, not a functional one).
+4. **Children normalization**: an element's children must be what the framework expects (Vue's
+   `h()` reads a single vnode as a slots object).
+5. **The calendar's focus after render**: a cell that mounts after the keyboard moved to it (a new
+   month, a picker opening) takes the pending focus itself.
+6. **Fixture DOM identical to React's**, text nodes included: JSX splits `{label} settings` into
+   two text nodes; a template that merges them changes glyph positions in CI's screenshots.
+7. **Never a framework-specific snapshot or test**: fix the DOM, record the finding in the port
+   log.
+
 ## Toolchain
 
 | tool | version |
@@ -126,7 +148,7 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
 | Vue | 3.5 |
 | Angular | 22 (standalone, signals, zoneless) |
 | Svelte | 5 (runes) |
-| Solid | 1.9 (2.0 shipped on 2026-11-17, but the stable `vite-plugin-solid` still peers `solid-js ^1.7`) |
+| Solid | 2.0 (`solid-js`, `@solidjs/web` renderer, `@solidjs/vite-plugin`), by the maintainer's decision |
 | Vite | 8 |
 | Tailwind CSS | 4.3 (fixtures and `@poc/styles` only) |
 | Vitest | 5 |
@@ -135,7 +157,9 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
 | tsdown | packages build |
 
 **Pin dependencies to exact versions published at least 7 days ago** (`npm view <pkg> time`), and
-check the current version on the registry when installing.
+check the current version on the registry when installing. **One exception, by the maintainer's
+decision (2026-11-20): Solid 2.0, the latest** (`solid-js`, `@solidjs/web` 2.0.x and
+`@solidjs/vite-plugin` 3.0.x were days old when the Solid port started).
 
 ## Scripts
 

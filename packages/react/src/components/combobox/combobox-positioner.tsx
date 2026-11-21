@@ -1,4 +1,4 @@
-import { pushLayer } from "@poc/dom";
+import { openOverlaySession } from "@poc/dom";
 import { useEffect, useLayoutEffect } from "react";
 import {
     type PositionerProps,
@@ -40,13 +40,12 @@ export function ComboboxPositioner({
         if (!open || positioner === null) {
             return undefined;
         }
-        const layer = pushLayer(positioner.ownerDocument, {
+        const session = openOverlaySession(positioner.ownerDocument, {
             elements: () => [positioner],
             ignore: () => [trigger, button],
-            onEscape: () => setOpen(false, "escape-key"),
-            onOutsidePress: () => setOpen(false, "outside-press"),
+            dismiss: (reason) => setOpen(false, reason),
         });
-        return () => layer.remove();
+        return session.end;
     }, [open, positioner, trigger, button, setOpen]);
     return renderElement(
         "div",

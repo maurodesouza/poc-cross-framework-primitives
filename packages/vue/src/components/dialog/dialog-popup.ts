@@ -2,7 +2,7 @@ import {
     focusInitial,
     inertOutside,
     lockScroll,
-    pushLayer,
+    openOverlaySession,
     trapFocus,
 } from "@poc/dom";
 import { defineComponent, type PropType, watch } from "vue";
@@ -53,15 +53,22 @@ export const DialogPopup = defineComponent({
                         ? doc.activeElement
                         : null;
                 const trigger = context.trigger.value;
-                const layer = pushLayer(doc, {
+                const session = openOverlaySession(doc, {
                     elements: () => [popup],
-                    onEscape: () => context.setOpen(false, "escape-key"),
-                    onOutsidePress: () =>
-                        context.setOpen(false, "outside-press"),
+                    dismiss: (reason) => context.setOpen(false, reason),
+                    returnFocus: {
+                        reason: () => null,
+                        to: () => {
+                            const final = resolveFocusTarget(props.finalFocus);
+                            return final === false
+                                ? false
+                                : (final ?? trigger ?? previous);
+                        },
+                    },
                 });
                 const initial = resolveFocusTarget(props.initialFocus);
                 focusInitial(popup, initial === false ? popup : initial);
-                const release = trapFocus(popup, () => layer.elementsAbove());
+                const release = trapFocus(popup, session.elementsAbove);
                 const unlock = lockScroll(doc);
                 const restoreInert = inertOutside(
                     backdrop ? [popup, backdrop] : [popup],
@@ -70,13 +77,7 @@ export const DialogPopup = defineComponent({
                     release();
                     unlock();
                     restoreInert();
-                    layer.remove();
-                    const final = resolveFocusTarget(props.finalFocus);
-                    if (final !== false) {
-                        (final ?? trigger ?? previous)?.focus({
-                            preventScroll: true,
-                        });
-                    }
+                    session.end();
                 });
             },
             { flush: "post", immediate: true },

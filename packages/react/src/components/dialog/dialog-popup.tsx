@@ -2,7 +2,7 @@ import {
     focusInitial,
     inertOutside,
     lockScroll,
-    pushLayer,
+    openOverlaySession,
     trapFocus,
 } from "@poc/dom";
 import { useEffect, useRef } from "react";
@@ -44,14 +44,24 @@ export function DialogPopup({
         const doc = popup.ownerDocument;
         const previous =
             doc.activeElement instanceof HTMLElement ? doc.activeElement : null;
-        const layer = pushLayer(doc, {
+        const session = openOverlaySession(doc, {
             elements: () => [popup],
-            onEscape: () => setOpen(false, "escape-key"),
-            onOutsidePress: () => setOpen(false, "outside-press"),
+            dismiss: (reason) => setOpen(false, reason),
+            returnFocus: {
+                reason: () => null,
+                to: () => {
+                    const final = resolveFocusTarget(
+                        focusTargets.current.finalFocus,
+                    );
+                    return final === false
+                        ? false
+                        : (final ?? trigger ?? previous);
+                },
+            },
         });
         const initial = resolveFocusTarget(focusTargets.current.initialFocus);
         focusInitial(popup, initial === false ? popup : initial);
-        const release = trapFocus(popup, () => layer.elementsAbove());
+        const release = trapFocus(popup, session.elementsAbove);
         const unlock = lockScroll(doc);
         const restoreInert = inertOutside(
             backdrop ? [popup, backdrop] : [popup],
@@ -60,11 +70,7 @@ export function DialogPopup({
             release();
             unlock();
             restoreInert();
-            layer.remove();
-            const final = resolveFocusTarget(focusTargets.current.finalFocus);
-            if (final !== false) {
-                (final ?? trigger ?? previous)?.focus({ preventScroll: true });
-            }
+            session.end();
         };
     }, [open, popup, backdrop, trigger, setOpen]);
 

@@ -1,4 +1,4 @@
-import { getDirection } from "@poc/dom";
+import { getDirection, submenuKeys } from "@poc/dom";
 import {
     type KeyboardEvent,
     type PointerEvent,
@@ -86,10 +86,9 @@ export function MenuSubmenuTrigger({
             ...item.handlers,
             onClick: () => open(null, "trigger-press"),
             onKeyDown: (event: KeyboardEvent) => {
-                const openKey =
-                    element && getDirection(element) === "rtl"
-                        ? "ArrowLeft"
-                        : "ArrowRight";
+                const { open: openKey } = submenuKeys(
+                    element !== null && getDirection(element) === "rtl",
+                );
                 if (
                     event.key === openKey ||
                     event.key === "Enter" ||

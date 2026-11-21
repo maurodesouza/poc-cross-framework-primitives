@@ -1,4 +1,4 @@
-import { pushLayer } from "@poc/dom";
+import { openOverlaySession } from "@poc/dom";
 import { defineComponent, watch } from "vue";
 import { elementSetter } from "../../composables/use-overlay-root.ts";
 import {
@@ -34,14 +34,12 @@ export const ComboboxPositioner = defineComponent({
                 if (!open || positioner === null) {
                     return;
                 }
-                const layer = pushLayer(positioner.ownerDocument, {
+                const session = openOverlaySession(positioner.ownerDocument, {
                     elements: () => [positioner],
                     ignore: () => [context.trigger.value, context.button.value],
-                    onEscape: () => context.setOpen(false, "escape-key"),
-                    onOutsidePress: () =>
-                        context.setOpen(false, "outside-press"),
+                    dismiss: (reason) => context.setOpen(false, reason),
                 });
-                onCleanup(() => layer.remove());
+                onCleanup(session.end);
             },
             { flush: "post", immediate: true },
         );
