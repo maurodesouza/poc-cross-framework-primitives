@@ -3,22 +3,26 @@ import { elementRef } from "../../utils/element-ref.ts";
 import { mergeProps } from "../../utils/merge-props.ts";
 import type { PartProps } from "../../utils/part.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
-import { ComboboxContext } from "./combobox-context.svelte.ts";
+import {
+    ComboboxContext,
+    ComboboxItemContext,
+} from "./combobox-context.svelte.ts";
 
+/** An `option` (spec/combobox.md). */
 let {
     child,
     children,
     value,
-    label,
     disabled = false,
     ...rest
 }: PartProps<{ highlighted: boolean; selected: boolean; disabled: boolean }> & {
-    value: string;
-    label?: string;
+    /** The item: written into the input as `itemToStringLabel(value)` when chosen. */
+    value: unknown;
+    /** Can be highlighted, never chosen. */
     disabled?: boolean;
 } = $props();
 const context = ComboboxContext.use("Combobox.Item");
-const id = `${context.listId}-option-${Math.random().toString(36).slice(2, 8)}`;
+const id = $props.id();
 let element = $state<HTMLElement | null>(null);
 const ref = elementRef((node) => (element = node));
 $effect(() => {
@@ -26,24 +30,19 @@ $effect(() => {
     if (node === null) {
         return undefined;
     }
-    context.items.set(node, {
-        value,
-        label: label ?? node.textContent ?? "",
-        disabled,
-        id,
-    });
-    context.itemCount = context.items.size;
-    return () => {
-        context.items.delete(node);
-        context.itemCount = context.items.size;
-    };
+    return context.register(node, { value, disabled, id });
 });
-const highlighted = $derived(context.highlighted === value);
-const selected = $derived(context.value === value);
+const highlighted = $derived(context.highlighted === id);
+const selected = $derived(context.isSelected(value));
 $effect(() => {
     if (highlighted) {
         element?.scrollIntoView?.({ block: "nearest" });
     }
+});
+ComboboxItemContext.provide({
+    get selected() {
+        return selected;
+    },
 });
 const partState = $derived({ highlighted, selected, disabled });
 const partProps = $derived(
@@ -57,7 +56,7 @@ const partProps = $derived(
             ...stateAttributes({ highlighted, selected, disabled }),
             onpointermove: () => {
                 if (!highlighted) {
-                    context.highlighted = value;
+                    context.highlighted = id;
                 }
             },
             onpointerdown: (event: PointerEvent) => event.preventDefault(),
