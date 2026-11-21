@@ -7,6 +7,7 @@ import {
     useContext,
 } from "solid-js";
 import { createControllable } from "../../hooks/create-controllable.ts";
+import { createFieldControl } from "../../hooks/create-field-control.ts";
 import type { ChangeDetails } from "../../utils/change-details.ts";
 import { HIDDEN_INPUT_STYLE } from "../../utils/hidden-input-style.ts";
 import { type PartProps, renderPart } from "../../utils/part.tsx";
@@ -61,7 +62,7 @@ export function CheckboxRoot(props: CheckboxRootProps) {
 
     const inGroup = () =>
         group !== null && (props.parent === true || props.value !== undefined);
-    const state = (): CheckboxState => {
+    const checkedState = () => {
         let checked = own();
         let indeterminate = props.indeterminate ?? false;
         if (group !== null && inGroup()) {
@@ -75,13 +76,24 @@ export function CheckboxRoot(props: CheckboxRootProps) {
                 checked = current.includes(props.value as string);
             }
         }
-        return {
-            checked,
-            indeterminate,
-            disabled: (props.disabled ?? false) || (group?.disabled() ?? false),
-            required: props.required ?? false,
-        };
+        return { checked, indeterminate };
     };
+    // before `state`, which reads its `disabled`; its effects read the value at once
+    const field = createFieldControl({
+        id,
+        labelable: true,
+        value: () => checkedState().checked,
+        filled: () => checkedState().checked,
+        input,
+    });
+    const state = (): CheckboxState => ({
+        ...checkedState(),
+        disabled:
+            (props.disabled ?? false) ||
+            (group?.disabled() ?? false) ||
+            field.disabled(),
+        required: props.required ?? false,
+    });
 
     createEffect(
         () => ({ parent: props.parent, value: props.value, current: id() }),
@@ -156,12 +168,16 @@ export function CheckboxRoot(props: CheckboxRootProps) {
                             : String(current.checked),
                         "aria-required": current.required ? "true" : undefined,
                         "aria-controls": controls(),
+                        ...field.aria(),
                         "data-checkbox-part": "root",
+                        ...field.attributes(),
                         ...stateAttributes({
                             ...checkedAttributes(current),
                             required: current.required,
                         }),
                         onClick: toggle,
+                        onFocus: field.onFocus,
+                        onBlur: field.onBlur,
                         onKeyDown: (event: KeyboardEvent) => {
                             // APG: Space toggles, Enter does not (a button would click on Enter)
                             if (event.key === "Enter") {
@@ -178,7 +194,7 @@ export function CheckboxRoot(props: CheckboxRootProps) {
                 type="checkbox"
                 aria-hidden="true"
                 tabindex={-1}
-                name={props.parent ? undefined : props.name}
+                name={props.parent ? undefined : (field.name() ?? props.name)}
                 value={props.value ?? "on"}
                 checked={state().checked && !(props.parent && inGroup())}
                 required={state().required}

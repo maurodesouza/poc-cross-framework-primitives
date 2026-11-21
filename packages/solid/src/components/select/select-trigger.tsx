@@ -153,7 +153,9 @@ export function SelectTrigger(props: PartProps<SelectTriggerState>) {
                         ? context.itemId(highlighted)
                         : undefined,
                 "aria-required": context.required() ? "true" : undefined,
+                ...context.field.aria(),
                 "data-select-part": "trigger",
+                ...context.field.attributes(),
                 ...stateAttributes(current),
                 onClick: () => {
                     if (context.open()) {
@@ -166,6 +168,8 @@ export function SelectTrigger(props: PartProps<SelectTriggerState>) {
                     }
                 },
                 onKeyDown,
+                onFocus: context.field.onFocus,
+                onBlur: context.field.onBlur,
             };
         },
         { ref: context.setTrigger },

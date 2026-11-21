@@ -1,6 +1,7 @@
 import { moveThumb } from "@poc/dom";
 import { createSignal, For, untrack } from "solid-js";
 import { createControllable } from "../../hooks/create-controllable.ts";
+import { createFieldControl } from "../../hooks/create-field-control.ts";
 import type {
     ChangeDetails,
     ChangeReason,
@@ -82,8 +83,20 @@ export function SliderRoot(props: SliderRootProps) {
     const taken: boolean[] = [];
     const [dragging, setDragging] = createSignal(false);
     const [activeIndex, setActiveIndex] = createSignal(-1);
+    const [firstInput, setFirstInput] = createSignal<HTMLInputElement | null>(
+        null,
+    );
+    const field = createFieldControl({
+        id: () => undefined,
+        labelable: false,
+        value: () => output(current()),
+        // a slider always has a value
+        filled: () => true,
+        input: firstInput,
+    });
 
     const context: SliderContextValue = {
+        field,
         values: current,
         min,
         max,
@@ -91,7 +104,7 @@ export function SliderRoot(props: SliderRootProps) {
         largeStep: () => props.largeStep ?? 10,
         minStepsBetweenValues,
         orientation: () => props.orientation ?? "horizontal",
-        disabled: () => props.disabled ?? false,
+        disabled: () => (props.disabled ?? false) || field.disabled(),
         dragging,
         activeIndex,
         setThumb: (index: number, next: number, reason: ChangeReason) => {
@@ -138,7 +151,9 @@ export function SliderRoot(props: SliderRootProps) {
                 state,
                 () => ({
                     role: "group",
+                    "aria-labelledby": field.aria()["aria-labelledby"],
                     "data-slider-part": "root",
+                    ...field.attributes(),
                     ...stateAttributes({ ...state() }),
                 }),
                 {
@@ -147,11 +162,16 @@ export function SliderRoot(props: SliderRootProps) {
                         <>
                             {props.children}
                             <For each={current()} keyed={false}>
-                                {(entry) => (
+                                {(entry, index) => (
                                     // one per value, in order
                                     <input
+                                        ref={(element) => {
+                                            if (index === 0) {
+                                                setFirstInput(element);
+                                            }
+                                        }}
                                         type="hidden"
-                                        name={props.name}
+                                        name={field.name() ?? props.name}
                                         value={entry()}
                                         data-slider-part="input"
                                     />

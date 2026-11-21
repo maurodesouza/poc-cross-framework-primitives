@@ -1,4 +1,5 @@
 import { createContext } from "solid-js";
+import type { FieldControlBinding } from "../../hooks/create-field-control.ts";
 import type { OverlayRoot } from "../../hooks/create-overlay-root.ts";
 import type { Placement } from "../../hooks/create-positioner.ts";
 import type { ChangeReason } from "../../utils/change-details.ts";
@@ -11,6 +12,8 @@ export interface SelectItemData {
 }
 
 export interface SelectContextValue extends OverlayRoot {
+    /** The enclosing field's binding, for the trigger (spec/field.md). */
+    field: FieldControlBinding;
     items: () => readonly SelectItemData[];
     value: () => string | null;
     disabled: () => boolean;
