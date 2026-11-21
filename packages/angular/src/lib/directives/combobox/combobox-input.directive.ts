@@ -87,8 +87,9 @@ export class ComboboxInput {
         root.setInputValue(this.input.value, "input-change");
         root.highlighted.set(null);
         root.markTyped();
+        // typing never highlights: drop what an earlier key asked for
+        root.pendingHighlight.set(null);
         if (!root.overlay.open()) {
-            root.pendingHighlight.set(null);
             root.setOpen(true, "input-change");
         }
         // a bound `inputValue` the consumer kept unchanged does not re-run the binding: put the

@@ -45,6 +45,8 @@ export class ComboboxList {
             const list = root.list();
             const pending = root.pendingHighlight();
             root.itemCount();
+            // runs when the list opens too: a list reopened while it closes keeps its element
+            root.overlay.open();
             if (list === null || pending === null) {
                 return;
             }

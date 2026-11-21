@@ -333,6 +333,11 @@ export class ComboboxRoot {
             }
         }
         this.overlay.setOpen(next, reason);
+        if (!next) {
+            // a list reopened during its exit animation starts with no highlight
+            this.highlighted.set(null);
+            this.pendingHighlight.set(null);
+        }
     }
 
     /** Chooses an item (spec/combobox.md, "Choosing an item"). */
