@@ -1,5 +1,12 @@
 import { fieldStateAttributes, onSubmitAttempt } from "@poc/dom";
-import { useContext, useEffect, useLayoutEffect, useRef } from "react";
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+} from "react";
 import { FieldContext } from "../components/field/field-context.ts";
 import { stateAttributes } from "../utils/state-attributes.ts";
 
@@ -97,23 +104,27 @@ export function useFieldControl(
         });
     }, [events]);
 
-    if (field === null || events === undefined) {
-        return OUTSIDE;
-    }
-    return {
-        inField: true,
-        name: field.name,
-        disabled: field.disabled,
-        aria: {
-            "aria-labelledby": field.labelId,
-            "aria-describedby": field.describedBy,
-            "aria-invalid": field.invalid ? "true" : undefined,
-        },
-        attributes: stateAttributes(fieldStateAttributes(field.state)),
-        onFocus: events.focused,
-        onBlur: () => {
-            const { input, value } = latest.current;
-            events.blurred(input(), value);
-        },
-    };
+    const onBlur = useCallback(() => {
+        const { input, value } = latest.current;
+        events?.blurred(input(), value);
+    }, [events]);
+    // stable while the field's context is: the controls put it in their own memoized context
+    return useMemo(() => {
+        if (field === null || events === undefined) {
+            return OUTSIDE;
+        }
+        return {
+            inField: true,
+            name: field.name,
+            disabled: field.disabled,
+            aria: {
+                "aria-labelledby": field.labelId,
+                "aria-describedby": field.describedBy,
+                "aria-invalid": field.invalid ? "true" : undefined,
+            },
+            attributes: stateAttributes(fieldStateAttributes(field.state)),
+            onFocus: events.focused,
+            onBlur,
+        };
+    }, [field, events, onBlur]);
 }
