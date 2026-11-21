@@ -5,7 +5,8 @@ The maintainer's decisions on the deliberate differences between the POC and Bas
 status:
 
 - **applied**: the specs, the tests and the five implementations follow it;
-- **applied in Epic I**: it is applied with Combobox's Fragiola UI parity (Epic I, #62);
+- **applied in Epic I**: applied with Combobox's Fragiola UI parity (Epic I, #62): `spec/combobox.md`
+  ("What changed in Epic I, and why"), its tests, the baseline and the five implementations;
 - **pending**: decided, but applied only in the production version. The specs, the tests and the
   implementations keep the POC's behaviour until then.
 

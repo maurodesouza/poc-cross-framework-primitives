@@ -5,13 +5,13 @@
 The layer that turns a form control into a labelled, described and validated field: a label linked
 to the control, a description, error messages shown when the value is invalid, and the field's
 interaction states (`dirty`, `touched`, `filled`, `focused`) for styling. It wraps a native input
-(`Field.Control`) or one of the POC's form controls: Checkbox, Select and Slider (the
-[integration contract](#integration-contract)). Combobox follows in Epic I.
+(`Field.Control`) or one of the POC's form controls: Checkbox, Select, Slider and, since Epic I,
+Combobox (the [integration contract](#integration-contract)).
 
 Base UI's `Field` (1.9) is the model: the decisions of 2026-11-21 (`docs/decisions.md`) follow its
 behaviour. Out of scope: `Fieldset`, `Form` (a form-level `errors` object, `onFormSubmit`), Base
 UI's `Field.Item` and `Field.Validity`, async `validate`, `validationDebounceTime`, `actionsRef`,
-and Field in Combobox and the calendar pickers.
+and Field in the calendar pickers.
 
 ## Anatomy
 
@@ -23,7 +23,8 @@ and Field in Combobox and the calendar pickers.
 | Field.Description | `p` | `description` | describes the control |
 | Field.Error | `div` | `error` | rendered only while it is shown |
 
-A field has one control: a `Field.Control`, a `Checkbox.Root`, a `Select.Root` or a `Slider.Root`.
+A field has one control: a `Field.Control`, a `Checkbox.Root`, a `Select.Root`, a `Slider.Root` or
+a `Combobox.Root`.
 
 ## API
 
@@ -99,7 +100,7 @@ integrated control's primitive (spec/README.md, "Forms").
 ## State attributes and ARIA
 
 Every part, and the integrated control's main element (Checkbox.Root, Select.Trigger,
-Slider.Root), carries:
+Slider.Root, Combobox.Input), carries:
 
 | attribute | when |
 | --- | --- |
@@ -116,7 +117,7 @@ has neither.
 
 | part | ARIA |
 | --- | --- |
-| Label | `id`; `for` the control's `id` when the control is labelable (the Control, Checkbox.Root's `button`, Select.Trigger's `button`) |
+| Label | `id`; `for` the control's `id` when the control is labelable (the Control, Checkbox.Root's `button`, Select.Trigger's `button`, Combobox.Input) |
 | Control | `id` (generated, or the consumer's), `name` (the field's), `aria-labelledby` (the label), `aria-describedby`, `aria-invalid="true"` while invalid, `disabled` |
 | Description | `id` |
 | Error | `id` |
@@ -149,6 +150,7 @@ Outside a `Field.Root`, a control behaves exactly as without the layer.
 | Field.Control | the `input` | the `input` | its text | the `input` | the `input` |
 | Checkbox | Checkbox.Root (`button`) | Checkbox.Root | `checked` | Checkbox.Root | its hidden `checkbox` input |
 | Select | Select.Trigger (`button`) | Select.Trigger | the value, or `null` | Select.Trigger | its hidden input |
+| Combobox | Combobox.Input (`input`) | Combobox.Input | the value: an item or `null`, or the list of items with `multiple` | Combobox.Input | its visually hidden input (combobox.md, "Forms") |
 | Slider | none (a `group`) | Slider.Root gets `aria-labelledby`. Each Thumb gets `aria-describedby` and `aria-invalid`, and `aria-labelledby` when it has no `aria-label` or `aria-labelledby` of its own | the value (a number, or numbers) | its Thumbs | none: its inputs are `type="hidden"`, which the browser never validates. `validate` still runs and shows its messages, but it cannot block a native submission |
 
 Select's popup is portalled. Its parts never need the field: the trigger and the hidden input
