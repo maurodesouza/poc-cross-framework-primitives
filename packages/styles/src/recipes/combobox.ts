@@ -34,7 +34,7 @@ export const combobox: Recipe<
     trigger: BOX_BUTTON,
     clear: BOX_BUTTON,
     chips: `${BOX} flex min-h-9 w-72 flex-wrap items-center gap-1 py-1 ps-1.5 pe-1`,
-    chip: "inline-flex h-6 items-center gap-1 rounded-md bg-palette-soft ps-2 pe-0.5 text-xs text-palette-contrast outline-none focus:outline-2 focus:outline-palette-ring",
+    chip: "inline-flex h-6 items-center gap-1 rounded-md bg-palette-soft ps-2 pe-0.5 text-xs text-palette-contrast outline-hidden focus:outline-solid focus:outline-2 focus:outline-palette-ring",
     "chip-remove":
         "inline-flex size-5 items-center justify-center rounded text-palette-accent/85 hover:bg-palette-base",
     status: "sr-only",

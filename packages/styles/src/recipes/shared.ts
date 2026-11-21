@@ -1,8 +1,8 @@
 // Pieces several recipes share. Logical properties only (RTL-safe), no !important.
 
-/** A focus ring on keyboard focus. */
+/** A focus ring on keyboard focus. In Tailwind v4, `outline-hidden` sets `--tw-outline-style` to `none`, which `outline-2` reads, so the ring states its style again. */
 export const FOCUS_RING =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-palette-ring";
+    "outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-palette-ring";
 
 /** A neutral button (triggers, close, calendar navigation). */
 export const BUTTON = `inline-flex items-center justify-center gap-2 h-9 px-3 rounded-md border border-palette-line bg-palette-base text-palette-contrast text-sm font-medium hover:bg-palette-soft data-disabled:opacity-50 disabled:opacity-50 ${FOCUS_RING}`;
