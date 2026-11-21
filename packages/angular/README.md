@@ -19,8 +19,22 @@ Angular's own means (spec/README.md, "API mapping by framework"):
   declaration's injectors and change detection.
 - **focus targets** take an element (a template reference variable, `[initialFocus]="cancel"`),
   an `ElementRef`, a getter, or `false`.
-- **part hooks** are injection functions: `injectDialog()` gives a component inside the dialog its
-  root's `state` and `setOpen`.
+- **parts rendered only in some states are structural**: `<div *tabsPanel="'account'">` renders
+  its element only while its tab is selected (`*tabsPanel="'account'; keepMounted: true"` keeps it,
+  `hidden`), and writes the panel's attributes on it.
+- **children functions are `@for` over a directive's signal**, read through `exportAs`: the
+  calendar's weeks (`@for (week of body.weeks(); ...)`), its weekdays, a cell's day number
+  (`{{ cell.dayNumber() }}`) and the heading's month (`{{ heading.month() }}`) come from `Intl`
+  through the directives, and the consumer writes them into its own elements.
+- **typed values**: Calendar and RangeCalendar (DatePicker and DateRangePicker) are separate
+  directives over one shared state, so `[(value)]` is typed `PlainDate | null` or
+  `DateRange | null` under strict templates.
+- **part hooks** are injection functions: `injectDialog()`, `injectPopover()`, `injectMenu()`,
+  `injectTabs()`, `injectCombobox()`, `injectCalendar()` and `injectDatePicker()` give a
+  component of the consumer's inside a root its `state` (and the root's own actions).
+
+Components: Dialog, Popover, Menu (with submenus), Tabs, Combobox, Calendar, RangeCalendar,
+DatePicker and DateRangePicker, with the parts of the specs.
 
 Source layout: `src/lib/directives/<component>/<part>.directive.ts` (one part per file, the same
 names as React's components), `src/lib/inject/` (the part hooks), `src/lib/utils/` (controllable
@@ -49,3 +63,10 @@ The fixture (`fixtures/angular`) compiles these sources with the app, through
 | submenu portal | a submenu's portal lives inside its parent's popup; destroying the parent's view detaches only that view's own nodes, so the submenu's nodes (moved to `body`) stayed: the portal removes the nodes it moved when it is destroyed | `@poc/angular` |
 | disabled item | the consumer's `(click)` sits on the item's own element, so the item cannot leave it out as React does: a capturing listener on the item stops a disabled item's click before it (at the target, capturing listeners run first) | `@poc/angular` |
 | submenus | one `MenuRoot` directive with two selectors, `[menuRoot]` and `[menuSubmenuRoot]`; the attribute (`HostAttributeToken`) tells a nested level apart, and it injects its parent level with `skipSelf` | `@poc/angular` |
+| Tabs panel | a panel is not rendered while its tab is not selected (the contract counts one), and an attribute directive cannot remove its own element: the Panel is a structural directive | `@poc/angular`, `spec/README.md` |
+| fixture text | JSX splits `{tab.label} settings` and `Choose date: {iso(value)}` into two text nodes; an Angular interpolation makes one. The fixture renders each run in its own `<ng-container>` inside an `@for`, so the text nodes match React's (comment nodes between them do not take part in layout) | `fixtures/angular` |
+| calendar keyboard | a key that moves the focused date into another month destroys the focused cell; the next key would reach `body`. The grid renders at once after a key (`injectFlush`), and the root focuses the pending cell after every render | `@poc/angular` |
+| calendar in a picker | choosing a date closes the picker, which returns focus to its trigger, while the calendar stays mounted for the exit animation: a calendar in a closing picker drops its pending focus (Solid's port found the same) | `@poc/angular` |
+| typed models | one root directive for both modes would type `[(value)]` as `PlainDate \| DateRange \| null`, which strict templates reject on a `PlainDate` signal: two directives each (Calendar, RangeCalendar; DatePicker, DateRangePicker) over a shared state and an abstract base for the common inputs | `@poc/angular` |
+| everything else | Tabs, Combobox (controlled input value included) and the calendar family passed behaviour, contract and visual on their first full run | |
+
