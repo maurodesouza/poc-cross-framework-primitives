@@ -60,6 +60,7 @@ picker carry `@internationalized/date`.
 | Calendar header | in `h()`, an element's children given as one vnode read as a slots object and rendered nothing; `renderPart` now always passes an array | `@poc/vue` |
 | visual layer in CI | two Tabs screens differed from React's by 5 and 9 pixels inside a glyph: a JSX `{label} settings` makes two text nodes, a Vue template merges them into one, and with CI's font the split shifts glyphs by a fraction of a pixel. The fixture now renders the same text runs (`kit/text-runs.ts`); same machine, the screens were already identical | `fixtures/vue` |
 | everything else | Dialog, Popover, Menu (submenus, safe area), Tabs, Combobox, the calendar family and the pickers passed on their first run once these were fixed | |
+| rejected controlled value (Epic F, #34) | an `inputValue` the consumer refused left the user's text in the input: a prop that does not change does not re-render, and the browser had already written the `<input>`. `Combobox.Input` re-asserts the kept value after `nextTick` (the consumer's update has rendered by then). A kept `open: true` already worked (`/dialog/rejected-close`) | `@poc/vue` |
 
 None of the findings was a bug that also existed in React. The subtlest React bug of Epic B
 (focusing a calendar cell that mounts one render after the keyboard moved to it) was avoided in

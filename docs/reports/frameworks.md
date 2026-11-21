@@ -144,8 +144,14 @@ the same but the call site is not.
 
 ## What remains for the extras (Epics F, G)
 
-1. Add a conformance test for a controlled value the consumer rejects (combobox input, then the
-   extras' inputs), and check Vue and Svelte against it.
+1. ~~Add a conformance test for a controlled value the consumer rejects (combobox input, then the
+   extras' inputs), and check Vue and Svelte against it.~~ **Done in Epic F (#34)**:
+   `/combobox/rejected-input` and `/dialog/rejected-close` (spec/README.md). React re-asserts a
+   controlled `<input value>` natively; Solid (after `flush()`) and Angular (`controllable()`)
+   already had their fix; Vue needed a re-assert after `nextTick` and Svelte a synchronous one in
+   `Combobox.Input`. A kept `open: true` worked in all five, and in Base UI (no deviation). The
+   Angular fixture's `FruitCombobox` took `inputValue` as an input and its change output, since
+   `model()` writes its own value.
 2. Run the screen reader spot check.
 3. Part hooks for React and Vue (Angular has `inject*`; Svelte and Solid needed none so far).
 4. The extras (Select, Tooltip, Checkbox, Slider) in all five, which test forms (hidden inputs),
