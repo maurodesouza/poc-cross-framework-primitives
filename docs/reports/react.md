@@ -193,3 +193,50 @@ the list (the APG keeps it on the combobox), Tab closes without choosing, an out
 `cancel-open`, and a form reset is ignored; Checkbox ignores a form reset; the Tooltip trigger gets
 no `aria-describedby`. Fixture settings, not deviations: `alignItemWithTrigger={false}`,
 `role="tooltip"` and `aria-hidden` on the Checkbox Indicator given by the fixture.
+
+## Field (Epic H)
+
+The Field layer of `spec/field.md`: Root, Label, Control, Description and Error, and its
+integration into Checkbox, Select and Slider. It was built in #49, after the spec, the tests and
+the Base UI baseline of #48.
+
+| piece | lines |
+| --- | --- |
+| `components/field/` (five parts, context, namespace) | 429 |
+| `hooks/use-field-control.ts`, the control's side of the integration contract | 119 |
+| Checkbox, Select and Slider integration | +68 / −7 in 7 files |
+| new in `@poc/dom` (`form/`), framework-free and tested with Vitest | 238 |
+
+- **Conformance.** React passes the 22 Field behaviour and contract tests on the first suite run, apart from one
+  axe finding (below). Every earlier test is unchanged and green. The golden screenshots come
+  from CI run 44919917987, made with React alone registered for Field.
+- **Effort.** About 20 minutes of agent time from the spec commit to the green suite. The Field
+  is the largest cross-cutting gap of `production-scope.md`, but in this POC's scope it costs about as
+  much as Checkbox did. Base UI's Field is about 3,000 lines with its form and labelable
+  internals.
+- **The baseline** (Base UI 1.9) passes every Field behaviour test. Base UI's `onSubmit` mode needs
+  its `Form`, which the baseline fixture uses (a fixture setting).
+
+### Boundary pressure (Field)
+
+The validation pipeline went into `@poc/dom` before any framework used it, because it holds no
+component state:
+
+- `validateField`: the native validity, the required rule, `validate`, and the element's custom
+  validity;
+- `validatesOnChange` and `shownAfterChange`: the mode table;
+- `fieldErrorShown`, `fieldStateAttributes`, `fieldDescribedBy` and `onSubmitAttempt`.
+
+The field's state stays in the framework: `touched`, `focused`, `dirty`, `filled`, the shown
+validation, the submitted flag, and the registry of label, control, description and errors. So
+does the integration hook, about 120 lines. It is a value watcher, focus and blur reporting, and the form
+listener's lifecycle, and each framework expresses those with its own reactivity.
+
+### Port log (Field)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Field without a `Form` part | a native form validates its controls before `submit`. A field shows its errors from the browser's `invalid` event (caught at the form in the capture phase), and keeps `validate`'s result as the element's custom validity at all times, so the browser blocks a rejected value | `@poc/dom`, spec |
+| Description | the recipe dimmed a disabled field's description, which axe flags (contrast). Only the control and the label are dimmed now | `@poc/styles` |
+| Slider | its hidden inputs are `type="hidden"`, which the browser never validates: `validate` shows its messages but cannot block a native submission (recorded in the spec) | spec |
+| Select | the trigger's id is the select's own generated id. A consumer `id` on `Select.Trigger` inside a field would leave the label's `for` on the generated id. No scenario does this | open |
