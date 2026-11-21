@@ -64,7 +64,6 @@ export const IMPLEMENTATIONS: readonly Implementation[] = [
     {
         name: "angular",
         fixture: "fixture-angular",
-        pending: EXTRAS,
         port: 5360,
         layers: ["behaviour", "contract", "visual"],
     },

@@ -4,6 +4,9 @@ import { readQuery } from "../kit/query.ts";
 import { CalendarRange } from "../scenarios/calendar/calendar-range.ts";
 import { CalendarTwoMonths } from "../scenarios/calendar/calendar-two-months.ts";
 import { SingleCalendar } from "../scenarios/calendar/single-calendar.ts";
+import { CheckboxBasic } from "../scenarios/checkbox/checkbox-basic.ts";
+import { CheckboxControlled } from "../scenarios/checkbox/checkbox-controlled.ts";
+import { CheckboxGroupScenario } from "../scenarios/checkbox/checkbox-group.ts";
 import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.ts";
 import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.ts";
 import { ComboboxRejectedInput } from "../scenarios/combobox/combobox-rejected-input.ts";
@@ -21,7 +24,15 @@ import { PopoverArrow } from "../scenarios/popover/popover-arrow.ts";
 import { PopoverBasic } from "../scenarios/popover/popover-basic.ts";
 import { PopoverPlacement } from "../scenarios/popover/popover-placement.ts";
 import { PopoverRtl } from "../scenarios/popover/popover-rtl.ts";
+import { SelectBasic } from "../scenarios/select/select-basic.ts";
+import { SelectControlled } from "../scenarios/select/select-controlled.ts";
+import { SliderBasic } from "../scenarios/slider/slider-basic.ts";
+import { SliderControlled } from "../scenarios/slider/slider-controlled.ts";
+import { SliderRange } from "../scenarios/slider/slider-range.ts";
+import { SliderVertical } from "../scenarios/slider/slider-vertical.ts";
 import { SettingsTabs } from "../scenarios/tabs/settings-tabs.ts";
+import { TooltipBasic } from "../scenarios/tooltip/tooltip-basic.ts";
+import { TooltipGroup } from "../scenarios/tooltip/tooltip-group.ts";
 import { ROUTES } from "./routes.ts";
 
 /**
@@ -53,6 +64,17 @@ import { ROUTES } from "./routes.ts";
         CalendarRange,
         DatePickerBasic,
         DatePickerRange,
+        SelectBasic,
+        SelectControlled,
+        TooltipBasic,
+        TooltipGroup,
+        CheckboxBasic,
+        CheckboxGroupScenario,
+        CheckboxControlled,
+        SliderBasic,
+        SliderRange,
+        SliderVertical,
+        SliderControlled,
     ],
     template: `
         @switch (path) {
@@ -83,6 +105,18 @@ import { ROUTES } from "./routes.ts";
             @case ("/calendar/range") { <main class="p-6" scenario-calendar-range [locale]="query.locale"></main> }
             @case ("/date-picker/basic") { <main class="p-6" scenario-date-picker-basic [locale]="query.locale"></main> }
             @case ("/date-picker/range") { <main class="p-6" scenario-date-picker-range [locale]="query.locale"></main> }
+            @case ("/select/basic") { <main class="p-6" scenario-select-basic></main> }
+            @case ("/select/controlled") { <main class="p-6" scenario-select-controlled></main> }
+            @case ("/tooltip/basic") { <main class="p-6" scenario-tooltip-basic></main> }
+            @case ("/tooltip/group") { <main class="p-6" scenario-tooltip-group></main> }
+            @case ("/checkbox/basic") { <main class="p-6" scenario-checkbox-basic></main> }
+            @case ("/checkbox/group") { <main class="p-6" scenario-checkbox-group></main> }
+            @case ("/checkbox/controlled") { <main class="p-6" scenario-checkbox-controlled></main> }
+            @case ("/slider/basic") { <main class="p-6" scenario-slider-basic></main> }
+            @case ("/slider/range") { <main class="p-6" scenario-slider-range></main> }
+            @case ("/slider/vertical") { <main class="p-6" scenario-slider-vertical></main> }
+            @case ("/slider/rtl") { <main class="p-6" scenario-slider-basic></main> }
+            @case ("/slider/controlled") { <main class="p-6" scenario-slider-controlled></main> }
             @default {
                 <main class="p-6">
                     <h1 class="text-lg font-semibold">Angular fixture</h1>
