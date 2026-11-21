@@ -151,3 +151,86 @@ The maintainer decides:
 1. whether Fragiola builds its own primitives;
 2. which second framework comes first;
 3. whether the screen reader check runs before that.
+
+## Addendum: Field and the Combobox at Fragiola UI's scope (Epics H and I)
+
+Two items of [production-scope.md](production-scope.md) were built in all five frameworks after
+this verdict: the Field layer (Epic H, #54) and the Combobox at Fragiola UI's scope (Epic I,
+#62: filtering, object values, `multiple` with chips, forms, Field, eleven new parts). It is the
+re-measure that `production-scope.md` §6 asked for. The numbers below come from
+[`data/`](data/), regenerated in Epic I; the "before" numbers are the same files at the end of
+Epic H (their git history).
+
+### Combobox size (minified + gzip, framework external)
+
+| framework | before | after | growth | comparison library | before | after |
+| --- | --- | --- | --- | --- | --- | --- |
+| React | 11.3 kB | 14.7 kB | +30% | Base UI 1.9, 50.9 kB | 4.5× smaller | 3.5× smaller |
+| Vue | 11.4 kB | 14.9 kB | +31% | Reka UI, 31.6 kB | 2.8× | 2.1× |
+| Svelte | 13.3 kB | 17.9 kB | +35% | Bits UI, 36.3 kB | 2.7× | 2.0× |
+| Solid | 12.5 kB | 16.7 kB | +34% | Kobalte, 32.8 kB | 2.6× | 2.0× |
+| Angular | 13.0 kB | 18.5 kB | +42% | Angular Aria, 8.6 kB | 1.5× larger | 2.2× larger |
+
+The comparison libraries are measured as before: Base UI's whole `Combobox` namespace (the same
+import as in Epic G), and the same parts of Reka UI, Bits UI, Kobalte and Angular Aria. Angular
+Aria's combobox has no positioning, no filtering and no chips, so that pairing stays indicative
+only, as in Epic G.
+
+The source behind it grew more than the bundle: the framework package's combobox went from
+529–592 counted lines to 1170–1361, and the `@poc/dom` modules it uses from 315 to 634
+(`data/*.md`, "Lines of code"). The new `@poc/dom` code (288 lines: item labels, the
+locale-aware filter, groups and limits, chip keys) is written once.
+
+### Field size
+
+| framework | Field | comparison |
+| --- | --- | --- |
+| React | 3.1 kB | Base UI's `Field`, 9.4 kB (3.0× smaller) |
+| Vue | 3.0 kB | none (Reka UI has no field) |
+| Svelte | 4.1 kB | none in Bits UI |
+| Solid | 3.6 kB | none measured |
+| Angular | 4.3 kB | none measured |
+
+The Field adds 388–486 counted lines per framework, plus 175–191 lines of `@poc/dom` `form/`.
+The integration into Checkbox, Select, Slider and now Combobox is counted in those components.
+
+### Porting cost relative to React
+
+Measured as agent wall time per issue (the commit dates of a port are its final commit, so they
+give no duration here):
+
+| | React | Vue | Svelte | Solid | Angular |
+| --- | --- | --- | --- | --- | --- |
+| Combobox parity | ~8 min | ~11 min | ~14 min | ~10 min | ~14 min |
+| relative to React | 1.0 | 1.3 | 1.6 | 1.2 | 1.7 |
+| framework lines (counted) relative to React | 1.0 | 1.08 | 1.00 | 1.02 | 0.93 |
+
+- React's time starts after the spec, the tests and the baseline (#55, about twenty minutes) and
+  ends at its green suite; each port's time includes reading React's code, the whole suite run,
+  the visual check and its report section. On that basis a port cost 1.2–1.7× React, more than
+  the 0.4–0.9× of the extras in Epic G. The Combobox is a larger, state-heavy component, and four
+  of the five frameworks needed a framework-specific fix of their own (reactive proxies against
+  `Object.is` in Vue and Svelte, Solid's keyed `For`, Angular's structural parts).
+- The Epic review found one bug common to all five (a stale highlight when the list reopens
+  during its exit animation). It was fixed in React, then in the four ports together in about
+  seven minutes.
+- Every port passed the shared suite and React's golden screenshots with no test changed.
+
+### Does the 1.4–6.5× advantage still hold?
+
+**Yes, within the same range, but narrower for the component that reached parity.** At
+Fragiola UI's scope the Combobox is 2.0–3.5× smaller than Base UI, Reka UI, Bits UI and Kobalte,
+down from 2.6–4.5×: its own advantage shrank by about a quarter, and the 1.4–6.5× range of the
+verdict still holds. Field is 3.0× smaller than Base UI's.
+
+What this says about the remaining gaps:
+
+- **Scope costs bytes roughly in proportion to features, not to mechanisms.** The Combobox more
+  than doubled its source and grew its bundle by a third. Most of it is plain state and parts;
+  the expensive mechanisms (positioning, layers, focus, presence) were already paid for.
+- **The comparison libraries carry what the POC still leaves out** (virtualization,
+  `autoHighlight`, async loading, `inline`, `modal`, Autocomplete, grid layout: production-scope
+  §3.2). Closing those gaps will narrow the advantage again; the L items (Drawer,
+  NavigationMenu) are new mechanisms and will cost more per feature than this Epic did.
+- **The ratio is not the risk; the five-fold build is.** Each framework pays every item again, at
+  1.2–1.7× React's time for a component of this size.

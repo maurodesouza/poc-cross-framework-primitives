@@ -134,3 +134,15 @@ are separate, later projects).
   `docs/reports/frameworks.md` (the final comparison), `docs/reports/final.md` (the verdict and a
   recommendation for Fragiola). **Remaining**: the screen reader spot check, which needs a person
   (`docs/reports/screen-readers.md`), then the maintainer's decision.
+- 2026-11-21: Epic H (#54) done. The maintainer decided the section 4 differences
+  (`docs/decisions.md`: follow Base UI, except Tooltip's ARIA wiring and Select's placement).
+  The Field layer (`spec/field.md`) is built in all five frameworks, with Checkbox, Select and
+  Slider integrated.
+- 2026-11-21: Epic I (#62) done. The Combobox is at Fragiola UI's scope in all five frameworks
+  (filtering, object values, `multiple` with chips, forms, Field, eleven new parts), with
+  decisions 5 and 6 applied. Every port passes the 43 behaviour and contract tests and React's
+  five new golden screenshots with no test changed. The re-measure (`docs/reports/final.md`,
+  "Addendum"): the Combobox grew 30–42% and is 2.0–3.5× smaller than Base UI, Reka UI, Bits UI
+  and Kobalte (2.6–4.5× before); Field is 3.0× smaller than Base UI's; a port cost 1.2–1.7×
+  React. **Remaining**: the screen reader spot check, the other pending decisions, and the rest
+  of `docs/reports/production-scope.md` section 7.
