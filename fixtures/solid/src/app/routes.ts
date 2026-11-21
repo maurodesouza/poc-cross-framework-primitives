@@ -1,4 +1,13 @@
 import type { Component } from "solid-js";
+import { CalendarMinMax } from "../scenarios/calendar/calendar-min-max.tsx";
+import { CalendarRange } from "../scenarios/calendar/calendar-range.tsx";
+import { CalendarSingle } from "../scenarios/calendar/calendar-single.tsx";
+import { CalendarTwoMonths } from "../scenarios/calendar/calendar-two-months.tsx";
+import { CalendarUnavailable } from "../scenarios/calendar/calendar-unavailable.tsx";
+import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.tsx";
+import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.tsx";
+import { DatePickerBasic } from "../scenarios/date-picker/date-picker-basic.tsx";
+import { DatePickerRange } from "../scenarios/date-picker/date-picker-range.tsx";
 import { DialogBasic } from "../scenarios/dialog/dialog-basic.tsx";
 import { DialogControlled } from "../scenarios/dialog/dialog-controlled.tsx";
 import { DialogInitialFocus } from "../scenarios/dialog/dialog-initial-focus.tsx";
@@ -10,6 +19,9 @@ import { PopoverArrow } from "../scenarios/popover/popover-arrow.tsx";
 import { PopoverBasic } from "../scenarios/popover/popover-basic.tsx";
 import { PopoverPlacement } from "../scenarios/popover/popover-placement.tsx";
 import { PopoverRtl } from "../scenarios/popover/popover-rtl.tsx";
+import { TabsAutomatic } from "../scenarios/tabs/tabs-automatic.tsx";
+import { TabsManual } from "../scenarios/tabs/tabs-manual.tsx";
+import { TabsVertical } from "../scenarios/tabs/tabs-vertical.tsx";
 
 /** Every scenario of the specs, at `/<component>/<scenario>`. */
 export const routes: Record<string, Component<{ locale: string }>> = {
@@ -24,4 +36,18 @@ export const routes: Record<string, Component<{ locale: string }>> = {
     "/menu/basic": MenuBasic,
     "/menu/submenu": MenuSubmenu,
     "/menu/groups": MenuGroups,
+    "/combobox/basic": ComboboxBasic,
+    "/combobox/controlled": ComboboxControlled,
+    "/tabs/automatic": TabsAutomatic,
+    "/tabs/manual": TabsManual,
+    "/tabs/vertical": TabsVertical,
+    "/calendar/single": CalendarSingle,
+    "/calendar/min-max": CalendarMinMax,
+    "/calendar/unavailable": CalendarUnavailable,
+    "/calendar/locale": CalendarSingle,
+    "/calendar/rtl": CalendarSingle,
+    "/calendar/two-months": CalendarTwoMonths,
+    "/calendar/range": CalendarRange,
+    "/date-picker/basic": DatePickerBasic,
+    "/date-picker/range": DatePickerRange,
 };

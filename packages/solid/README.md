@@ -28,6 +28,19 @@ re-applies what changed and never rebuilds the element. Two Solid 2 details shap
 - the part returns a memo, not a function: a parent resolving its children calls a function child
   again each time it re-resolves.
 
+## Effect order
+
+Solid runs effects parent first, where React runs a child's layout effects before its parent's,
+and before any passive effect. Two parts depend on it:
+
+- `Combobox.List` applies the highlight the keyboard asked for only once every rendered option has
+  registered (its effect runs before the items' own);
+- a calendar inside a closing picker takes no pending focus: the picker's popup returns focus to
+  its trigger first, and a cell focused after it would take it back.
+
+The dev build's diagnostics (`STRICT_READ_UNTRACKED`, `EFFECT_WRITES_OWN_SOURCE`, ...) are silent on
+every scenario: reactive reads stay in computes and memos, writes in handlers and effect applies.
+
 ## Build
 
 `vite build` in library mode with `@solidjs/vite-plugin` (the Solid 2 compiler, `@solidjs/compiler`;
