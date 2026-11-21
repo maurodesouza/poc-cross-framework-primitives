@@ -14,6 +14,7 @@ export default defineConfig({
             },
             "packages/*",
             "fixtures/*",
+            "playground",
         ],
     },
 });

@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "@poc/styles/theme.css";
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+}

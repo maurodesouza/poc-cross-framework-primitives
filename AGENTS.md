@@ -18,6 +18,7 @@ The plan, the phases and the metrics are in [`docs/plan.md`](docs/plan.md). The 
 | `packages/<framework>` | `@poc/<framework>` | the primitives, written for that framework | `@poc/dom`; peer the framework |
 | `fixtures/<implementation>` | private | one app per implementation (and `baseline-react` on Base UI / React Aria), rendering every spec scenario at `/<component>/<scenario>` | the implementation, `@poc/styles` |
 | `conformance` | private | the Playwright suite: behaviour, contract and visual layers, run against every fixture | |
+| `playground` | private | a vanilla TypeScript app (Vite, Tailwind with the `@poc/styles` theme) showing every scenario in every fixture, side by side or one at a time, in iframes to the fixtures' dev servers | `@poc/styles`; reads `conformance/src/implementations.ts` |
 
 ## Non-negotiable rules
 
@@ -105,6 +106,7 @@ that is not kebab-case and on a non-entry file at the root of a package's `src/`
   | `vue` | `components/<component>/`, `composables/`, `utils/` |
   | `svelte` | `components/<component>/`, `utils/` |
   | `angular` | `lib/directives/<component>/`, `lib/inject/`, `lib/utils/` |
+  | `playground` (app) | `app/` (shell, views, frames), `scenarios/` (the manifest), `kit/` (URL state, probes) |
 
 - **One public component, hook or function per file**, with its types beside it. A component's
   namespace lives in `components/<component>/parts.ts`.
@@ -175,6 +177,7 @@ decision (2026-11-20): Solid 2.0, the latest** (`solid-js`, `@solidjs/web` 2.0.x
 | `pnpm test` | Vitest: the repo's own tests and every workspace with a Vitest config |
 | `pnpm build` | every workspace's `build` |
 | `pnpm e2e` | the conformance suite (`conformance/`) |
+| `pnpm playground` | every fixture's dev server on its suite port, then the playground on 5300 (`--framework vue,solid` for a subset, `--baseline` to add the baseline); Ctrl+C stops them all |
 
 ## CI
 
@@ -197,3 +200,6 @@ over SSH (this repository's `origin` uses SSH).
 - Branches `<type>/epic-<n>-<short-description>`; worktrees under `.worktrees/`.
 - Code, docs, issues, pull requests and commit messages in English.
 - Every rule a reviewer would otherwise have to remember is a test (guard tests, contract tests).
+- A scenario added to the fixtures is added to the playground's manifest
+  (`playground/src/scenarios/scenarios.ts`) in the same change; `tests/playground-manifest.test.ts`
+  enforces it.
