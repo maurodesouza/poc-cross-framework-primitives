@@ -122,10 +122,7 @@
                 "component": "checkbox",
                 "framework": 212,
                 "dom": 45,
-                "domModules": [
-                    "form/form-bridge.ts",
-                    "form/visually-hidden.ts"
-                ]
+                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
             },
             {
                 "component": "checkbox-group",
