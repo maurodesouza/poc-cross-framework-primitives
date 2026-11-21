@@ -36,7 +36,7 @@ usePositioner(
     () => context.arrow,
     (placed) => (context.placed = placed),
 );
-const state = $derived({ open: context.open, ...context.placed });
+const partState = $derived({ open: context.open, ...context.placed });
 const partProps = $derived(
     mergeProps(
         {
@@ -54,4 +54,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}

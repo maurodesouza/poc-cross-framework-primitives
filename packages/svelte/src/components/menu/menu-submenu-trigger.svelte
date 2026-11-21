@@ -44,7 +44,7 @@ const open = (
     submenu.pendingHighlight.current = highlight;
     submenu.setOpen(true, reason);
 };
-const state = $derived({
+const partState = $derived({
     open: submenu.open,
     highlighted: item.highlighted,
     disabled,
@@ -116,4 +116,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}

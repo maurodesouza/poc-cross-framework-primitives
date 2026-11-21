@@ -10,7 +10,7 @@ let { child, children, ...rest }: PartProps<{ side: string; align: string }> =
     $props();
 const context = PopoverContext.use("Popover.Arrow");
 const ref = elementRef((element) => (context.arrow = element));
-const state = $derived(context.placed);
+const partState = $derived(context.placed);
 const partProps = $derived(
     mergeProps(
         {
@@ -27,4 +27,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}

@@ -8,7 +8,7 @@ import { DialogContext } from "./dialog-context.svelte.ts";
 let { child, children, ...rest }: PartProps<{ open: boolean }> = $props();
 const context = DialogContext.use("Dialog.Backdrop");
 const ref = elementRef((element) => (context.backdrop = element));
-const state = $derived({ open: context.open });
+const partState = $derived({ open: context.open });
 const partProps = $derived(
     mergeProps(
         {
@@ -26,4 +26,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}

@@ -15,7 +15,7 @@ let {
 } = $props();
 const context = DialogContext.use("Dialog.Trigger");
 const ref = elementRef((element) => (context.trigger = element));
-const state = $derived({ open: context.open, disabled });
+const partState = $derived({ open: context.open, disabled });
 const partProps = $derived(
     mergeProps(
         {
@@ -35,4 +35,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state })}{:else}<button {...partProps}>{@render children?.()}</button>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<button {...partProps}>{@render children?.()}</button>{/if}

@@ -27,7 +27,7 @@ let {
 const context = MenuContext.use("Menu.Item");
 const item = new MenuItemBehaviour(context, () => label, false);
 const ref = elementRef((element) => (item.element = element));
-const state = $derived({ highlighted: item.highlighted, disabled });
+const partState = $derived({ highlighted: item.highlighted, disabled });
 const partProps = $derived(
     mergeProps(
         {
@@ -49,4 +49,4 @@ const partProps = $derived(
 );
 </script>
 
-{#if child}{@render child({ props: partProps, state })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}
+{#if child}{@render child({ props: partProps, state: partState })}{:else}<div {...partProps}>{@render children?.()}</div>{/if}
