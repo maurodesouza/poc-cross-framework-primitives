@@ -167,3 +167,61 @@ The Field layer ported to Svelte 5 (#51) from the React reference (#49), on the 
 Boundary pressure on `@poc/dom`: none. The field's state (the interaction flags, what is shown,
 the ids and the message list) and its lifecycle are the package's; every rule of the validation
 came from `@poc/dom` unchanged.
+
+## Combobox parity (Epic I)
+
+The Combobox rewritten for Svelte 5 (#58) on the Epic I spec (`spec/combobox.md`), from the React
+reference (#62), on the `@poc/dom` helpers (`filterItems`, `containsFilter`, `queryIsLabel`,
+`itemLabel`, `itemFormValue`, `includesItem`, `toggleItem`, `chipKeyTarget`, `chipArrows`,
+`stepThroughNone`, `openOverlaySession`, `bridgeForm`).
+
+| lines (`wc -l`) | React | Svelte |
+| --- | --- | --- |
+| `components/combobox/` (22 files each) | 1382 | 1453 |
+| fixture (`scenarios/combobox/`, plus React's `kit/ui/combobox.tsx`) | 734 | 280 |
+
+The Svelte fixture is shorter because it has no `kit/ui` wrapper (the parts take the `combobox`
+recipe's classes inline) and its templates are glued on one line, as JSX renders them.
+
+- **Conformance**: the 35 Combobox behaviour and 7 contract tests passed on the first run, with no
+  test changed; the whole `--project=svelte` suite stays green (214 passed, 31 skipped: the visual
+  layer, locally). The five Combobox screens match screenshots React made on the same machine
+  (`VISUAL=1`, 5 / 5). The DOM of the nine routes, closed and open, equals React's once attribute
+  order, React's synced `value` attribute and Svelte's empty anchor text nodes are left aside.
+  Every route, driven in `vite` dev (typing, the arrows, Enter, Backspace, Escape, submit and
+  reset), raised no error or warning.
+- **API**: `bind:value`, `bind:inputValue` and `bind:open` (`$bindable`), with `defaultValue`,
+  `defaultInputValue`, `defaultOpen` and the `on...Change(value, details)` callbacks. The List's
+  render function is its `children` snippet, `{#snippet children(entry, index)}`, called for each
+  matching entry while the Root has `items`; without `items` the same `children` is the consumer's
+  own Items (a snippet cannot say whether it takes arguments, so the Root's `items` decides). The
+  Value's is `{#snippet children(value)}`. The state lives in a `ComboboxState` class
+  (`combobox-context.svelte.ts`, extending `OverlayRoot`); every element part takes the `child`
+  snippet and passes its attachments on.
+- **Values and `$state`**: a value is an item, so the Root keeps its own value raw
+  (`$state.raw`). A value bound to the consumer's `$state` is a deep proxy of the item, never
+  `Object.is` to it (the lesson of the Vue port, whose fix is `toRaw`; Svelte has no public way to
+  unwrap a proxy). The Svelte default of `isItemEqualToValue` is therefore `Object.is`, else, for
+  plain objects and arrays, the same keys holding equal values; a consumer's own
+  `isItemEqualToValue` gets the items as they are. Finding: by default a plain-object copy of an
+  item counts as selected in Svelte, where `Object.is` does not in React (no test covers it). The
+  basic, controlled and multiple scenarios keep their values in a deep `$state` on purpose.
+
+Boundary pressure on `@poc/dom`: none. The filtering, the labels and form values, the toggling,
+the chip keys and the list keys came from `@poc/dom` unchanged; the structural equality is
+Svelte's own (it exists only because of `$state` proxies) and stays in `@poc/svelte`.
+
+### Port log (Combobox parity)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Root, Item | a value read back from the consumer's `$state` is a proxy: `Object.is` found no item selected | `@poc/svelte`: the default equality compares plain objects and arrays by their keys |
+| List | the pending highlight ("first", "last", "selected") ran when the list mounted, before its options registered (they register in their own effects), and found nothing to highlight | `@poc/svelte`: the List's effect follows an item version and waits until options are rendered; typing and closing drop a pending highlight, so a later registration never applies a stale one |
+| Item | registering wrote the item count it read, inside the item's effect | `@poc/svelte`: `register` writes in `untrack` and bumps a version the readers follow |
+| Root | the input's default text read the state's `label` while the state was being constructed | `@poc/svelte`: `itemLabel` from `@poc/dom` with the `itemToStringLabel` prop |
+| Root | a form reset changes the visible and hidden inputs after the state was reset; an unchanged state does not write them again | `@poc/svelte`: the reset flushes (`flushSync`) and writes the state back onto both inputs, as Select does |
+| Chip | after Backspace on a chip, focus must move to the chip now at its place: the removal must reach the DOM first | `@poc/svelte`: `flushSync()` between the removal and the focus (React's `flushSync`) |
+| Input | Escape on an open list: Svelte's state is live, so the closed-list branch (clear) would see the list closed already | no change: the layer stack takes Escape in the capture phase and stops it, so the Input's handler never sees it |
+| List | `Omit<PartProps, "children">` kept only the index signature, so `child` lost its type | `@poc/svelte`: the List's props `Pick` the part props it keeps |
+| Group | `$props.id()` inside a template literal does not compile | `@poc/svelte`: the id first, then the label id from it |
+| fixture | no `kit/ui` in the Svelte fixture: classes inline, React's `FruitPopup` its own `fruit-popup.svelte` (one component per file), the route imports sorted by Biome | `fixtures/svelte` |
