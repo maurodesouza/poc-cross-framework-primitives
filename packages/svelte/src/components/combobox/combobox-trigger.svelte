@@ -13,22 +13,19 @@ let {
 }: PartProps<{ open: boolean; disabled: boolean }> = $props();
 const context = ComboboxContext.use("Combobox.Trigger");
 const ref = elementRef((element) => (context.button = element));
-const partState = $derived({
-    open: context.open,
-    disabled: context.disabled(),
-});
+const partState = $derived({ open: context.open, disabled: context.disabled });
 const partProps = $derived(
     mergeProps(
         {
             type: "button",
             tabindex: -1,
-            disabled: context.disabled(),
+            disabled: context.disabled,
             "aria-expanded": context.open ? "true" : "false",
             "aria-controls": context.listId,
             "data-combobox-part": "trigger",
             ...stateAttributes({
                 open: context.open,
-                disabled: context.disabled(),
+                disabled: context.disabled,
             }),
             onpointerdown: (event: PointerEvent) => event.preventDefault(),
             onclick: () => {

@@ -35,21 +35,33 @@ export {
     CheckboxGroup,
     type CheckboxGroupState,
 } from "./lib/directives/checkbox-group/checkbox-group.directive.ts";
+export { ComboboxChip } from "./lib/directives/combobox/combobox-chip.directive.ts";
+export { ComboboxChipRemove } from "./lib/directives/combobox/combobox-chip-remove.directive.ts";
+export { ComboboxChips } from "./lib/directives/combobox/combobox-chips.directive.ts";
+export { ComboboxClear } from "./lib/directives/combobox/combobox-clear.directive.ts";
 export { ComboboxEmpty } from "./lib/directives/combobox/combobox-empty.directive.ts";
+export { ComboboxGroup } from "./lib/directives/combobox/combobox-group.directive.ts";
+export { ComboboxGroupLabel } from "./lib/directives/combobox/combobox-group-label.directive.ts";
 export { ComboboxInput } from "./lib/directives/combobox/combobox-input.directive.ts";
+export { ComboboxInputGroup } from "./lib/directives/combobox/combobox-input-group.directive.ts";
 export {
     ComboboxItem,
     type ComboboxItemState,
 } from "./lib/directives/combobox/combobox-item.directive.ts";
+export { ComboboxItemIndicator } from "./lib/directives/combobox/combobox-item-indicator.directive.ts";
 export { ComboboxList } from "./lib/directives/combobox/combobox-list.directive.ts";
 export { ComboboxPopup } from "./lib/directives/combobox/combobox-popup.directive.ts";
 export { ComboboxPortal } from "./lib/directives/combobox/combobox-portal.directive.ts";
 export { ComboboxPositioner } from "./lib/directives/combobox/combobox-positioner.directive.ts";
 export {
     type ComboboxItemInfo,
+    type ComboboxItemValue,
     ComboboxRoot,
     type ComboboxState,
+    type PendingHighlight,
 } from "./lib/directives/combobox/combobox-root.directive.ts";
+export { ComboboxSeparator } from "./lib/directives/combobox/combobox-separator.directive.ts";
+export { ComboboxStatus } from "./lib/directives/combobox/combobox-status.directive.ts";
 export { ComboboxTrigger } from "./lib/directives/combobox/combobox-trigger.directive.ts";
 export { DatePickerPopup } from "./lib/directives/date-picker/date-picker-popup.directive.ts";
 export { DatePickerPortal } from "./lib/directives/date-picker/date-picker-portal.directive.ts";

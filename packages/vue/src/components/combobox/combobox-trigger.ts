@@ -33,7 +33,7 @@ export const ComboboxTrigger = defineComponent({
                         event.preventDefault(),
                     onClick: () => {
                         context.pendingHighlight.current = null;
-                        context.setOpen(!open, "trigger-press");
+                        context.setOpen(!context.open.value, "trigger-press");
                         context.trigger.value?.focus();
                     },
                     ref: setButton,

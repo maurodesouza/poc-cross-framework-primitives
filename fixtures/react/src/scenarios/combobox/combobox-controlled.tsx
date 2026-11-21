@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Output } from "../../kit/output.tsx";
 import { FruitCombobox } from "./fruit-combobox.tsx";
+import { FRUITS, type Fruit, printValues } from "./fruits.ts";
 
 export function ComboboxControlled() {
-    const [value, setValue] = useState<string | null>("mango");
+    const [value, setValue] = useState<Fruit | null>(
+        FRUITS.find((fruit) => fruit.value === "mango") ?? null,
+    );
     const [input, setInput] = useState("Mango");
     const [open, setOpen] = useState(false);
     return (
@@ -26,7 +29,7 @@ export function ComboboxControlled() {
             >
                 Reset
             </button>
-            <Output values={{ value, input, open }} />
+            <Output values={{ value: printValues(value), input, open }} />
         </>
     );
 }

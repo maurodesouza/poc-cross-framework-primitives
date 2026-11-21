@@ -1,24 +1,22 @@
 import { Combobox } from "@base-ui/react/combobox";
 import { useId } from "react";
-import { FRUITS, type Fruit, filterFruits, fruitLabel } from "./fruits.ts";
+import { FRUITS, type Fruit } from "./fruits.ts";
 
 export interface FruitComboboxProps {
-    value: string | null;
-    onValueChange: (value: string | null, reason: string) => void;
+    value: Fruit | null;
+    onValueChange: (value: Fruit | null, reason: string) => void;
     inputValue: string;
     onInputValueChange: (value: string, reason: string) => void;
     open: boolean;
     onOpenChange: (open: boolean, reason: string) => void;
 }
 
+/** The combobox of `/combobox/basic` (spec/combobox.md). */
 export function FruitCombobox(props: FruitComboboxProps) {
     const id = useId();
-    const filtered = filterFruits(props.inputValue);
     return (
-        <Combobox.Root<string>
-            items={FRUITS.map((fruit) => fruit.value)}
-            filteredItems={filtered.map((fruit) => fruit.value)}
-            itemToStringLabel={fruitLabel}
+        <Combobox.Root<Fruit>
+            items={FRUITS}
             value={props.value}
             onValueChange={(value, details) =>
                 props.onValueChange(value, details.reason)
@@ -27,39 +25,48 @@ export function FruitCombobox(props: FruitComboboxProps) {
             onInputValueChange={(value, details) =>
                 props.onInputValueChange(value, details.reason)
             }
-            openOnInputClick={false}
             open={props.open}
             onOpenChange={(open, details) =>
                 props.onOpenChange(open, details.reason)
             }
         >
             <label htmlFor={id}>Fruit</label>
-            <Combobox.Input id={id} />
-            <Combobox.Trigger aria-label="Show fruits">▾</Combobox.Trigger>
-            <Combobox.Portal>
-                <Combobox.Positioner sideOffset={4}>
-                    <Combobox.Popup className="popup">
-                        <Combobox.Empty>No fruit found.</Combobox.Empty>
-                        <Combobox.List>
-                            {(value: string) => {
-                                const fruit = FRUITS.find(
-                                    (candidate) => candidate.value === value,
-                                ) as Fruit;
-                                return (
-                                    <Combobox.Item
-                                        key={value}
-                                        value={value}
-                                        disabled={fruit.disabled}
-                                        className="item"
-                                    >
-                                        {fruit.label}
-                                    </Combobox.Item>
-                                );
-                            }}
-                        </Combobox.List>
-                    </Combobox.Popup>
-                </Combobox.Positioner>
-            </Combobox.Portal>
+            <Combobox.InputGroup className="field">
+                <Combobox.Input id={id} />
+                <Combobox.Clear aria-label="Clear fruit">×</Combobox.Clear>
+                <Combobox.Trigger aria-label="Show fruits">▾</Combobox.Trigger>
+            </Combobox.InputGroup>
+            <FruitPopup />
         </Combobox.Root>
+    );
+}
+
+/** The fruits' popup: an Empty and the List, each Item with its label (and indicator). */
+export function FruitPopup({ indicator = false }: { indicator?: boolean }) {
+    return (
+        <Combobox.Portal>
+            <Combobox.Positioner sideOffset={4}>
+                <Combobox.Popup className="popup">
+                    <Combobox.Empty>No fruit found.</Combobox.Empty>
+                    <Combobox.List>
+                        {(fruit: Fruit) => (
+                            <Combobox.Item
+                                key={fruit.value}
+                                value={fruit}
+                                disabled={fruit.disabled}
+                                className="item"
+                            >
+                                {fruit.label}
+                                {indicator ? (
+                                    <Combobox.ItemIndicator>
+                                        ✓
+                                    </Combobox.ItemIndicator>
+                                ) : null}
+                            </Combobox.Item>
+                        )}
+                    </Combobox.List>
+                </Combobox.Popup>
+            </Combobox.Positioner>
+        </Combobox.Portal>
     );
 }

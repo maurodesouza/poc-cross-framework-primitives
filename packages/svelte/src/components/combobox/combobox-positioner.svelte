@@ -7,7 +7,10 @@ import { usePositioner } from "../../utils/positioner.svelte.ts";
 import { stateAttributes } from "../../utils/state-attributes.ts";
 import { ComboboxContext } from "./combobox-context.svelte.ts";
 
-/** Places the list under the input; the open list is a layer (Escape, outside press). */
+/**
+ * Places the list under the InputGroup (else the Chips, else the Input); the open list is a layer
+ * (Escape, outside press).
+ */
 let {
     child,
     children,
@@ -31,7 +34,7 @@ const ref = elementRef((element) => (context.positioner = element));
 usePositioner(
     () => ({ side, align, sideOffset, alignOffset, collisionPadding, anchor }),
     { side: "bottom", align: "start" },
-    () => context.trigger,
+    () => context.inputGroup ?? context.chips ?? context.trigger,
     () => context.positioner,
     () => null,
     (placed) => {
@@ -45,7 +48,13 @@ $effect(() => {
     }
     const session = openOverlaySession(positioner.ownerDocument, {
         elements: () => [positioner],
-        ignore: () => [context.trigger, context.button],
+        ignore: () => [
+            context.trigger,
+            context.button,
+            context.inputGroup,
+            context.chips,
+            context.clearButton,
+        ],
         dismiss: (reason) => context.setOpen(false, reason),
     });
     return session.end;

@@ -2,9 +2,10 @@ import type { ChangeDetails } from "@poc/solid";
 import { createSignal } from "solid-js";
 import { Output } from "../../kit/output.tsx";
 import { FruitCombobox } from "./fruit-combobox.tsx";
+import { type Fruit, printValues } from "./fruits.ts";
 
 export function ComboboxBasic() {
-    const [value, setValue] = createSignal<string | null>(null);
+    const [value, setValue] = createSignal<Fruit | null>(null);
     const [input, setInput] = createSignal("");
     const [open, setOpen] = createSignal(false);
     const [reason, setReason] = createSignal<string>();
@@ -23,7 +24,7 @@ export function ComboboxBasic() {
             />
             <Output
                 values={{
-                    value: value(),
+                    value: printValues(value()),
                     input: input(),
                     open: open(),
                     reason: reason(),

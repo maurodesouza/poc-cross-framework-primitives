@@ -13,8 +13,8 @@ import { dataValues } from "../../utils/state-attributes.ts";
 import { ComboboxRoot } from "./combobox-root.directive.ts";
 
 /**
- * Places the list under the input; the open list is a layer (Escape, outside press):
- * `<div comboboxPositioner>`.
+ * Places the list under the InputGroup (else the Chips, else the Input); the open list is a layer
+ * (Escape, outside press): `<div comboboxPositioner>`.
  */
 @Directive({
     selector: "[comboboxPositioner]",
@@ -48,21 +48,32 @@ export class ComboboxPositioner {
         positionOverlay(
             this,
             { side: "bottom", align: "start" },
-            { anchor: overlay.trigger, positioner },
+            {
+                anchor: computed(
+                    () =>
+                        root.inputGroup() ?? root.chips() ?? overlay.trigger(),
+                ),
+                positioner,
+            },
             root.placed,
         );
         afterRenderEffect((onCleanup) => {
             const open = overlay.open();
-            const trigger = overlay.trigger();
-            const button = root.button();
+            const ignored = [
+                overlay.trigger(),
+                root.button(),
+                root.inputGroup(),
+                root.chips(),
+                root.clearButton(),
+            ];
             if (!open) {
                 return;
             }
             untracked(() => {
                 const session = openOverlaySession(positioner.ownerDocument, {
                     elements: () => [positioner],
-                    ignore: () => [trigger, button],
-                    dismiss: (reason) => overlay.setOpen(false, reason),
+                    ignore: () => ignored,
+                    dismiss: (reason) => root.setOpen(false, reason),
                 });
                 onCleanup(session.end);
             });

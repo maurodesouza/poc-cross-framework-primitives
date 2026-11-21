@@ -1,8 +1,14 @@
-import { stepThroughNone } from "@poc/dom";
+import { chipArrows, getDirection, stepThroughNone } from "@poc/dom";
 import { flush, useContext } from "solid-js";
 import { type PartProps, renderPart } from "../../utils/part.tsx";
 import { stateAttributes } from "../../utils/state-attributes.ts";
-import { ComboboxContext, orderedItems } from "./combobox-context.ts";
+import {
+    ComboboxContext,
+    chipElements,
+    openOnPress,
+    orderedItems,
+    type PendingHighlight,
+} from "./combobox-context.ts";
 
 /**
  * The `combobox`: keeps DOM focus while the list is open; the highlighted item is announced with
@@ -12,23 +18,29 @@ export function ComboboxInput(
     props: PartProps<{ open: boolean; disabled: boolean }>,
 ) {
     const context = useContext(ComboboxContext);
+    const active = () => {
+        // the list's items register one pass after they render
+        context.itemCount();
+        const highlighted = context.highlighted();
+        return orderedItems(context).find((item) => item.id === highlighted);
+    };
 
-    const openWith = (highlight: "first" | "last" | null) => {
+    const openWith = (highlight: PendingHighlight) => {
         context.pendingHighlight.current = highlight;
         context.setOpen(true, "list-navigation");
     };
     const move = (delta: 1 | -1) => {
         // past an end, the visual focus goes back to the input; from the input, to the near end
         const items = orderedItems(context);
-        const index = items.findIndex(
-            (item) => item.value === context.highlighted(),
-        );
+        const highlighted = context.highlighted();
+        const index = items.findIndex((item) => item.id === highlighted);
         context.setHighlighted(
-            items[stepThroughNone(items.length, index, delta)]?.value ?? null,
+            items[stepThroughNone(items.length, index, delta)]?.id ?? null,
         );
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
+        const input = event.currentTarget as HTMLInputElement;
         const open = context.open();
         switch (event.key) {
             case "ArrowDown":
@@ -52,9 +64,9 @@ export function ComboboxInput(
             case "Enter": {
                 if (open) {
                     event.preventDefault();
-                    const highlighted = context.highlighted();
-                    if (highlighted !== null) {
-                        context.choose(highlighted);
+                    const item = active();
+                    if (item !== undefined && !item.disabled) {
+                        context.choose(item.value);
                     }
                 }
                 return;
@@ -63,10 +75,10 @@ export function ComboboxInput(
                 // the open list's layer takes Escape first; here the list is closed
                 if (
                     !open &&
-                    (context.inputValue() !== "" || context.value() !== null)
+                    (context.inputValue() !== "" || context.values().length > 0)
                 ) {
                     event.preventDefault();
-                    context.clear();
+                    context.clear("escape-key");
                 }
                 return;
             case "Tab":
@@ -74,7 +86,27 @@ export function ComboboxInput(
                     context.setOpen(false, "focus-out");
                 }
                 return;
-            default:
+            case "Backspace": {
+                const count = context.values().length;
+                if (context.multiple() && input.value === "" && count > 0) {
+                    context.removeAt(count - 1, "none");
+                }
+                return;
+            }
+            default: {
+                const chips = chipElements(context);
+                if (
+                    context.multiple() &&
+                    event.key ===
+                        chipArrows(getDirection(input) === "rtl").previous &&
+                    input.selectionStart === 0 &&
+                    input.selectionEnd === 0 &&
+                    chips.length > 0
+                ) {
+                    event.preventDefault();
+                    chips.at(-1)?.focus();
+                }
+            }
         }
     };
 
@@ -87,30 +119,33 @@ export function ComboboxInput(
         props,
         state,
         () => {
-            const open = context.open();
-            const active = orderedItems(context).find(
-                (item) => item.value === context.highlighted(),
-            );
-            // the list's items register one pass after they render
-            context.itemCount();
+            const current = state();
+            const item = active();
+            const { field } = context;
             return {
                 type: "text",
+                id: context.triggerId,
                 role: "combobox",
                 autocomplete: "off",
-                disabled: context.disabled(),
+                disabled: current.disabled,
                 value: context.inputValue(),
                 "aria-autocomplete": "list",
-                "aria-expanded": String(open),
+                "aria-expanded": String(current.open),
                 "aria-controls": context.listId,
-                "aria-activedescendant": open && active ? active.id : undefined,
+                "aria-activedescendant":
+                    current.open && item ? item.id : undefined,
+                ...field.aria(),
                 "data-combobox-part": "input",
-                ...stateAttributes(state()),
+                ...field.attributes(),
+                ...stateAttributes(current),
                 onInput: (event: InputEvent) => {
                     const input = event.currentTarget as HTMLInputElement;
                     context.setInputValue(input.value, "input-change");
                     context.setHighlighted(null);
+                    context.markTyped();
+                    // typing never highlights: drop what an earlier key asked for
+                    context.pendingHighlight.current = null;
                     if (!context.open()) {
-                        context.pendingHighlight.current = null;
                         context.setOpen(true, "input-change");
                     }
                     // a controlled `inputValue` the consumer kept unchanged: the binding does
@@ -120,7 +155,10 @@ export function ComboboxInput(
                         input.value = context.inputValue();
                     }
                 },
+                onClick: () => openOnPress(context),
                 onKeyDown,
+                onFocus: field.onFocus,
+                onBlur: field.onBlur,
             };
         },
         { ref: context.setTrigger },

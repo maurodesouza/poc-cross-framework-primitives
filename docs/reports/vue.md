@@ -142,3 +142,53 @@ The Field layer ported to Vue (#50), on the same `@poc/dom` helpers as React (`v
 | `Field.Error` `match` | a prop typed `[Boolean, String]` is cast to `false` when absent unless it has a `default`; `default: undefined` keeps "no match" distinct from `match: false`, and a bare `match` reads as `true` | `@poc/vue` (from the start) |
 | fixture | each error and description text on one line inside its part: a template's condensed whitespace would add a leading and trailing space to the text node JSX trims | `fixtures/vue` (from the start) |
 | everything else | the three scenarios passed on the second run, the visual layer on the first | |
+
+## Combobox parity (Epic I)
+
+The new Combobox (Fragiola UI parity, #57) ported to Vue: every part of the spec (Root, InputGroup,
+Input, Trigger, Clear, Chips, Chip, ChipRemove, Value, Status, Portal, Positioner, Popup, Empty,
+List, Group, GroupLabel, Separator, Item, ItemIndicator), on the same `@poc/dom` helpers as React
+(`filterItems`, `containsFilter`, `queryIsLabel`, `itemLabel`, `itemFormValue`, `includesItem`,
+`toggleItem`, `chipKeyTarget`, `chipArrows`, `stepThroughNone`, `openOverlaySession`,
+`bridgeForm`). The old Vue Combobox was rewritten, not extended.
+
+| part | `@poc/vue` | `@poc/react` |
+| --- | --- | --- |
+| `components/combobox/` (22 files: 20 parts, the context, the namespace in `parts.ts`) | 1479 | 1382 |
+| of which the Root | 336 | 408 |
+| fixture (nine scenarios, their helpers and items, kit wrapper) | 516 | 734 |
+
+- **Conformance**: the whole `vue` project passes (214 passed, 31 skipped: the visual layer runs
+  only in CI), the 42 Combobox behaviour and contract tests included. Visual layer on this
+  machine: the five Combobox screens are pixel-identical to React's, on the first run. No test,
+  snapshot or spec was changed for Vue.
+- **API**: `v-model:value`, `v-model:input-value` and `v-model:open`, with `@value-change`,
+  `@input-value-change` and `@open-change` for the details. The List's render function is its
+  default scoped slot, `v-slot="{ entry, index }"`, called once per matching entry when the Root
+  has `items`; without `items`, the slot is the List's content, as before. Value's is its default
+  scoped slot, `v-slot="{ value }"`. `value`, `defaultValue` and Item's `value` take any type
+  (`type: null`); `filter`, `isItemEqualToValue`, `itemToStringLabel` and `itemToStringValue` are
+  function props. The four new change reasons (`input-press`, `input-clear`, `clear-press`,
+  `chip-remove-press`) are in the Vue `ChangeReason`.
+- **Boundary pressure on `@poc/dom`: none.** The port writes the combobox's state, its lifecycle
+  and the Vue API only.
+
+### Port log (Combobox parity)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| selection | the first e2e run failed 5 of 42 tests: no item was `aria-selected` when the value came from the fixture. A value held in the consumer's `ref` is its reactive proxy, and the default `isItemEqualToValue` (`Object.is`) compared that proxy with the raw item of `items`. The default equality compares `toRaw` of both; a consumer's `isItemEqualToValue` gets the items as they are | `@poc/vue` |
+| the pending highlight | the List's post-flush watcher runs before its Items' registration watchers (Vue orders post jobs by component uid, parent first), so ArrowDown would have consumed the pending "first" / "selected" highlight with no item registered. The watcher waits until every rendered `option` has registered | `@poc/vue` (from the start) |
+| chip keys | React removes the chip inside `flushSync` before moving focus; Vue removes it and focuses the target after `nextTick`, still within the keydown's microtasks, so the next key reaches the right chip (AGENTS.md, "Porting" rule 8) | `@poc/vue` (from the start) |
+| form reset | the browser resets the visible Input and the hidden input after the Root's state, and Vue does not re-patch a value that did not change in the state: after the reset, the Root writes the text and the form value back once rendered (`nextTick`) | `@poc/vue` (from the start) |
+| any-type props | `PropType<unknown>` on `value` and `defaultValue` made vue-tsc type the fixtures' `v-model:value` as `undefined`; `type: null` (any type) fixes it | `@poc/vue` |
+| fixture | text nodes as JSX makes them: an item's label glued to its ItemIndicator, a chip's label to its ChipRemove, each button's text on one line; the shared items and `printValues` are React's files as they are | `fixtures/vue` (from the start) |
+| close and reopen (review) | a list reopened during its 150 ms exit animation kept its stale highlight: the close dropped only the pending one, and the List's watcher did not re-run for the same element and item count. Every close sets the highlight to `null` (the Root's `setOpen`), and the watcher also watches `open`, so ArrowDown applies "first" again (as React's 29169bd) | `@poc/vue` |
+| Input (review) | `aria-activedescendant` took the highlighted id as is: it is set only when that id belongs to a rendered option (`orderedItems(...).find(...)`, as React does), never a stale one | `@poc/vue` |
+| hidden inputs (review) | the `multiple` form entries were keyed by form value: two values that share one gave duplicate keys. They are keyed by index (as React) | `@poc/vue` |
+| form reset (review) | `defaultValue` was read once at setup: the reset takes the current `defaultValue`, as React does | `@poc/vue` |
+
+A finding outside Vue: `pnpm test` fails one test on the Epic branch,
+`packages/styles/tests/spec-coverage.test.ts` › `combobox.md`: the spec's `hidden-input` part has
+no recipe in `@poc/styles` (`combobox.ts`). It fails the same way without this port's changes,
+which touch neither `spec/` nor `@poc/styles`.

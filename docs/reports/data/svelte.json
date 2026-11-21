@@ -1,6 +1,6 @@
 {
     "framework": "svelte",
-    "generatedAt": "2026-11-21T12:00:41.980Z",
+    "generatedAt": "2026-11-21T17:22:56.871Z",
     "loc": {
         "components": [
             {
@@ -46,10 +46,20 @@
             },
             {
                 "component": "combobox",
-                "framework": 560,
-                "dom": 315,
+                "framework": 1260,
+                "dom": 750,
                 "domModules": [
+                    "collection/chip-keys.ts",
+                    "collection/combobox-items.ts",
                     "collection/list-navigation.ts",
+                    "direction/direction.ts",
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
@@ -92,12 +102,17 @@
             },
             {
                 "component": "select",
-                "framework": 595,
-                "dom": 404,
+                "framework": 614,
+                "dom": 561,
                 "domModules": [
                     "collection/key-maps.ts",
                     "collection/typeahead.ts",
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
@@ -120,9 +135,17 @@
             },
             {
                 "component": "checkbox",
-                "framework": 232,
-                "dom": 45,
-                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+                "framework": 246,
+                "dom": 202,
+                "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts"
+                ]
             },
             {
                 "component": "checkbox-group",
@@ -132,18 +155,36 @@
             },
             {
                 "component": "slider",
-                "framework": 466,
-                "dom": 195,
+                "framework": 491,
+                "dom": 352,
                 "domModules": [
                     "direction/direction.ts",
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts",
                     "pointer/drag-session.ts",
                     "range/range-math.ts",
                     "range/slider-keys.ts"
                 ]
+            },
+            {
+                "component": "field",
+                "framework": 388,
+                "dom": 175,
+                "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-error-shown.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts"
+                ]
             }
         ],
-        "shared": 344,
-        "domTotal": 1479
+        "shared": 446,
+        "domTotal": 1926
     },
     "sizes": [
         {
@@ -189,8 +230,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/svelte\";",
-                "minified": 46457,
-                "gzip": 13620
+                "minified": 70501,
+                "gzip": 18298
             },
             "baseline": {
                 "entry": "export { Combobox } from \"bits-ui\";",
@@ -241,8 +282,8 @@
             "component": "select",
             "ours": {
                 "entry": "export { Select } from \"@poc/svelte\";",
-                "minified": 48783,
-                "gzip": 14589
+                "minified": 50791,
+                "gzip": 15158
             },
             "baseline": {
                 "entry": "export { Select } from \"bits-ui\";",
@@ -267,8 +308,8 @@
             "component": "checkbox",
             "ours": {
                 "entry": "export { Checkbox } from \"@poc/svelte\";",
-                "minified": 7861,
-                "gzip": 2838
+                "minified": 9801,
+                "gzip": 3383
             },
             "baseline": {
                 "entry": "export { Checkbox } from \"bits-ui\";",
@@ -289,34 +330,43 @@
             "component": "slider",
             "ours": {
                 "entry": "export { Slider } from \"@poc/svelte\";",
-                "minified": 14945,
-                "gzip": 4454
+                "minified": 17241,
+                "gzip": 5167
             },
             "baseline": {
                 "entry": "export { Slider } from \"bits-ui\";",
                 "minified": 49766,
                 "gzip": 11403
             }
+        },
+        {
+            "component": "field",
+            "ours": {
+                "entry": "export { Field } from \"@poc/svelte\";",
+                "minified": 14802,
+                "gzip": 4208
+            },
+            "baseline": null
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 123,
+                "passed": 162,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 17
+                "expectedFailures": 19
             }
         },
         "react": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -324,19 +374,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -344,19 +394,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -364,19 +414,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -384,19 +434,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -404,7 +454,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         }
@@ -426,9 +476,9 @@
             "last": "2026-11-21T08:42:59-03:00"
         },
         "combobox": {
-            "commits": 3,
+            "commits": 5,
             "first": "2026-11-20T21:22:17-03:00",
-            "last": "2026-11-21T08:42:59-03:00"
+            "last": "2026-11-21T14:18:43-03:00"
         },
         "tabs": {
             "commits": 2,
@@ -446,9 +496,9 @@
             "last": "2026-11-21T08:42:59-03:00"
         },
         "select": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:36:03-03:00",
-            "last": "2026-11-21T08:36:03-03:00"
+            "last": "2026-11-21T12:59:26-03:00"
         },
         "tooltip": {
             "commits": 1,
@@ -456,9 +506,9 @@
             "last": "2026-11-21T08:36:03-03:00"
         },
         "checkbox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T08:36:03-03:00",
-            "last": "2026-11-21T08:36:03-03:00"
+            "last": "2026-11-21T12:43:25-03:00"
         },
         "checkbox-group": {
             "commits": 1,
@@ -466,9 +516,14 @@
             "last": "2026-11-21T08:36:03-03:00"
         },
         "slider": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T08:36:03-03:00",
-            "last": "2026-11-21T08:36:03-03:00"
+            "last": "2026-11-21T12:43:25-03:00"
+        },
+        "field": {
+            "commits": 1,
+            "first": "2026-11-21T12:43:25-03:00",
+            "last": "2026-11-21T12:43:25-03:00"
         }
     }
 }

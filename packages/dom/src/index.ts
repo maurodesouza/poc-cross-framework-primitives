@@ -1,6 +1,28 @@
 // @poc/dom: framework-free DOM behaviours and pure math (AGENTS.md rule 2). Never component state.
 
 export {
+    type ChipKeyAction,
+    chipArrows,
+    chipKeyTarget,
+} from "./collection/chip-keys.ts";
+export {
+    containsFilter,
+    type FilterItemsOptions,
+    filterItems,
+    flattenItems,
+    type ItemEquality,
+    type ItemFilter,
+    type ItemGroup,
+    includesItem,
+    isItemGroup,
+    itemFormValue,
+    itemLabel,
+    itemsEqual,
+    queryIsLabel,
+    textContains,
+    toggleItem,
+} from "./collection/combobox-items.ts";
+export {
     menuKeyTarget,
     submenuKeys,
     type TabsKeyOptions,

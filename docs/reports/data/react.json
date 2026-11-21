@@ -1,6 +1,6 @@
 {
     "framework": "react",
-    "generatedAt": "2026-11-21T12:00:28.637Z",
+    "generatedAt": "2026-11-21T17:22:41.741Z",
     "loc": {
         "components": [
             {
@@ -46,10 +46,17 @@
             },
             {
                 "component": "combobox",
-                "framework": 542,
-                "dom": 315,
+                "framework": 1256,
+                "dom": 634,
                 "domModules": [
+                    "collection/chip-keys.ts",
+                    "collection/combobox-items.ts",
                     "collection/list-navigation.ts",
+                    "direction/direction.ts",
+                    "form/field-state.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
                     "positioning/placement.ts",
@@ -92,12 +99,14 @@
             },
             {
                 "component": "select",
-                "framework": 592,
-                "dom": 404,
+                "framework": 609,
+                "dom": 445,
                 "domModules": [
                     "collection/key-maps.ts",
                     "collection/typeahead.ts",
+                    "form/field-state.ts",
                     "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
                     "form/visually-hidden.ts",
                     "overlay/overlay-session.ts",
                     "positioning/anchor-floating.ts",
@@ -120,9 +129,14 @@
             },
             {
                 "component": "checkbox",
-                "framework": 212,
-                "dom": 45,
-                "domModules": ["form/form-bridge.ts", "form/visually-hidden.ts"]
+                "framework": 225,
+                "dom": 86,
+                "domModules": [
+                    "form/field-state.ts",
+                    "form/form-bridge.ts",
+                    "form/submit-attempt.ts",
+                    "form/visually-hidden.ts"
+                ]
             },
             {
                 "component": "checkbox-group",
@@ -132,18 +146,33 @@
             },
             {
                 "component": "slider",
-                "framework": 503,
-                "dom": 195,
+                "framework": 530,
+                "dom": 236,
                 "domModules": [
                     "direction/direction.ts",
+                    "form/field-state.ts",
+                    "form/submit-attempt.ts",
                     "pointer/drag-session.ts",
                     "range/range-math.ts",
                     "range/slider-keys.ts"
                 ]
+            },
+            {
+                "component": "field",
+                "framework": 392,
+                "dom": 175,
+                "domModules": [
+                    "form/field-change.ts",
+                    "form/field-described-by.ts",
+                    "form/field-error-shown.ts",
+                    "form/field-state.ts",
+                    "form/field-validity.ts",
+                    "form/submit-attempt.ts"
+                ]
             }
         ],
-        "shared": 377,
-        "domTotal": 1479
+        "shared": 489,
+        "domTotal": 1926
     },
     "sizes": [
         {
@@ -151,7 +180,7 @@
             "ours": {
                 "entry": "export { Dialog } from \"@poc/react\";",
                 "minified": 9371,
-                "gzip": 3701
+                "gzip": 3702
             },
             "baseline": {
                 "entry": "export { Dialog } from \"@base-ui/react/dialog\";",
@@ -164,7 +193,7 @@
             "ours": {
                 "entry": "export { Popover } from \"@poc/react\";",
                 "minified": 28975,
-                "gzip": 11206
+                "gzip": 11208
             },
             "baseline": {
                 "entry": "export { Popover } from \"@base-ui/react/popover\";",
@@ -189,8 +218,8 @@
             "component": "combobox",
             "ours": {
                 "entry": "export { Combobox } from \"@poc/react\";",
-                "minified": 29755,
-                "gzip": 11578
+                "minified": 40369,
+                "gzip": 15091
             },
             "baseline": {
                 "entry": "export { Combobox } from \"@base-ui/react/combobox\";",
@@ -203,7 +232,7 @@
             "ours": {
                 "entry": "export { Tabs } from \"@poc/react\";",
                 "minified": 5872,
-                "gzip": 2522
+                "gzip": 2521
             },
             "baseline": {
                 "entry": "export { Tabs } from \"@base-ui/react/tabs\";",
@@ -216,7 +245,7 @@
             "ours": {
                 "entry": "export { Calendar, RangeCalendar } from \"@poc/react\";",
                 "minified": 11391,
-                "gzip": 4583
+                "gzip": 4582
             },
             "baseline": {
                 "entry": "export { Calendar, RangeCalendar } from \"react-aria-components\";",
@@ -229,7 +258,7 @@
             "ours": {
                 "entry": "export { DatePicker, DateRangePicker } from \"@poc/react\";",
                 "minified": 26792,
-                "gzip": 10501
+                "gzip": 10500
             },
             "baseline": {
                 "entry": "export { DatePicker, DateRangePicker } from \"react-aria-components\";",
@@ -241,8 +270,8 @@
             "component": "select",
             "ours": {
                 "entry": "export { Select } from \"@poc/react\";",
-                "minified": 31052,
-                "gzip": 12079
+                "minified": 32796,
+                "gzip": 12690
             },
             "baseline": {
                 "entry": "export { Select } from \"@base-ui/react/select\";",
@@ -255,7 +284,7 @@
             "ours": {
                 "entry": "export { Tooltip } from \"@poc/react\";",
                 "minified": 27299,
-                "gzip": 10680
+                "gzip": 10673
             },
             "baseline": {
                 "entry": "export { Tooltip } from \"@base-ui/react/tooltip\";",
@@ -267,8 +296,8 @@
             "component": "checkbox",
             "ours": {
                 "entry": "export { Checkbox } from \"@poc/react\";",
-                "minified": 4387,
-                "gzip": 1983
+                "minified": 6060,
+                "gzip": 2584
             },
             "baseline": {
                 "entry": "export { Checkbox } from \"@base-ui/react/checkbox\";",
@@ -281,7 +310,7 @@
             "ours": {
                 "entry": "export { CheckboxGroup } from \"@poc/react\";",
                 "minified": 2396,
-                "gzip": 1164
+                "gzip": 1163
             },
             "baseline": {
                 "entry": "export { CheckboxGroup } from \"@base-ui/react/checkbox-group\";",
@@ -293,34 +322,47 @@
             "component": "slider",
             "ours": {
                 "entry": "export { Slider } from \"@poc/react\";",
-                "minified": 8289,
-                "gzip": 3480
+                "minified": 10194,
+                "gzip": 4157
             },
             "baseline": {
                 "entry": "export { Slider } from \"@base-ui/react/slider\";",
                 "minified": 37226,
                 "gzip": 14739
             }
+        },
+        {
+            "component": "field",
+            "ours": {
+                "entry": "export { Field } from \"@poc/react\";",
+                "minified": 7669,
+                "gzip": 3163
+            },
+            "baseline": {
+                "entry": "export { Field } from \"@base-ui/react/field\";",
+                "minified": 25496,
+                "gzip": 9669
+            }
         }
     ],
     "conformance": {
         "baseline": {
             "behaviour": {
-                "passed": 123,
+                "passed": 162,
                 "failed": 0,
                 "skipped": 0,
-                "expectedFailures": 17
+                "expectedFailures": 19
             }
         },
         "react": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -328,19 +370,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "vue": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -348,19 +390,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "svelte": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -368,19 +410,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "solid": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -388,19 +430,19 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         },
         "angular": {
             "behaviour": {
-                "passed": 140,
+                "passed": 181,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
             },
             "contract": {
-                "passed": 24,
+                "passed": 34,
                 "failed": 0,
                 "skipped": 0,
                 "expectedFailures": 0
@@ -408,7 +450,7 @@
             "visual": {
                 "passed": 0,
                 "failed": 0,
-                "skipped": 24,
+                "skipped": 31,
                 "expectedFailures": 0
             }
         }
@@ -430,9 +472,9 @@
             "last": "2026-11-20T21:09:33-03:00"
         },
         "combobox": {
-            "commits": 3,
+            "commits": 5,
             "first": "2026-11-20T19:47:04-03:00",
-            "last": "2026-11-20T21:09:33-03:00"
+            "last": "2026-11-21T14:11:22-03:00"
         },
         "tabs": {
             "commits": 2,
@@ -450,9 +492,9 @@
             "last": "2026-11-20T21:09:33-03:00"
         },
         "select": {
-            "commits": 1,
+            "commits": 3,
             "first": "2026-11-21T07:41:06-03:00",
-            "last": "2026-11-21T07:41:06-03:00"
+            "last": "2026-11-21T12:59:26-03:00"
         },
         "tooltip": {
             "commits": 2,
@@ -460,9 +502,9 @@
             "last": "2026-11-21T08:11:23-03:00"
         },
         "checkbox": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:41:06-03:00",
-            "last": "2026-11-21T07:41:06-03:00"
+            "last": "2026-11-21T12:34:34-03:00"
         },
         "checkbox-group": {
             "commits": 1,
@@ -470,9 +512,14 @@
             "last": "2026-11-21T07:41:06-03:00"
         },
         "slider": {
-            "commits": 1,
+            "commits": 2,
             "first": "2026-11-21T07:41:06-03:00",
-            "last": "2026-11-21T07:41:06-03:00"
+            "last": "2026-11-21T12:34:34-03:00"
+        },
+        "field": {
+            "commits": 1,
+            "first": "2026-11-21T12:34:34-03:00",
+            "last": "2026-11-21T12:34:34-03:00"
         }
     }
 }

@@ -16,7 +16,7 @@ starts here (with its reason), then the tests, then the implementations (AGENTS.
 | [tooltip.md](tooltip.md) | Tooltip, with its delay group (an extra) |
 | [checkbox.md](checkbox.md) | Checkbox, CheckboxGroup (an extra) |
 | [slider.md](slider.md) | Slider, with one or more thumbs (an extra) |
-| [field.md](field.md) | Field: Root, Label, Control, Description, Error, and its integration into Checkbox, Select and Slider (Epic H) |
+| [field.md](field.md) | Field: Root, Label, Control, Description, Error, and its integration into Checkbox, Select and Slider (Epic H), and Combobox (Epic I) |
 
 Primary source: the WAI-ARIA Authoring Practices (APG) patterns in
 `~/organizations/fragiola/references/wai-aria-practices/content/patterns/`. Behaviour was compared
@@ -111,6 +111,10 @@ shared:
 | `item-press` | a menu or combobox item was chosen |
 | `list-navigation` | the keyboard opened a menu or combobox |
 | `input-change` | typing opened or changed a combobox |
+| `input-press` | a press on a combobox's input (or its input group, its chips) opened it |
+| `input-clear` | a combobox's text was cleared: a choice with `multiple`, or a close that reset it to empty |
+| `clear-press` | a combobox's Clear was pressed |
+| `chip-remove-press` | a combobox chip's remove button was pressed |
 | `trigger-hover` | the pointer entered or left a tooltip's trigger (or its popup) |
 | `trigger-focus` | keyboard focus entered or left a tooltip's trigger |
 | `keyboard` | a key changed a slider's value |
@@ -145,15 +149,16 @@ Scenarios: [`/combobox/rejected-input`](combobox.md#comboboxrejected-input) and
 
 ### Forms
 
-The form controls (Select, Checkbox, Slider) take `name` and render a **hidden input** that
+The form controls (Select, Checkbox, Slider, Combobox) take `name` and render a **hidden input** that
 carries their value, so a native `<form>` submits them (`FormData`), resets them (`reset` returns
 an uncontrolled control to its default) and, where `required` applies, validates them as the
 native control would. A hidden input is never in the accessibility tree nor in the tab order
 (`aria-hidden="true"`, `tabindex="-1"`, or `type="hidden"`): users meet the primitive's own role
-only. Each hidden input carries the component's part attribute with the value `input`.
+only. Each hidden input carries the component's part attribute with the value `input` (Combobox:
+`hidden-input`, since its `input` is the visible Input).
 
 **The Field layer** ([field.md](field.md)) sits above the controls. A `Field.Root` around a
-`Field.Control` (a native input), a Checkbox, a Select or a Slider gives the control:
+`Field.Control` (a native input), a Checkbox, a Select, a Slider or a Combobox gives the control:
 
 - its label (`Field.Label`, linked with `for` and `aria-labelledby`);
 - its description (`Field.Description`, in `aria-describedby`);
@@ -180,7 +185,7 @@ The specs describe one API. Each framework expresses it with its own means, neve
 | change details | `onOpenChange(open, details)` | `@open-change="(open, details) => ..."` (besides `update:open`) | `openChangeDetails = output<{ open, details }>()` (`(openChange)` emits the value alone) | `onOpenChange(open, details)` | `onOpenChange(open, details)` |
 | class and style from state | `className` / `style` as a value or `(state) => value` | `class` / `style` values; state through `data-*` or the `render` slot | the consumer's own `class`; state through `data-*` or the directive's `state()` signal (`exportAs`) | `class` / `style` values; state through `data-*` or the `child` snippet | `class` / `style` as a value or `(state) => value` |
 | element reference | `ref` prop | template ref (the component instance, element as `$el`) | the host element: a template reference variable (`#cancel`); `#cancel="dialogClose"` gives the directive | an attachment (`{@attach (node) => ...}`): every part passes its attachments on to its element, or to the `child` snippet's props | `ref` prop (a callback; focus targets take a getter, `initialFocus={() => el}`) |
-| children function (collections, calendar weeks) | `children={(item) => ...}` | default scoped slot (`v-slot="{ week }"`) | `@for` over the directive's signal, read through `exportAs` (`@for (week of body.weeks(); ...)`, `{{ cell.dayNumber() }}`); a part rendered only in some states is structural (`*tabsPanel="'account'"`) | `children` snippet with arguments | `children={(item) => ...}` |
+| children function (collections, calendar weeks, a combobox's List and Value) | `children={(item) => ...}` | default scoped slot (`v-slot="{ week }"`) | `@for` over the directive's signal, read through `exportAs` (`@for (week of body.weeks(); ...)`, `{{ cell.dayNumber() }}`); a part rendered only in some states is structural (`*tabsPanel="'account'"`) | `children` snippet with arguments | `children={(item) => ...}` |
 | field context (a control inside `Field.Root`) | `useContext` of the field's context | `inject` of the field's provided state | `injectField()` (optional injection of the enclosing `[fieldRoot]`) | `getContext` of the field's context | `useContext` of the field's context |
 | field validation (`validate`, `validationMode`) | `validate={(value) => ...}` `validationMode="onBlur"` | `:validate="(value) => ..."` `validation-mode="onBlur"` | `[validate]="fn"` `validationMode="onBlur"` (inputs of `[fieldRoot]`) | `validate={(value) => ...}` `validationMode="onBlur"` | `validate={(value) => ...}` `validationMode="onBlur"` |
 | part hooks (lower layer) | `useDialogPopup()` → `{ state, props }` | `useDialogPopup()` composable → `{ state, props }` | `injectDialog()` → `{ state, ... }` of the enclosing root (the parts are the directives themselves) | `useDialogPopup()` (`.svelte.ts`) | `useDialogPopup()` → `{ state, props }` |

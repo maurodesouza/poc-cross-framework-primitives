@@ -23,9 +23,9 @@ Fragiola UI imports 22 Base UI components and 2 utilities.
 
 | status | components |
 | --- | --- |
-| covered by the POC | Popover, Tabs (except animation, see 3.4), Tooltip, Checkbox |
-| partly covered | Dialog, Menu, Combobox, Select, Slider |
-| not covered | Accordion, AlertDialog, Avatar, Button, Collapsible, ContextMenu, Drawer, Field, NavigationMenu, Progress, Radio / RadioGroup, Separator, Switch |
+| covered by the POC | Popover, Tabs (except animation, see 3.4), Tooltip, Checkbox, Field (Epic H), Combobox (Epic I) |
+| partly covered | Dialog, Menu, Select, Slider |
+| not covered | Accordion, AlertDialog, Avatar, Button, Collapsible, ContextMenu, Drawer, NavigationMenu, Progress, Radio / RadioGroup, Separator, Switch |
 | utilities | `useRender` and `mergeProps` (the POC has them, but only internally); `DirectionProvider` (the POC only reads the computed direction) |
 
 Fragiola UI has no date picker today (`examples/react/src/create/preview/cards/misc.tsx` fakes one with buttons). The POC's calendar family is new scope, not a replacement.
@@ -60,7 +60,7 @@ Only the gaps Fragiola UI depends on, or that are essential, are listed here. Th
 
 ### 3.2 Combobox
 
-The POC's Combobox has the consumer filter the list and holds a single string value. The combobox Fragiola UI ships needs most of the following, which together amount to most of the component:
+**Done in Epic I (#62)**: every row below is in `spec/combobox.md` and in the five frameworks. Before it, the POC's Combobox had the consumer filter the list and held a single string value. The combobox Fragiola UI ships needed most of the following, which together amounted to most of the component:
 
 | gap | effort |
 | --- | --- |
@@ -69,6 +69,20 @@ The POC's Combobox has the consumer filter the list and holds a single string va
 | `multiple`, with `Chips`, `Chip`, `ChipRemove` and a `Value` render function | M |
 | Form support: `name`, `required` and a hidden input (the spec has no form section at all) | M |
 | `Clear`, `ItemIndicator`, `Group`, `GroupLabel`, `Separator`, `InputGroup`, `Status`, and `Empty` as a live region | S each (8) |
+
+**Left out of Epic I**, Base UI Combobox behaviour outside Fragiola UI's scope (`spec/combobox.md`, "Purpose"), for a later step:
+
+| gap | effort |
+| --- | --- |
+| Virtualization, and async loading | M each |
+| `autoHighlight` (highlight the first match while typing) | S |
+| `readOnly` | S |
+| Autocomplete (`selectionMode="none"`), and an input inside the popup | M |
+| `inline` and `modal` | S–M |
+| Grid layout (`Row`, `grid`) | M |
+| Base UI's `Collection`, `Arrow`, `Backdrop`, `Icon` and `Label` parts, and the `useFilter` / `useFilteredItems` hooks | S each |
+| `openOnInputClick={false}`, Space choosing the highlighted item, the frozen filter while the list closes, browser autofill of the hidden input | S each |
+| A form reset: the POC resets an uncontrolled combobox, Base UI 1.9 does not (a recorded baseline deviation) | none (kept) |
 
 ### 3.3 Select
 
@@ -154,14 +168,25 @@ What the numbers mean:
 
 - **The L items are the real cost.** Field, Drawer and NavigationMenu together are about 9,500 lines of Base UI source. That is about the size of all ten POC components in one framework (4,946–5,336 lines), and each framework pays it again.
 - **The S items are cheap.** They are mostly translations that reuse `@poc/dom`. The POC's porting data puts a new component at 0.4–0.9× React's cost once a framework's model is mapped.
-- **The bundle comparison** in `final.md` measures the POC's scope against Base UI's full scope. Its 1.4–6.5× advantage will shrink as these gaps close. How much was not measured. One way to measure it is to bring one component, such as Combobox, to Fragiola UI parity, then compare its size again.
+- **The bundle comparison** in `final.md` measures the POC's scope against Base UI's full scope. Its 1.4–6.5× advantage will shrink as these gaps close. Epic I measured it on the Combobox, brought to Fragiola UI parity: 2.0–3.5× smaller than the comparison libraries, down from 2.6–4.5× (`final.md`, "Addendum").
+
+### The estimate against the measured cost (Epics H and I)
+
+| item | estimate | measured |
+| --- | --- | --- |
+| Field (section 2) | L | about 20 minutes of agent time for React, the four ports in parallel after it; 392 counted lines in React (388–486 elsewhere) and 238 in `@poc/dom`; 3.1 kB in React against Base UI's 9.4 kB |
+| Combobox parity (section 3.2) | 4 M and 8 S | about 20 minutes for the spec, the tests and the baseline, 8 for React, 10–14 per port (1.2–1.7× React); the combobox grew from 529–592 to 1170–1361 counted lines per framework, plus 288 new lines in `@poc/dom`; +30–42% bundle |
+
+- **Field was cheaper than an L.** Most of Base UI's Field is its `Form`, `Fieldset` and async validation, which stayed out of scope; the validation pipeline fit in `@poc/dom` once.
+- **The Combobox matched its estimate in kind:** each M needed a spec section, new tests and new `@poc/dom` code, and each S was a small part. No new mechanism was needed.
+- **The ports cost more relative to React than the extras did** (1.2–1.7× against 0.4–0.9×): a state-heavy component meets each framework's reactivity more often (reactive proxies against `Object.is`, keyed loops, structural parts).
 
 ## 7. Suggested order
 
-1. **Decide the section 4 differences.** They change the specs before any code is written.
-2. **Field.** It is the foundation for every form control, and Fragiola UI's forms cannot move without it.
+1. **Decide the section 4 differences.** They change the specs before any code is written. *Done (2026-11-21, `docs/decisions.md`); only the Combobox decisions are applied so far.*
+2. **Field.** It is the foundation for every form control, and Fragiola UI's forms cannot move without it. *Done in Epic H (#54).*
 3. **The cheap breadth:** the side names, AlertDialog, the Menu checkbox and radio items, Select groups, Slider Label and Value, Switch, Radio, Separator, Progress, Avatar and Button.
-4. **Combobox to Fragiola UI parity.** It is the most used complex control, and the honest re-measure of size.
+4. **Combobox to Fragiola UI parity.** It is the most used complex control, and the honest re-measure of size. *Done in Epic I (#62); the re-measure is in `final.md`, "Addendum".*
 5. **Collapsible and Accordion, then ContextMenu.**
 6. **Drawer and NavigationMenu,** which need the overlay tree.
 7. **SSR,** if the docs site renders on the server.

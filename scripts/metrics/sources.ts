@@ -12,13 +12,14 @@ export const COMPONENTS = [
     "date-picker",
 ] as const;
 
-/** The extras (Epic F: React and Vue; Epic G: the others), one folder each. */
+/** The extras (Epic F: React and Vue; Epic G: the others) and Field (Epic H), one folder each. */
 export const EXTRA_COMPONENTS = [
     "select",
     "tooltip",
     "checkbox",
     "checkbox-group",
     "slider",
+    "field",
 ] as const;
 export type Component =
     | (typeof COMPONENTS)[number]

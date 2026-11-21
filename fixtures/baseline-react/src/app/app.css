@@ -133,3 +133,17 @@ main {
     background: white;
     border: 1px solid #ccc;
 }
+.chip {
+    display: inline-flex;
+    gap: 4px;
+    padding: 0 4px;
+    background: #e4e4e7;
+}
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}

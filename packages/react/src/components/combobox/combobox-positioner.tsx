@@ -16,7 +16,10 @@ export type ComboboxPositionerProps = PartProps<{
 }> &
     PositionerProps;
 
-/** Places the list under the input; the open list is a layer (Escape, outside press). */
+/**
+ * Places the list under the InputGroup (else the Chips, else the Input); the open list is a layer
+ * (Escape, outside press).
+ */
 export function ComboboxPositioner({
     side,
     align,
@@ -27,11 +30,21 @@ export function ComboboxPositioner({
     ...props
 }: ComboboxPositionerProps) {
     const context = useRequiredContext(ComboboxContext, "Combobox.Positioner");
-    const { open, positioner, trigger, button, setOpen, setPlaced } = context;
+    const {
+        open,
+        positioner,
+        trigger,
+        button,
+        inputGroup,
+        chips,
+        clearButton,
+        setOpen,
+        setPlaced,
+    } = context;
     const placed = usePositioner(
         { side, align, sideOffset, alignOffset, collisionPadding, anchor },
         { side: "bottom", align: "start" },
-        trigger,
+        inputGroup ?? chips ?? trigger,
         positioner,
         null,
     );
@@ -42,11 +55,20 @@ export function ComboboxPositioner({
         }
         const session = openOverlaySession(positioner.ownerDocument, {
             elements: () => [positioner],
-            ignore: () => [trigger, button],
+            ignore: () => [trigger, button, inputGroup, chips, clearButton],
             dismiss: (reason) => setOpen(false, reason),
         });
         return session.end;
-    }, [open, positioner, trigger, button, setOpen]);
+    }, [
+        open,
+        positioner,
+        trigger,
+        button,
+        inputGroup,
+        chips,
+        clearButton,
+        setOpen,
+    ]);
     return renderElement(
         "div",
         props,

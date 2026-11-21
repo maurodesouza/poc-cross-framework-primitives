@@ -171,3 +171,57 @@ The React Field layer ported to Solid 2.0 (#52), on the `@poc/dom` helpers (`val
 Boundary pressure: none. Everything framework-free came from `@poc/dom` as it was; the state
 (`dirty`, `touched`, `filled`, `focused`, what is shown), the ids and the registrations are
 component state, written a second time.
+
+## Combobox parity (Epic I)
+
+The new Combobox (Fragiola UI's parts on Base UI 1.9's behaviour, spec/combobox.md) ported to
+Solid 2.0 (#59), rewriting the old one. Lines are `wc -l` at the port.
+
+| part | `@poc/solid` | `@poc/react` |
+| --- | --- | --- |
+| `components/combobox/` (22 files) | 1350 | 1382 |
+| the fixture's combobox (`scenarios/combobox/`, `kit/ui/combobox.tsx`) | 731 | 734 |
+| `utils/change-details.ts` (the four new reasons) | +4 | +4 |
+
+- **Conformance**: the whole `--project=solid` suite passes (214 passed, the 31 visual tests
+  skipped locally), the Combobox's 42 behaviour and contract tests among them, and these 42 again
+  with `--repeat-each=5` (210 passed). With `VISUAL=1`, the 5 Combobox screenshots match React's
+  made on the same machine. No test changed for Solid, no snapshot of its own.
+- **First suite run**: 39 of 42 passed. The three failures were two bugs (below); the third run
+  was green.
+- **API**: as React's: `items`, `filter`, `limit`, `locale`, `multiple`, `value` /
+  `defaultValue` / `onValueChange`, `inputValue` / `defaultInputValue` / `onInputValueChange`,
+  `open` / `defaultOpen` / `onOpenChange`, `isItemEqualToValue`, `itemToStringLabel`,
+  `itemToStringValue`, `name`, `required`, `disabled` on the Root, controlled as the other Solid
+  parts (`value={value()}` with `onValueChange`).
+  - **List**: `children={(entry, index) => ...}`, called per matching entry inside a `For` (keyed
+    by the entry), with plain values (`index` is read once). Nodes (a consumer's own `For`) work
+    as before.
+  - **Value**: `children={(value) => ...}`. Single: called again when the value changes.
+    `multiple`: called **once**, with a reactive array of the items (a projection store, updated
+    in place), which the consumer iterates with `For`: a function called again on each change
+    would build its elements again, the Input among them, and lose focus. The items it holds are
+    store proxies of the values.
+  - **Equality**: the default `isItemEqualToValue` compares `snapshot(item)` with
+    `snapshot(value)`, so a value kept in a store (a proxy) still equals its item; a consumer's
+    own function gets the items as they are.
+  - The List's pending highlight (`first`, `last`, `selected`) waits until every rendered option
+    has registered (Solid runs the List's effect before its Items'), as the old port did.
+- **Unchanged from the old port**: the controlled `inputValue` the consumer rejects (its text
+  written back after `flush()`), the overlay session, the item registry.
+
+Boundary pressure: none. The filtering, labels, form values, equality, toggling
+(`filterItems`, `containsFilter`, `queryIsLabel`, `itemLabel`, `itemFormValue`, `includesItem`,
+`toggleItem`), the chip keys (`chipKeyTarget`, `chipArrows`), `stepThroughNone`, `bridgeForm`,
+`openOverlaySession` and the positioning came from `@poc/dom` as they were. The store-aware
+default equality is Solid's own (`snapshot`), so it stays in the package.
+
+### Port log (Combobox parity)
+
+| part | finding | fixed in |
+| --- | --- | --- |
+| Value | the `multiple` render function holds the store's array; the projection assigned a new array on each change (`draft.values = [...]`), which left the consumer's array stale: chips were never removed. The projection now updates the array in place (`splice`) | `@poc/solid` |
+| List | a function `children` was taken for the render function, but a consumer's `<For>` is a function too (its output): the consumer-filtered list of `/combobox/filtered` rendered no option. A render function is a function that takes an argument (`length > 0`), as Solid's `Show` tells its callback apart; Value does the same | `@poc/solid` |
+| close and reopen (review) | a list reopened during its 150 ms exit animation kept its stale highlight: a close dropped neither the highlight nor the pending one, and the List's effect did not re-run for the same element and item count. Every close sets both to `null` (the Root's `setOpen`), the effect also tracks `open`, and typing drops the pending highlight even with the list open (as React's 29169bd) | `@poc/solid` |
+| List (review) | the keyed `For` handed the render function the index of the entry's first render: an entry that filtering moved kept a stale index (a group's separator stayed). And `filterItems` makes a new object for each group on each query, so the keyed `For` remounted every group on every keystroke. Groups are now keyed by the first group seen with the same fields (all but `items`) and get a view that reads the current group (their `items` follow the query); a render function that takes the index (`length >= 2`) renders again when it changes. A group stays mounted while it keeps its place; one that moves renders again, the one difference with React, whose index is a plain argument of each render. The DOM is React's | `@poc/solid` |
+| List (review) | `pnpm typecheck` failed on the List: `children.length === 0` does not narrow the render function out of `JSX.Element` | `@poc/solid` |

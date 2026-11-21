@@ -9,6 +9,12 @@ import { CheckboxControlled } from "../scenarios/checkbox/checkbox-controlled.ts
 import { CheckboxGroupScenario } from "../scenarios/checkbox/checkbox-group.tsx";
 import { ComboboxBasic } from "../scenarios/combobox/combobox-basic.tsx";
 import { ComboboxControlled } from "../scenarios/combobox/combobox-controlled.tsx";
+import { ComboboxField } from "../scenarios/combobox/combobox-field.tsx";
+import { ComboboxFiltered } from "../scenarios/combobox/combobox-filtered.tsx";
+import { ComboboxForm } from "../scenarios/combobox/combobox-form.tsx";
+import { ComboboxGroups } from "../scenarios/combobox/combobox-groups.tsx";
+import { ComboboxMultiple } from "../scenarios/combobox/combobox-multiple.tsx";
+import { ComboboxObjects } from "../scenarios/combobox/combobox-objects.tsx";
 import { ComboboxRejectedInput } from "../scenarios/combobox/combobox-rejected-input.tsx";
 import { DatePickerBasic } from "../scenarios/date-picker/date-picker-basic.tsx";
 import { DatePickerRange } from "../scenarios/date-picker/date-picker-range.tsx";
@@ -56,6 +62,12 @@ export const routes: Record<string, Component<{ locale: string }>> = {
     "/combobox/basic": ComboboxBasic,
     "/combobox/controlled": ComboboxControlled,
     "/combobox/rejected-input": ComboboxRejectedInput,
+    "/combobox/filtered": ComboboxFiltered,
+    "/combobox/objects": ComboboxObjects,
+    "/combobox/multiple": ComboboxMultiple,
+    "/combobox/groups": ComboboxGroups,
+    "/combobox/form": ComboboxForm,
+    "/combobox/field": ComboboxField,
     "/tabs/automatic": TabsAutomatic,
     "/tabs/manual": TabsManual,
     "/tabs/vertical": TabsVertical,

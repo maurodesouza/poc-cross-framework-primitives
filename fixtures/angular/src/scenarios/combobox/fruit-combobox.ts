@@ -1,82 +1,75 @@
-import {
-    Component,
-    computed,
-    input,
-    model,
-    output,
-    ViewEncapsulation,
-} from "@angular/core";
-import {
-    ComboboxEmpty,
-    ComboboxInput,
-    ComboboxItem,
-    ComboboxList,
-    ComboboxPopup,
-    ComboboxPortal,
-    ComboboxPositioner,
-    ComboboxRoot,
-    ComboboxTrigger,
-    type OpenChangeEvent,
-} from "@poc/angular";
-import { combobox } from "@poc/styles";
-import { filterFruits } from "./fruits.ts";
+/**
+ * The template pieces the combobox scenarios share (React's `FruitCombobox`, `FruitPopup` and
+ * `FruitChips`), spliced into each scenario's template: a component of its own would add its host
+ * element to the DOM, and the Root's hidden input must follow its children as in React. A
+ * scenario using them has `styles` (the `combobox` recipe) and `id` (the input's id) members.
+ */
 
-let count = 0;
+/** The fruits' popup: an Empty and the List, each Item with its label. */
+export const FRUIT_POPUP = `
+    <ng-container *comboboxPortal>
+        <div comboboxPositioner [sideOffset]="4" [class]="styles.positioner">
+            <div comboboxPopup [class]="styles.popup">
+                <div comboboxEmpty [class]="styles.empty">No fruit found.</div>
+                <div comboboxList #list="comboboxList" [class]="styles.list">
+                    @for (fruit of list.entries(); track fruit.value) {
+                        <div comboboxItem [value]="fruit" [disabled]="fruit.disabled ?? false" [class]="styles.item">{{ fruit.label }}</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </ng-container>
+`;
+
+/** The same, each Item with its ItemIndicator. */
+export const FRUIT_POPUP_WITH_INDICATOR = `
+    <ng-container *comboboxPortal>
+        <div comboboxPositioner [sideOffset]="4" [class]="styles.positioner">
+            <div comboboxPopup [class]="styles.popup">
+                <div comboboxEmpty [class]="styles.empty">No fruit found.</div>
+                <div comboboxList #list="comboboxList" [class]="styles.list">
+                    @for (fruit of list.entries(); track fruit.value) {
+                        <div comboboxItem [value]="fruit" [disabled]="fruit.disabled ?? false" [class]="styles.item">{{ fruit.label }}<span *comboboxItemIndicator [class]="styles['item-indicator']">✓</span></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </ng-container>
+`;
+
+/** The InputGroup of `/combobox/basic`: the Input, a Clear and a Trigger. */
+export const FRUIT_INPUT_GROUP = `
+    <div comboboxInputGroup [class]="styles['input-group']">
+        <input comboboxInput [id]="id" [class]="styles.input" />
+        <button *comboboxClear aria-label="Clear fruit" [class]="styles.clear">×</button>
+        <button comboboxTrigger aria-label="Show fruits" [class]="styles.trigger">▾</button>
+    </div>
+`;
 
 /**
- * The combobox of the combobox scenarios. The component is the field's `<div class="flex
- * flex-col gap-1">` (an attribute selector); the root and the portal's anchor are comment nodes
- * inside it, and the list moves to `body`, so the elements match React's.
+ * The combobox of `/combobox/basic`, inside its Root: the scenario binds the Root's state. A
+ * scenario using it has the `fruits` member too.
  */
-@Component({
-    selector: "div[fruitCombobox]",
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        ComboboxRoot,
-        ComboboxInput,
-        ComboboxTrigger,
-        ComboboxPortal,
-        ComboboxPositioner,
-        ComboboxPopup,
-        ComboboxList,
-        ComboboxItem,
-        ComboboxEmpty,
-    ],
-    host: { class: "flex flex-col gap-1" },
-    template: `
-        <ng-container comboboxRoot [(value)]="value" [inputValue]="inputValue()" (inputValueChange)="inputValueChange.emit($event)" [(open)]="open" (openChangeDetails)="openChangeDetails.emit($event)">
-            <label [attr.for]="id" class="text-sm font-medium">Fruit</label>
-            <div class="flex items-center gap-1">
-                <input comboboxInput [id]="id" [class]="styles.input" />
-                <button comboboxTrigger aria-label="Show fruits" [class]="styles.trigger">▾</button>
-            </div>
-            <ng-container *comboboxPortal>
-                <div comboboxPositioner [sideOffset]="4" [class]="styles.positioner">
-                    <div comboboxPopup [class]="styles.popup">
-                        @if (filtered().length === 0) {
-                            <div comboboxEmpty [class]="styles.empty">No fruit found.</div>
-                        }
-                        <div comboboxList [class]="styles.list">
-                            @for (fruit of filtered(); track fruit.value) {
-                                <div comboboxItem [value]="fruit.value" [disabled]="fruit.disabled ?? false" [class]="styles.item">{{ fruit.label }}</div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-        </ng-container>
-    `,
-})
-export class FruitCombobox {
-    protected readonly styles = combobox;
-    protected readonly id = `fruit-${++count}`;
-    readonly value = model.required<string | null>();
-    // an input and its change output, not model(): a consumer may keep the old value
-    readonly inputValue = input.required<string>();
-    readonly inputValueChange = output<string>();
-    readonly open = model.required<boolean>();
-    readonly openChangeDetails = output<OpenChangeEvent>();
-    protected readonly filtered = computed(() =>
-        filterFruits(this.inputValue()),
-    );
+export const FRUIT_COMBOBOX = `
+    <div class="flex flex-col gap-1">
+        <label [attr.for]="id" class="text-sm font-medium">Fruit</label>
+        ${FRUIT_INPUT_GROUP}
+    </div>
+    ${FRUIT_POPUP}
+`;
+
+/**
+ * The Chips of a `multiple` Root (its template reference variable `root`): a Chip per value, with
+ * its ChipRemove, then the Input (its id the member `id`), then the given buttons.
+ */
+export function fruitChips(root: string, id: string, buttons: string): string {
+    return `
+        <div comboboxChips [class]="styles.chips">
+            @for (item of ${root}.value(); track item.value) {
+                <div comboboxChip [class]="styles.chip">{{ item.label }}<button comboboxChipRemove [attr.aria-label]="'Remove ' + item.label" [class]="styles['chip-remove']">×</button></div>
+            }
+            <input comboboxInput [id]="${id}" [class]="styles.input" />
+            ${buttons}
+        </div>
+    `;
 }
