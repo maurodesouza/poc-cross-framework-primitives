@@ -1,11 +1,12 @@
 # CI for the POC.
 #
 #   Checks   Biome, the source layout check, TypeScript, the unit tests and the build.
-#   E2E      the Playwright conformance suite (conformance/) against every registered
-#            implementation (conformance/src/implementations.ts), in Playwright's image
+#   E2E      the Playwright conformance suite (conformance/), one parallel job per registered
+#            implementation (conformance/src/implementations.ts; the matrix must list them all,
+#            checked by tests/ci-workflow.test.ts), in Playwright's image
 #            (mcr.microsoft.com/playwright, the tag of the pinned @playwright/test, checked by
 #            tests/ci-workflow.test.ts: no browser install). The suite builds and serves each
-#            fixture itself (playwright.config.ts webServer).
+#            fixture itself (playwright.config.ts webServer), so each job builds only its own.
 #
 # Tests run on pull requests and on a manual run; a push to main runs nothing (main is what its PR
 # tested).
@@ -49,8 +50,12 @@ jobs:
       - run: pnpm build
 
   e2e:
-    name: E2E
+    name: E2E (${{ matrix.project }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [baseline, react, vue, svelte, solid, angular]
     container:
       image: mcr.microsoft.com/playwright:v1.65.1-noble
       options: --user 1001
@@ -66,19 +71,19 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm e2e
+      - run: pnpm e2e --project ${{ matrix.project }}
 
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-results
+          name: playwright-results-${{ matrix.project }}
           path: conformance/test-results
           retention-days: 7
 
-      # The golden screenshots are made here, in Playwright's image: a run without them writes
-      # them (and fails). Download this artifact and commit it (conformance/README.md).
+      # The golden screenshots are made by React, here, in Playwright's image: a run without them
+      # writes them (and fails). Download this artifact and commit it (conformance/README.md).
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && matrix.project == 'react'
         with:
           name: conformance-snapshots
           path: conformance/snapshots

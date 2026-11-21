@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { IMPLEMENTATIONS } from "../conformance/src/implementations.ts";
 
 const root = join(import.meta.dirname, "..");
 const read = (path: string) => readFileSync(join(root, path), "utf8");
@@ -74,6 +75,19 @@ describe("the CI workflow", () => {
     it("installs no browser", () => {
         expect(read(".github/workflows/ci.yml")).not.toContain(
             "playwright install",
+        );
+    });
+
+    it("runs one E2E job per registered implementation", () => {
+        const matrix = read(".github/workflows/ci.yml").match(
+            /^\s+project: \[([^\]]*)\]$/m,
+        );
+        expect(matrix).not.toBeNull();
+        const projects = (matrix?.[1] ?? "")
+            .split(",")
+            .map((name) => name.trim());
+        expect(projects.sort()).toEqual(
+            IMPLEMENTATIONS.map((implementation) => implementation.name).sort(),
         );
     });
 });
